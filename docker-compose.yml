@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16
+    container_name: fitai-db
+    environment:
+      POSTGRES_USER: fitai
+      POSTGRES_PASSWORD: secretpassword
+      POSTGRES_DB: fitai_app
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./services/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - "5432:5432"
+
+volumes:
+  db_data:

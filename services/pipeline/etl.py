@@ -50,7 +50,7 @@ def load_csv_to_table(filename, table_name):
 def run_etl():
     load_csv_to_table("gym_recommendation.csv", "gym_recommendation")
     load_csv_to_table("gym_members_exercise_tracking.csv", "exercise_tracking")
-    load_csv_to_table("exercise_catalog.csv", "exercises")
+    load_csv_to_table("exercise_catalog.csv", "exercise_catalog")
 
 if __name__ == "__main__":
     run_etl()

@@ -9,6 +9,8 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./services/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"   # ✅ expose Postgres so VS Code (localhost) can connect
 
   pipeline:
     build: ./services/pipeline
@@ -17,7 +19,7 @@ services:
       POSTGRES_USER: fitai
       POSTGRES_PASSWORD: fitai
       POSTGRES_DB: fitai_app
-      POSTGRES_HOST: db
+      POSTGRES_HOST: db   # internal Docker DNS, works inside network
       POSTGRES_PORT: 5432
     volumes:
       - ./data/raw:/data/raw   # mount your raw CSVs
@@ -25,6 +27,29 @@ services:
       - db
     ports:
       - "8001:8001"
+
+  # ml:
+  #   build: ./services/ml
+  #   container_name: fitai-ml
+  #   environment:
+  #     POSTGRES_USER: fitai
+  #     POSTGRES_PASSWORD: fitai
+  #     POSTGRES_DB: fitai_app
+  #     POSTGRES_HOST: db
+  #     POSTGRES_PORT: 5432
+  #   depends_on:
+  #     - db
+  #   ports:
+  #     - "8002:8002"
+
+  # frontend:
+  #   build: ./services/frontend
+  #   container_name: fitai-frontend
+  #   depends_on:
+  #     - ml
+  #     - pipeline
+  #   ports:
+  #     - "3000:3000"
 
 volumes:
   db-data:

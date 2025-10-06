@@ -7,7 +7,7 @@
 -- Drop old tables if they exist (for idempotency in dev)
 DROP TABLE IF EXISTS ml_generated_plans CASCADE;
 DROP TABLE IF EXISTS exercise_tracking CASCADE;
-DROP TABLE IF EXISTS exercises CASCADE;
+DROP TABLE IF EXISTS exercise_catalog CASCADE;
 DROP TABLE IF EXISTS gym_recommendation CASCADE;
 
 -- ====================================================
@@ -72,12 +72,7 @@ CREATE TABLE exercise_catalog (
     laterality          VARCHAR(50),
     primary_exercise_classification      VARCHAR(100)
 );
--- Difficulty Level,Target Muscle Group ,Prime Mover Muscle,Secondary Muscle,Tertiary Muscle,
--- Primary Equipment ,# Primary Items,Secondary Equipment,# Secondary Items,Posture,
--- Single or Double Arm,Continuous or Alternating Arms ,Grip,Load Position (Ending),
--- Continuous or Alternating Legs ,Foot Elevation,Combination Exercises,Movement Pattern #1,Movement Pattern #2,
--- Movement Pattern #3,Plane Of Motion #1,Plane Of Motion #2,Plane Of Motion #3,
--- Body Region,Force Type,Mechanics,Laterality,Primary Exercise Classification
+
 -- ====================================================
 -- EXERCISE TRACKING
 -- Source: gym_members_exercise_tracking.csv

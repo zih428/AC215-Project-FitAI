@@ -1,16 +1,30 @@
 services:
   db:
-    image: postgres:16
+    image: postgres:15
     container_name: fitai-db
     environment:
       POSTGRES_USER: fitai
-      POSTGRES_PASSWORD: secretpassword
+      POSTGRES_PASSWORD: fitai
       POSTGRES_DB: fitai_app
     volumes:
-      - db_data:/var/lib/postgresql/data
-      - ./services/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - db-data:/var/lib/postgresql/data
+      - ./services/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  pipeline:
+    build: ./services/pipeline
+    container_name: fitai-pipeline
+    environment:
+      POSTGRES_USER: fitai
+      POSTGRES_PASSWORD: fitai
+      POSTGRES_DB: fitai_app
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+    volumes:
+      - ./data/raw:/data/raw   # mount your raw CSVs
+    depends_on:
+      - db
     ports:
-      - "5432:5432"
+      - "8001:8001"
 
 volumes:
-  db_data:
+  db-data:

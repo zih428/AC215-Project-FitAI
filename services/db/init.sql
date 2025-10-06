@@ -19,60 +19,65 @@ CREATE TABLE gym_recommendation (
     source_id       INT,                     -- from recommendation dataset "ID"
     sex             VARCHAR(10),
     age             INT,
-    height_m        NUMERIC(4,2),
-    weight_kg       NUMERIC(5,2),
+    height          NUMERIC(4,2),
+    weight          NUMERIC(5,2),
     bmi             NUMERIC(5,2),
     hypertension    VARCHAR(5),
     diabetes        VARCHAR(5),
     level           VARCHAR(50),
     fitness_goal    VARCHAR(100),
     fitness_type    VARCHAR(100),
-    exercises_pref  TEXT,
-    equipment_pref  TEXT,
-    diet_pref       TEXT,
+    exercises       TEXT,
+    equipment       TEXT,
+    diet            TEXT,
     recommendation  TEXT,
     created_at      TIMESTAMP DEFAULT NOW()
 );
 
 -- ====================================================
--- EXERCISES
+-- EXERCISE_CATALOG
 -- Source: exercise_catalog.csv
 -- ====================================================
-CREATE TABLE exercises (
+CREATE TABLE exercise_catalog (
     id                  SERIAL PRIMARY KEY,
-    name                VARCHAR(255) NOT NULL,
+    exercise            VARCHAR(255) NOT NULL,
     short_demo_url      TEXT,
     long_demo_url       TEXT,
     difficulty_level    VARCHAR(50),
     target_muscle_group VARCHAR(100),
-    prime_mover         VARCHAR(100),
+    prime_mover_muscle  VARCHAR(100),
     secondary_muscle    VARCHAR(100),
     tertiary_muscle     VARCHAR(100),
     primary_equipment   VARCHAR(100),
-    primary_items       INT,
+    primary_items_count       INT,
     secondary_equipment VARCHAR(100),
-    secondary_items     INT,
+    secondary_items_count     INT,
     posture             VARCHAR(100),
-    arm_usage           VARCHAR(50),
-    arm_movement        VARCHAR(50),
+    single_or_double_arm        VARCHAR(50),
+    continuous_or_alternating_arms        VARCHAR(50),
     grip                VARCHAR(50),
-    load_position       VARCHAR(100),
-    leg_movement        VARCHAR(50),
+    load_position_ending       VARCHAR(100),
+    continuous_or_alternating_legs        VARCHAR(50),
     foot_elevation      VARCHAR(100),
-    combo_exercises     TEXT,
-    movement_pattern1   VARCHAR(100),
-    movement_pattern2   VARCHAR(100),
-    movement_pattern3   VARCHAR(100),
-    plane1              VARCHAR(100),
-    plane2              VARCHAR(100),
-    plane3              VARCHAR(100),
+    combination_exercises     TEXT,
+    movement_pattern_1   VARCHAR(100),
+    movement_pattern_2   VARCHAR(100),
+    movement_pattern_3   VARCHAR(100),
+    plane_of_motion_1              VARCHAR(100),
+    plane_of_motion_2              VARCHAR(100),
+    plane_of_motion_3              VARCHAR(100),
     body_region         VARCHAR(100),
     force_type          VARCHAR(100),
     mechanics           VARCHAR(100),
     laterality          VARCHAR(50),
-    classification      VARCHAR(100)
+    primary_exercise_classification      VARCHAR(100)
 );
-
+-- Difficulty Level,Target Muscle Group ,Prime Mover Muscle,Secondary Muscle,Tertiary Muscle,
+-- Primary Equipment ,# Primary Items,Secondary Equipment,# Secondary Items,Posture,
+-- Single or Double Arm,Continuous or Alternating Arms ,Grip,Load Position (Ending),
+-- Continuous or Alternating Legs ,Foot Elevation,Combination Exercises,Movement Pattern #1,Movement Pattern #2,
+-- Movement Pattern #3,Plane Of Motion #1,Plane Of Motion #2,Plane Of Motion #3,
+-- Body Region,Force Type,Mechanics,Laterality,Primary Exercise Classification
 -- ====================================================
 -- EXERCISE TRACKING
 -- Source: gym_members_exercise_tracking.csv
@@ -91,7 +96,7 @@ CREATE TABLE exercise_tracking (
     workout_type            VARCHAR(100),
     fat_percentage          NUMERIC(5,2),
     water_intake_liters     NUMERIC(4,2),
-    workout_frequency_week  INT,
+    workout_days_per_week  INT,
     experience_level        INT,
     bmi                     NUMERIC(5,2),
     created_at              TIMESTAMP DEFAULT NOW()
@@ -111,4 +116,4 @@ CREATE TABLE ml_generated_plans (
 -- ====================================================
 -- Indexes (optional performance helpers)
 -- ====================================================
-CREATE INDEX idx_exercises_name ON exercises(name);
+CREATE INDEX idx_exercises_name ON exercise_catalog(exercise);

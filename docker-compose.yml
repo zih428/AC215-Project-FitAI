@@ -21,8 +21,10 @@ services:
       POSTGRES_DB: fitai_app
       POSTGRES_HOST: db   # internal Docker DNS, works inside network
       POSTGRES_PORT: 5432
+      GOOGLE_APPLICATION_CREDENTIALS: /secrets/rich-access-471117-r0-f17d92fbf298.json
     volumes:
-      - ./data/raw:/data/raw   # mount your raw CSVs
+      - ./rich-access-471117-r0-f17d92fbf298.json:/secrets/rich-access-471117-r0-f17d92fbf298.json:ro
+      - ./services/pipeline:/app   # mount your pipeline code
     depends_on:
       - db
     ports:

@@ -18,7 +18,10 @@ FitAI is a containerized system for generating personalized fitness recommendati
 - `services/pipeline/` → ETL service (loads raw CSVs into the database & scientific literature into vector db)
 - `services/ml/` → ML service (model + plan generation API)
 - `services/frontend/` → Next.js app (user interface)
-- `data/raw/` → raw CSV datasets
+
+---
+
+## Raw datasets are stored on GCS
 
 ---
 

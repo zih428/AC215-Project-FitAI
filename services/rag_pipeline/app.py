@@ -4,4 +4,4 @@ app = FastAPI()
 
 @app.get("/health")
 def health_check():
-    return {"status": "ok", "service": "ml"}
+    return {"status": "ok", "service": "rag_pipeline"}

@@ -24,8 +24,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # ===== Stage 3: Copy source code =====
 COPY . .
-# Create tmp folders (if not mounted)
-RUN mkdir -p tmp/input tmp/output
 
 # ===== Stage 4: Default command =====
 # If you run via docker-compose, the command there will override this.

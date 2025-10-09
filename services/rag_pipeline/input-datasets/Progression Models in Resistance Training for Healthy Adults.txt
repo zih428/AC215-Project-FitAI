@@ -1,0 +1,2592 @@
+AMERICAN
+COLLEGE
+OF
+FOUNDED
+SPORTS
+1954
+MEDICINE
+SPECIAL COMMUNICATIONS
+AMERICAN COLLEGE
+of SPORTS MEDICINE
+Progression Models in
+Resistance Training
+for Healthy Adults
+SUMMARY
+POSITION STAND
+In order to stimulate further adaptation toward specific training goals,
+progressive resistance training (RT) protocols are necessary. The optimal
+characteristics of strength-specific programs include the use of concentric
+(CON), eccentric (ECC), and isometric muscle actions and the performance
+of bilateral and unilateral single- and multiple-joint exercises. In addition, it
+is recommended that strength programs sequence exercises to optimize the
+preservation of exercise intensity (large before small muscle group
+exercises, multiple-joint exercises before single-joint exercises, and
+higher-intensity before lower-intensity exercises). For novice (untrained
+individuals with no RT experience or who have not trained for several
+years) training, it is recommended that loads correspond to a repetition
+range of an 8-12 repetition maximum (RM). For intermediate (individuals
+with approximately 6 months of consistent RT experience) to advanced
+(individuals with years of RT experience) training, it is recommended that
+individuals use a wider loading range from 1 to 12 RM in a periodized
+fashion with eventual emphasis on heavy loading (1-6 RM) using 3- to
+5-min rest periods between sets performed at a moderate contraction
+velocity (1-2 s CON; 1-2 s ECC). When training at a specific RM load, it
+is recommended that 2-10% increase in load be applied when the
+individual can perform the current workload for one to two repetitions
+over the desired number. The recommendation for training frequency is
+2-3 dwk¹ for novice training, 3-4 d'wk¹ for intermediate training, and
+4-5 dwk for advanced training. Similar program designs are recom-
+mended for hypertrophy training with respect to exercise selection and
+frequency. For loading, it is recommended that loads corresponding to
+1-12 RM be used in periodized fashion with emphasis on the 6-12 RM
+zone using 1- to 2-min rest periods between sets at a moderate velocity.
+Higher volume, multiple-set programs are recommended for maximizing
+hypertrophy. Progression in power training entails two general loading
+strategies: 1) strength training and 2) use of light loads (0-60% of 1 RM for
+lower body exercises; 30-60% of 1 RM for upper body exercises) performed
+at a fast contraction velocity with 3-5 min of rest between sets for multiple
+sets per exercise (three to five sets). It is also recommended that emphasis be
+placed on multiple-joint exercises especially those involving the total body.
+For local muscular endurance training, it is recommended that light to
+moderate loads (40-60% of 1 RM) be performed for high repetitions (>15)
+using short rest periods (<90 s). In the interpretation of this position stand as
+0195-9131/09/4103-0687/0
+MEDICINE & SCIENCE IN SPORTS & EXERCISE.Ⓡ
+Copyright © 2009 by the American College of Sports Medicine
+DOI: 10.1249/MSS.0b013e3181915670
+This pronouncement was written for the American College of
+Sports Medicine by Nicholas A. Ratamess, Ph.D.; Brent A. Alvar,
+Ph.D.; Tammy K. Evetoch, Ph.D., FACSM; Terry J. Housh, Ph.D.,
+FACSM (Chair); W. Ben Kibler, M.D., FACSM; William J. Kraemer,
+Ph.D., FACSM; and N. Travis Triplett, Ph.D.
+with prior ones, recommendations should be applied in context and should be
+contingent upon an individual's target goals, physical capacity, and training
+status. Key Words: strength, power, local muscular endurance, fitness,
+functional abilities, hypertrophy, health, performance
+INTRODUCTION
+The current document replaces the American College
+of Sports Medicine (ACSM) 2002 Position Stand entitled
+"Progression Models in Resistance Training for Healthy
+Adults" (8). The 2002 ACSM Position Stand extended the
+resistance training (RT) guidelines initially established by
+the ACSM in the position stand entitled "The Recommen-
+ded Quantity and Quality of Exercise for Developing and
+Maintaining Cardiorespiratory and Muscular Fitness, and
+Flexibility in Healthy Adults" (7), which suggested the min-
+imal standard of one set of 8-12 repetitions for 8-10 exer-
+cises, including one exercise for all major muscle groups,
+and 10-15 repetitions for older and more frail persons. The
+2002 Position Stand (8) provided a framework for superior
+training prescription guidelines relative to the need for pro-
+gression in healthy (without disease or orthopedic limitations)
+novice, intermediate, and advanced trainees. Specifically,
+these guidelines effectively distinguished numerous modifi-
+cations to the original guidelines to accommodate individuals
+seeking muscular development beyond that of minimal
+general health and fitness. Since 2002, numerous studies have
+been published examining one or more RT variable(s) to sup-
+port the progressive adaptation in muscular strength and per-
+formance. These studies have identified other mechanisms
+of physiological adaptations and have served to bolster the
+scientific integrity of the RT knowledge base. As with all
+position stands, interpretation of these revised recommenda-
+tions should be applied in context and should be contin-
+gent upon an individual's goals, physical capacity, and
+training status.
+Progression in RT may be defined as "the act of moving
+forward or advancing toward a specific goal over time until
+the target goal has been achieved," whereas maintenance
+687
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+
+SPECIAL COMMUNICATIONS
+RT refers to programs designed to maintain the current level
+of muscular fitness (8). Although it is impossible to improve
+at the same rate over long-term periods (e.g., >6 months),
+the proper manipulation of program variables (choice of
+resistance, exercise selection and order, number of sets
+and repetitions, frequency, and rest period length) can limit
+training plateaus and increase the ability to achieve a higher
+level of muscular fitness. Trainable characteristics include
+muscular strength, power, hypertrophy, and local muscular
+endurance (LME). Variables such as speed and agility,
+balance, coordination, jumping ability, flexibility, and other
+measures of motor performance may be enhanced by RT.
+RT, when incorporated into a comprehensive fitness pro-
+gram, improves cardiovascular function (72), reduces the
+risk factors associated with coronary heart disease (89,130)
+and non-insulin-dependent diabetes (184), prevents osteo-
+porosis (163), may reduce the risk of colon cancer (146),
+promotes weight loss and maintenance (61), improves dy-
+namic stability and preserves functional capacity (61), and
+fosters psychological well-being (62).
+This position stand presents evidence-based guidelines
+using The National Heart, Lung, and Blood Institute (194)
+criteria shown in Table 1. Each recommendation is given a
+grade of A, B, C, or D based on the quantity and quality of
+evidence.
+PROGRESSION PRINCIPLES
+The foremost principles of RT progression are progres-
+sive overload, specificity, and variation (157). Countless RT
+models can be effective if these principles are incorporated
+and manipulated into the design. The magnitude of im-
+provement depends upon the individual's training status and
+genetic predisposition (8). Progressive overload is the grad-
+ual increase of stress placed upon the body during exercise
+training. Among untrained or novice populations, physio-
+logical adaptations to an RT program may occur in a short
+period. Systematically increasing the demands placed upon
+the body is necessary for further improvement and may
+be accomplished through altering one or more of the fol-
+lowing variables: 1) exercise intensity (i.e., absolute or
+relative resistance/load for a given exercise/movement) may
+be increased; 2) total repetitions performed at the current
+intensity may be increased; 3) repetition speed/tempo with
+submaximal loads may be altered according to goals; 4) rest
+periods may be shortened for endurance improvements or
+lengthened for strength and power training; and 5) training
+volume (total work represented as the product of the total
+number of repetitions performed and the resistance) may be
+gradually increased (e.g., 2.5-5% [75]) (Table 2).
+Specificity. All training adaptations are “specific" to
+the stimulus applied. The specific physiological adapta-
+tions to RT are determined by various factors, including
+1) muscle actions involved (56), 2) speed of movement
+(39,44), 3) range of motion (145), 4) muscle groups trained
+(156), 5) energy systems involved (259), and 6) intensity
+and volume of training (225). Although there is some car-
+ryover of training effects to other general fitness and per-
+formance attributes, the most effective RT programs are
+those that are designed to target-specific training goals.
+Variation. Variation, or periodization, entails the sys-
+tematic process of altering one or more program variable(s)
+over time to allow for the training stimulus to remain
+challenging and effective. Because the human body adapts
+quickly to an RT program, at least some changes are needed
+in order for continual progression to occur. It has been
+shown that systematic variation of volume and intensity is
+most effective for long-term progression (254). Variation
+may take place in many forms and manifests by manip-
+ulation of any one or a combination of the acute program
+variables. However, the two most commonly studied
+variables have been volume and intensity. The concept of
+periodization was developed based on the studies of gen-
+eral adaptation syndrome by Hans Selye (239) to optimize
+performance and recovery (74,100). In addition to sport-
+specific training, periodized RT has been shown to be
+effective for recreational (54) and rehabilitative (67) ob-
+jectives and is supported through a meta-analytical inves-
+tigation to be superior to nonperiodized RT (223).
+Classical periodization. The classic (linear) model of
+periodization is characterized by high initial training
+volume and low intensity, and as training progresses,
+volume decreases and intensity gradually increases. This
+traditional model of periodization is carried out to enhance
+fundamental fitness variables through training in a desig-
+nated succession to serve as an appropriate arrangement to
+elicit "peak" performance of a distinct fitness variable (e.g.,
+strength, rate of force development [RFD], and/or peak
+power) for a precise and often narrow time window (74).
+Most, but not all (14), studies have shown classic strength/
+power periodized training to be superior to nonperiodized
+RT for increasing maximal strength (e.g., 1 repetition
+TABLE 1. National Heart, Lung, and Blood Institute (NHLBI; 194) evidence categories.
+Category
+Source of Evidence
+Randomized control trials (RCT; rich body of data)
+RCT (limited body of data)
+A
+B
+с
+CD
+Nonrandomized trials, observational studies
+Panel consensus judgment
+Definition
+Evidence is from well-designed RCT that provide a consistent pattern of findings in the population for which the
+recommendation is made. Requires substantial number of studies involving substantial number of participants.
+Evidence is from intervention studies that include only a limited number of RCT, post hoc or
+subgroup analysis of RCT, or meta-analysis of RCT. Pertains when few randomized trials exist, they are small,
+and the results are somewhat inconsistent or were from a nonspecific population.
+Evidence is from outcomes of uncontrolled trials or observations.
+Expert judgment is based on panel's synthesis of evidence from experimental research or the consensus of
+panel members based on clinical experience or knowledge that does not meet the above-listed criteria.
+688
+Official Journal of the American College of Sports Medicine
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+http://www.acsm-msse.org
+
+maximum [RM] squat), cycling power, motor performance,
+and jumping ability (252,254,272). It appears that longer
+training periods (>6 months) may be necessary to under-
+score the benefits of periodized training (273) because
+periodized and nonperiodized training are effective during
+short-term training. Important to periodization is the use of
+rest days to allow recovery and to reduce the probability or
+magnitude of overtraining (79).
+Reverse periodization. A reverse linear periodiza-
+tion model has also been studied (227). This model is the
+inverse of the classical model in which intensity is initially
+at its highest and volume at its lowest. Subsequently, over
+an extended time, intensity decreases and volume increases
+with each phase. This periodization model has been used
+for individuals targeting local muscular endurance (LME)
+enhancement (59) and was shown to be superior for en-
+hancing LME to other periodization models when volume
+and intensity were equated (227). Strength improvements
+following this model have been shown to be lower com-
+pared with linear and undulating models (227).
+Undulating periodization. The undulating (nonlinear)
+model of periodization enables variation in intensity and
+volume within a cycle by rotating different protocols to
+train various components of neuromuscular performance
+(e.g., strength, power, LME). For example, in loading
+schemes for core exercises (those exercises most specific to
+target goals), the use of heavy, moderate, and light
+resistances may be systematically or randomly rotated over
+a training sequence, for example, 3-5 repetition maximum
+(RM) loads, 8-10 RM loads, and 12-15 RM loads may
+used in the rotation. This model has compared favorably
+with linear periodized and nonperiodized multiple-set
+models (14) and has been shown to produce superior
+strength increases over 12 wk of RT compared with the
+classical model (226). Further, this model has demonstrated
+advantages in comparison to nonperiodized, low-volume
+training in women (155,169). Few investigations have
+evaluated the impact of undulating RT for multiple fitness
+objectives (199). Most recently, this model has been
+demonstrated superior over nonundulating RT for generat-
+ing fitness and performance enhancement outcomes among
+firefighter trainees (209).
+TRAINABLE CHARACTERISTICS
+Muscular Strength
+The ability to generate force is necessary for all types of
+movement. Muscle fiber cross-sectional area (CSA) is
+positively related to maximal force production (71). The
+arrangement of fibers according to their angle of pennation,
+muscle length, joint angle, and contraction velocity can alter
+the expression of muscular strength (95,145). Force
+generation is further dependent upon motor unit activation,
+and motor units are recruited according to their recruitment
+threshold that typically involves the activation of the slower
+(lower force-producing) motor units before the faster
+(higher force-producing) units, that is, size principle (114).
+Adaptations to RT enable greater force generation through
+numerous neuromuscular mechanisms. Muscle strength
+may increase significantly within the first week of training
+(39), and long-term strength enhancement manifests itself
+through enhanced neural function (e.g., greater recruitment,
+rate of discharge) (234), increased muscle CSA (5,176,250),
+changes in muscle architecture (138), and possible adapta-
+tions to increased metabolites, for example, H+ (242), for
+increased strength. The magnitude of strength enhancement
+is dependent on the type of program used and the careful
+prescription of muscle actions, intensity, volume, exercise
+selection and order, rest periods between sets, and frequen-
+cy (157).
+Muscle Action
+Most RT programs primarily include dynamic repetitions
+with both concentric (CON; muscle shortening) and
+eccentric (ECC; muscle lengthening) muscle actions,
+whereas isometric (ISOM; no net change in muscle length)
+actions play a secondary role (e.g., during nonagonist
+muscle stabilization, core strength, grip strength, pauses
+between ECC and CON actions, or specific agonist ISOM
+exercises). Greater force per unit of muscle size is produced
+during ECC actions (147) than either CON or ISOM
+actions. Moreover, ECC actions require less motor unit
+activation per specific load (147), are less metabolically
+demanding (26), and are conducive to promoting hypertro-
+phic adaptation (112) yet result in more pronounced
+delayed onset muscle soreness (58) as compared with
+CON actions. Dynamic CON muscular strength improve-
+ment is greatest when ECC actions are included with CON
+actions (56), and independently, ECC isokinetic training has
+been shown to produce greater muscle action-specific
+strength gains than CON training (64). The role of muscle
+action manipulation during RT is minimal with respect to
+overall progression because most programs include both
+CON and ECC actions in a given repetition. However, the
+inclusion of additional ISOM exercise may be beneficial. In
+some programs, the use of different forms of ISOM
+training, for example, functional ISOM (131) and supra-
+maximal ECC actions (143), has been reported to produce
+additional benefit. Specifically, certain ISOM actions have
+been recommended for promoting low back health and have
+been demonstrated effective for the selective recruitment of
+postural, spinal-stabilization musculature (181).
+Evidence statement and recommendation. Evidence
+category A. For progression during RT for novice, intermedi-
+ate, and advanced individuals, it is recommended that
+CON, ECC, and ISOM muscle actions be included
+(56,64,112,131,143).
+Loading
+Altering the training load affects the acute metabo-
+lic (221), hormonal (151-154,158,159,165,219), neural
+(96,235), and cardiovascular (72) responses to resistance
+SPECIAL COMMUNICATIONS
+Medicine & Science in Sports & Exercise® 689
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+PROGRESSION AND RESISTANCE TRAINING
+
+exercise. Depending on an individual's training experience
+and current level of fitness, proper loading during RT
+encompasses one or more of the following loading
+schemes: 1) increasing load based on a percentage of 1
+RM, 2) increasing absolute load based on a targeted
+repetition number, or 3) increasing loading within a
+prescribed zone (e.g., 8-12 RM). The load required to
+increase maximal strength in untrained individuals is fairly
+low. Loads of 45-50% of 1 RM (and less) have been
+shown to increase dynamic muscular strength in previous-
+ly untrained individuals (9,33,255,268). Light loads that
+can be lifted a maximum of 15-25 repetitions have been
+shown to increase strength in moderately trained individ-
+uals (227). It appears greater loading is needed with
+progression. At least 80% of 1 RM is needed to produce
+further neural adaptations and strength during RT in
+experienced lifters (96). Several pioneering studies indi-
+cated that training with loads corresponding to 1-6 RM
+(mostly 5-6 RM) was most conducive to increasing
+maximal dynamic strength (22,201). Strength increases
+have been shown to be greater using heavy weights for 3-
+5 RM compared with 9-11 and 20-28 RM (33). Although
+significant strength increases have been reported using
+loads corresponding to 8-12 RM and lighter (33,149,250),
+this loading range may be inferior for maximizing strength
+in advanced lifters (96). Research examining periodized
+RT has demonstrated a need for variable-intensity load-
+ing schemes (74,223). Contrary to early suggestions of 6
+RM loading, it appears that using a variety of training
+loads is most conducive to maximizing muscular strength
+(74). Meta-analytical data have shown that 60% of 1 RM
+produced the largest effect sizes for strength increases in
+novice individuals whereas 80% of 1 RM produced the
+largest effect sizes for strength increases in trained in-
+dividuals (225) and 85% of 1 RM was most effective in
+athletes (206). For novice individuals, it has been sug-
+gested that moderate loading (50-60% of 1 RM or less)
+be used initially as learning proper form, and technique is
+paramount. These dose-response data refer to average
+training dosages, that is, mean loads used for all exercises.
+Further, using a variety of loads appears to be most ef-
+fective for long-term progression in muscular strength
+(157). Recent studies have shown that self-selected RT
+intensities are lower than what is recommended, for
+example, 38-58% of 1 RM (76,87,222). Thus, intensity
+needs to be prescribed above one's threshold (based on
+targeted repetition number) for progression in experienced
+populations.
+Evidence statement and recommendation. Evidence
+category A. It is recommended that novice to intermediate
+individuals train with loads corresponding to 60-70% of 1
+RM for 8-12 repetitions and advanced individuals cycle
+training loads of 80-100% of 1 RM to maximize muscular
+strength (9,33,96,206,225,227,255,268).
+Evidence category B. For progression in those individu-
+als training at a specific RM load, it is recommended that a
+2-10% (lower percent for small muscle mass exercises,
+higher percent increase for large muscle mass exercises)
+increase in load be applied when the individual can perform
+the current workload for one to two repetitions over the
+desired number on two consecutive training sessions (68).
+Volume
+Training volume is a summation of the total number of
+repetitions performed during a training session multiplied
+by the resistance used (kg) and is reflective of the duration
+of which muscles are being stressed (262). Volume has
+been shown to affect neural (102), hypertrophic (258),
+metabolic (221), and hormonal (92,151,152,191,220)
+responses and subsequent adaptations to RT. Altering
+training volume can be accomplished by changing the
+number of exercises performed per session, the number of
+repetitions performed per set, or the number of sets per
+exercise. Low-volume programs, for example, high load,
+low repetitions, moderate to high number of sets, have been
+characteristic of RT. Studies using two (55,170), three
+(149,250), four to five (56,122), and six or more (123,236)
+sets per exercise have all produced significant increases in
+muscular strength in both trained and untrained individuals.
+In direct comparison, studies have reported similar strength
+increases in novice individuals between two and three sets
+(35) and two and four sets (202), whereas three sets have
+been reported superior to one and two (23). Although little
+is known concerning the optimal number of sets performed
+per muscle group per session, a meta-analysis of 37 studies
+has shown that approximately eight sets per muscle group
+produced the largest effect size in athletes (206,207).
+Another aspect that has received considerable attention is
+the comparison of single- and multiple-set programs. In many
+of these studies, one set per exercise performed for 8-12
+repetitions at a relatively slow velocity has been compared
+with both periodized and nonperiodized multiple-set pro-
+grams. A common criticism of these investigations is that the
+number of sets per exercise was not controlled from other
+variables such as intensity, frequency, and repetition velocity.
+Notwithstanding this concern, most research investigations
+comparing single- versus multiple-set training for muscular
+fitness have examined the effects of a standard single-set
+training program relative to that of any number of possible
+multiple-set programs of varying intensity. This design has
+made the process of identifying a clear-cut prescription re-
+commendation very difficult because these studies have
+yielded conflicting results. Several studies have reported
+similar strength increases between single- and multiple-set
+programs (40,132,248), whereas others reported multiple-set
+programs superior (23,27,237,251,256) in previously un-
+trained individuals. Since 2002, six studies have shown
+multiple-set superiority for 33-100% of the dynamic
+strength assessments used, whereas the remaining dynamic
+strength assessments showed similar increases (81,126,
+175,192,203,231). These data have prompted the notion that
+untrained individuals respond favorably to both single- and
+SPECIAL COMMUNICATIONS
+690
+Official Journal of the American College of Sports Medicine
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+http://www.acsm-msse.org
+
+multiple-set programs and formed the basis for the popularity
+of single-set training among general fitness enthusiasts (68).
+In resistance-trained individuals, multiple-set programs have
+been shown to be superior for strength enhancement (142,
+149,155,160,228,238) in all but one study (110). Among
+resistance-trained postmenopausal women, multiple-set train-
+ing led to 3.5-5.5% strength increases, whereas single-set
+training led to -1% to 2% strength reductions (142). No
+comparative study has shown single-set training superior to
+multiple-set training in trained or untrained individuals.
+The results of meta-analytical studies have shown
+multiple-set RT superior to single sets for strength enhance-
+ment in untrained (224,225) and trained populations (224,
+225,278) and superior for strength increases for programs
+lasting 17-40 wk (278). These studies have shown that
+performing three to four sets per exercise produced the most
+substantial effect sizes (224,225). Thus, it appears that both
+program types are effective for increasing strength in
+untrained to moderately trained individuals during relatively
+short-term training periods. Long-term studies support the
+contention that a moderate increase in training volume is
+needed for further improvement (27,224,225,278). How-
+ever, there is a point where further increase in volume may
+be counterproductive. In weightlifters, a moderate volume
+was shown to be more effective for increasing strength
+than low or high volumes of training with similar intensity
+(90). The key factor may be variation of training volume
+(and its interaction with intensity) rather than absolute
+number of sets.
+Evidence statement and recommendation. Evidence
+category A. It is recommended that one to three sets per
+exercise be used by novice individuals initially (23,35,40,
+55,132,170,202,206,207).
+Evidence category B. For progression into intermediate to
+advanced status, data from long-term studies indicate that
+multiple sets be used with systematic variation of volume
+and intensity over time (142,149,155,160,228,238). To re-
+duce the risk of overtraining, a dramatic increase in volume
+is not recommended. It is important to point out that not all
+exercises need to be performed with the same number of
+sets, and that emphasis of higher or lower volume is related
+to the program priorities of the individual as well as the
+muscle(s) trained in an exercise movement.
+Exercise Selection
+Both single- and multiple-joint exercises have been
+shown to be effective for increasing muscular strength in
+the targeted muscle groups using multiple modalities, for
+example, free weights, machines, cords, etc. (47,157).
+Multiple-joint exercises, such as bench press and squat,
+require complex neural responses (37) and have generally
+been regarded more effective for increasing overall muscu-
+lar strength because they enable a greater magnitude of
+weight to be lifted (253). Single-joint exercises, such as
+knee extensions and knee curls, have been used to target-
+specific muscle
+groups and pose a reduced level of skill and
+technical involvement. It is important to note that alterations
+in body posture, grip, and hand width/foot stance and
+position change muscle activation and alter the exercise.
+Thus, many variations or progressions of single- and
+multiple-joint exercises can be performed. Another way to
+vary exercise selection is to include unilateral as well as
+bilateral exercises. The level of muscle activation differs
+when an exercise is performed bilaterally versus unilateral-
+ly. Unilateral training may increase bilateral strength (in
+addition to unilateral strength), and bilateral training may
+increase unilateral strength (179). Unilateral training has
+been shown to improve some aspects of sports performance,
+such as single-leg jumping ability to a greater extent than
+bilateral training (179). Of interest has been the perfor-
+mance of single- and multiple-joint exercises in unstable
+environments, for example, with stability balls, wobble
+boards, and BOSU balls (144). These exercises have been
+shown to increase the activity of lower torso musculature
+and other stabilizer muscles (compared with stable environ-
+ments); however, the magnitude of agonist force production
+is considerably lower resulting in lighter weights lifted
+(10,21). There are a multitude of exercises that can be
+performed in a variety of conditions that leaves many
+options for RT variation.
+Evidence statement and recommendation. Evidence
+category A. Unilateral and bilateral single- and multiple-joint
+exercises should be included in RT with emphasis on
+multiple-joint exercises for maximizing overall muscle
+strength in novice, intermediate, and advanced individuals
+(33,96-107,113,118,120,149–157,169,172,176).
+Free Weights and Machines
+Weight machines have been regarded as safer to use, easy
+to learn, and allow performance of some exercises that may
+be difficult with free weights, for example, knee extension.
+Machines help stabilize the body and limit movement about
+specific joints involved in synergistic force production, and
+machine exercises have demonstrated less neural activation
+when matched for intensity for most comparisons to free-
+weight exercises (178). Unlike machines, free weights may
+result in a pattern of intra- and intermuscular coordination
+that mimics the movement requirements of a specific task.
+Both free weights and machines are effective for increasing
+strength. Research shows that free-weight training leads to
+greater improvements in free-weight tests and machine
+training results in greater performance on machine tests
+(30). When a neutral testing device is used, strength
+improvement from free weights and machines appears
+similar (274). The choice to incorporate free weights or
+machines should be based on level of training status and
+familiarity with specific exercise movements as well as the
+primary training objective.
+Evidence statement and recommendation. Evidence
+category A. For novice to intermediate training, it is
+recommended that free-weight and machine exercises are
+included (30,169,172,178,248–250,274).
+SPECIAL COMMUNICATIONS
+Medicine & Science in Sports & Exercise Ⓡ 691
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+PROGRESSION AND RESISTANCE TRAINING
+
+Evidence category C. For advanced RT, it is recom-
+mended that emphasis be placed on free-weight exercises
+with machine exercises used to compliment program needs
+(100-103,251).
+Exercise Order
+The sequencing of exercises significantly affects the acute
+expression of muscular strength (240). This also applies
+when exercises are sequenced based on agonist/antagonist
+muscle group relationships. Muscle force and power may
+be potentiated when opposing exercises (antagonist move-
+ments) are performed (16); however, force and power may
+be reduced if the exercises are performed consecutively
+(171). Studies show that multiple-joint exercise (bench press,
+squat, leg press, and shoulder press) performance declines
+significantly when these exercises are performed later (af-
+ter several exercises stressing similar muscle groups) rather
+than early in a workout (244,245). Considering that these
+multiple-joint exercises have been shown to be effective for
+increasing strength, maximizing performance of these exer-
+cises by performing them early in a workout may be nec-
+essary for optimal strength gains (247).
+Evidence statement and recommendation. Evidence
+category C. Recommendations for sequencing exercises for
+novice, intermediate, and advanced strength training for total
+body (all muscle groups trained in the workout), upper/lower
+body split (upper-body musculature trained 1 d and lower-
+body musculature trained another day), and muscle group split
+(individual muscle groups trained during a workout) workouts
+include large muscle group exercises before small muscle
+group exercises, multiple-joint exercises before single-joint
+exercises, higher-intensity exercises before lower-intensity
+exercises, or rotation of upper and lower body or agonist-
+antagonist exercises, that is, exercise performed for a muscle
+group followed by an exercise for the opposing muscle group
+(244,245).
+Rest Periods
+The amount of rest between sets and exercises signifi-
+cantly affects metabolic (150,221), hormonal (158), and
+cardiovascular (72) responses to an acute bout during
+resistance exercise as well as performance of subsequent
+sets (149,279) and training adaptations (212,230). Acute
+resistance exercise performance may be compromised with
+one versus 3-min rest periods (149), and strength recovery
+may not be complete within 3 min (20). Several studies
+have shown that the number of repetitions performed may
+be compromised with short rest intervals, and 3- to 5-min
+rest intervals produce less performance decrements than 30
+s to 2 min (221,229,269–271). In untrained individuals,
+circuit RT programs (using minimal rest in between
+exercises) have been shown to produce modest increases
+in strength (108). However, most longitudinal training
+studies have shown greater strength increases with long
+versus short rest periods (e.g., 2-5 min vs 30-40 s
+[3,213,230]), and one study has shown a lack of strength
+increase with 40-s rest periods (213). It is important to note
+that rest period length will vary based on the complexity of
+a given exercise (e.g., Olympic lifts and variations require
+longer rest periods) and the primary objective for incorpo-
+rating the exercise into the training program (i.e., not every
+exercise will use the same rest interval).
+Evidence statement and recommendation. Evidence
+category B. For novice, intermediate, and advanced training, it
+is recommended that rest periods of at least 2-3 min be used
+for core exercises using heavier loads (those exercises included
+specifically to improve maximal strength such as the squat and
+bench press) (3,149,213,214,221,229,230,269–271).
+Evidence category C. For assistance exercises (those
+exercises complimentary to core exercises), a shorter rest
+period length of 1-2 min may suffice (149,213,229,
+230,269).
+Velocity of Muscle Action
+The velocity of muscular contraction used to perform dy-
+namic muscle actions affects the neural (97), the hypertrophic
+(123,241), and the metabolic (17,173) responses to resistance
+exercise and is inversely related to the relative load during
+maximal muscle contractions (48,234). Isokinetic training
+has been shown to increase strength specific to the training
+velocity with some carryover in performance at other ve-
+locities in the proximity to the training velocity (39,44,63,
+123,137,145). However, it appears that training at moderate
+velocity (180-240°-s¯¹) produces the greatest strength in-
+creases across all testing velocities (137).
+Dynamic constant external resistance (also called iso-
+tonic) or isoinertial training poses a different stress. Sig-
+nificant reductions in force production are observed when
+the intent is to perform the repetition slowly with sub-
+maximal loading. In interpreting the effects of intent to
+perform slow repetitions, it is important to note that two
+types of slow-velocity contractions exist during dynamic
+RT, unintentional and intentional. Unintentional slow ve-
+locities are used during high-intensity repetitions in which
+either the loading or the fatigue is responsible for the rep-
+etition tempo and duration (velocity of movement) (187).
+Conversely, intentional slow-velocity contractions are used
+with submaximal loads and occur when an individual has
+greater control of the velocity and influences the time the
+muscles are under tension.
+It has been shown that CON force was significantly lower
+for an intentionally slow velocity (5:5; e.g., 5-s CON, 5-s
+ECC) compared with a traditional (moderate) velocity with a
+corresponding lower level of neural activation, for example,
+determined via electromyography (143). The rate of energy
+expenditure is lower using an intentionally slow velocity
+(173). Substantially, less peak force, power, and number of
+repetitions performed were observed with "super slow"
+repetition velocity (10:10) compared with a self-selected fast
+velocity when matched for intensity (111). A 30% reduction
+in training load is necessary when using a "very slow"
+velocity (10:5) compared with a slow velocity (2:4) (141).
+SPECIAL COMMUNICATIONS
+692
+Official Journal of the American College of Sports Medicine
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+http://www.acsm-msse.org
+
+Another study comparing "very slow" (10:5) to traditional
+velocity (1:1) showed that 37-40% reductions in training
+loads were needed to attain the same number of repetitions
+(129). These data suggest that motor unit activity may be
+limited when intentionally slow velocities at lighter loads are
+incorporated and ultimately may not provide an optimal
+stimulus for strength enhancement in resistance-trained
+individuals.
+Compared with slow velocities, moderate (1-2:1-2) and
+fast (<1:1) velocities have been shown to be more effective for
+enhanced muscular performance capacities (e.g., number of
+repetitions performed, work and power output, and volume)
+(161,189) and for increasing the rate of strength gains (113).
+The number of repetitions performed is based upon a
+continuum depending on the lifting velocity where the
+largest numbers of repetitions are performed with a fast
+velocity and decreases proportionately as velocity becomes
+slower (234). The effect of lifting velocity on repetition
+performance appears largest with light to moderately heavy
+loading (234). Most advanced RT studies examining fast
+velocities with moderately high intensities have shown these
+velocities to be more effective than traditionally slower
+velocities for strength increases (133,190). It appears that the
+intent to maximally accelerate the weight during training is
+critical in maximizing strength gains (19). Although loading
+may be moderate to heavy, the intent to lift the weight as fast
+as possible has been shown to be critical for maximizing
+strength increases (19). Keeler et al. (141) showed that
+traditional velocity (2:4) RT produced significantly greater
+strength increases over 10 wk than “super slow” training in
+five of eight exercises trained (overall increase of 39% vs
+15% in traditional and "super slow," respectively). Over 6
+wk of RT in untrained individuals, it was shown that training
+at a faster velocity (1:1) led to ~11% greater strength
+increases than training at a slower velocity (3:3) (192).
+However, a study by Neils et al. (195) showed statistically
+similar increases in strength between "super slow" and slow-
+velocity (2:4) training.
+Evidence statement and recommendation. Evidence
+category A. For untrained individuals, it is recommended that
+slow and moderate velocities be used (113,141,161,189,192,195).
+Evidence category B. For intermediate training, it is
+recommended that moderate velocity be used for RT
+(113,141,161,189,192,195).
+Evidence category C. For advanced training, the inclusion
+of a continuum of velocities from unintentionally slow to fast
+velocities is recommended. The velocity selected should
+correspond to the intensity and the intent should be to
+maximize the velocity of the CON muscle action (19,133).
+Frequency
+Optimal RT frequency (the number of workouts
+per week)
+depends upon several factors such as volume, intensity,
+exercise selection, level of conditioning, recovery ability,
+and number of muscle groups trained per workout session.
+Numerous studies have used frequencies of two to three
+alternating days per week in previously untrained individuals
+(34,44,56,116). This frequency has been shown to be an
+effective initial frequency, whereas 1-2 dwk‍
+1
+-1
+appears to be
+an effective maintenance frequency for those individuals
+already engaged in RT (93). In several studies comparing
+strength gains, 1) 3 d of training per week was superior to 1
+(183) and 2 d (94), 2) 3 d produced similar strength increases
+to 2 dwk when volume was equated (34), 3) 4 d'wk‍
+was superior to three (127), 4) 2 dwk was superior to 1
+(217), and 5) 3-5 d'wk 1 was superior to 1 and 2 d (85).
+Meta-analytical data have shown that strength gains in
+untrained individuals were highest with a frequency of 3
+d'wk (225).
+1
+Evidence statement and recommendation. Evidence
+category A. It is recommended that novice individuals train the
+entire body 2-3 d⋅wk‍ (34,44,56,94,116,183,225).
+1
+It appears that progression from untrained to intermediate
+training does not necessitate a change in frequency for
+training each muscle group but may be more dependent upon
+alterations in other acute variables such as exercise selection,
+volume, and intensity. Increasing frequency enables greater
+specialization (e.g., greater exercise selection and volume per
+muscle group in accordance with more specific goals).
+Upper/lower body split or muscle group split routines are
+common at this level in addition to total-body workouts
+(157). Similar increases in strength have been observed
+between upper/lower- and total-body workouts (32).
+Evidence category B. It is recommended that for
+progression to intermediate training, a frequency of 3-4
+d-wk be used (3 d if using a total-body workout, 4 d if
+using a split routine thereby training each major muscle
+group twice) (34,85,94,183,225).
+1
+-1
+Optimal progression of frequency during advanced training
+varies considerably. It has been shown that football players
+training 4-5 dwk achieved better results than those who
+trained either 3 or 6 dwk (118). Advanced and elite
+weightlifters and bodybuilders use high-frequency training,
+for example, four to six sessions per week or more. Double-
+split routines (two training sessions per day with emphasis on
+different muscle groups) are common during training (102),
+which may result in 8-12 training sessions per week.
+Frequencies as high as 18 sessions per week have been
+reported in elite Olympic weightlifters (280). The rationale
+for high-frequency training is that frequent short sessions
+followed by periods of recovery, nutrition supplementation,
+and food intake allow for high-intensity training and
+performance (reduced fatigue). Häkkinen and Kallinen
+(103) reported greater increases in muscle cross-sectional
+area (CSA) and strength when training volume was divided
+into two sessions per day as opposed to one. Elite power
+lifters train 4-6 dwk¹ (75). It is important to note that not
+all muscle groups are trained per workout during a high-
+frequency model of training. Meta-analytical data have
+shown that training a muscle group two times per week in
+advanced individuals yielded the highest effect size (225)
+SPECIAL COMMUNICATIONS
+Medicine & Science in Sports & Exercise Ⓡ 693
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+PROGRESSION AND RESISTANCE TRAINING
+
+and two to three times per week yielded similar effect sizes
+in athletes (206).
+Evidence category C. It is recommended that advanced
+lifters train 4-6 dwk¹. Elite weightlifters and body-
+builders may benefit from using very high frequency, for
+example, two workouts in 1 d for 4-5 dwk
+(102,118,206,225).
+Muscular Hypertrophy
+1
+It is well known that RT induces muscular hypertrophy
+(156,176,249,250) through mechanical, metabolic, and hor-
+monal processes. The process of hypertrophy involves a
+proportionate increase in the net accretion of the contractile
+proteins actin and myosin as well as other structural proteins.
+Mechanical loading leads to a series of intracellular events
+that ultimately regulates gene expression and protein
+synthesis. RT may alter the activity of nearly 70 genes
+(232), up-regulate factors involved with myogenesis (e.g.,
+myogenin, MyoD), and down-regulate inhibitory growth
+factors (e.g., myostatin) (148,233). Protein synthesis in
+human skeletal muscle increases after only one bout of
+vigorous RT (210) and peaks approximately 24 h postexer-
+cise. This anabolic environment remains elevated from 2 to 3
+h postexercise up through 36-48 h postexercise (83,166).
+Other factors such as fiber type (176), muscle action (84),
+metabolite formation (242), amino acid intake (80), and
+endocrine responses (testosterone, growth hormone [GH],
+cortisol, insulin, and insulin-like growth factor I) contribute
+to the magnitude of hypertrophy (158). Optimal hypertrophy
+may comprise maximizing the combination of mechanical
+(use of heavy weights, ECC actions, and low to moderate
+volume) and metabolic (accumulation of metabolic waste
+products) stimuli.
+The time course of hypertrophy has been examined in
+previously untrained individuals. Neural adaptations pre-
+dominate during the early stages of training (188). Muscle
+hypertrophy becomes evident within the first 6 wk (211),
+although changes in the quality of proteins (250) and
+protein synthesis rates (211) take place much earlier. From
+this point onward, there appears to be interplay between
+neural adaptations and hypertrophy in the expression of
+strength. Less muscle mass is recruited during training with
+a given workload once adaptation has taken place (215).
+These findings indicate that progressive overloading is
+necessary for maximal muscle fiber recruitment and,
+consequently, muscle fiber hypertrophy. This also indicates
+that alterations in program design targeting both neural and
+hypertrophic factors may be most beneficial for maximizing
+strength and hypertrophy.
+PROGRAM DESIGN RECOMMENDATIONS
+FOR INCREASING MUSCLE HYPERTROPHY
+Muscle Action
+Evidence statement and recommendation. Evidence
+category A. Similar to strength training (55,112,131), it is
+recommended that CON, ECC, and ISOM muscle actions be
+included for novice, intermediate, and advanced RT.
+Loading and Volume
+A variety of styles of training have been shown to
+increase hypertrophy in men and women (3,49,157,249). In
+untrained individuals, similar increases in lean body mass
+have been shown between single- and multiple-set training
+(175,228), although there is evidence supporting greater
+hypertrophy enhancement with multiple-set training (231).
+Many of these studies in previously untrained individuals
+have demonstrated that general, nonspecific program design
+is effective for increasing hypertrophy in novice to
+intermediate individuals. Manipulation of acute program
+variables to optimize both the mechanical and the metabolic
+factors (using several loading/volume schemes) appears to
+be the most effective way to optimize hypertrophy during
+advanced stages of training. RT programs targeting muscle
+hypertrophy have used moderate to very high loading,
+relatively high volume, and short rest intervals (75,157).
+These programs have been shown to induce a greater acute
+elevation in testosterone and GH than high-load, low-volume
+programs with long (3 min) rest periods (91,151,152). Total
+work, in combination with mechanical loading, has been
+implicated for both gains in strength and hypertrophy (190).
+This finding has been supported, in part, by greater
+hypertrophy associated with high-volume, multiple-set pro-
+grams compared with low-volume, single-set programs in
+resistance-trained individuals (149,155,169). Traditional RT
+(high load, low repetition, and long rest periods) has
+produced significant hypertrophy (96,258); however, it has
+been suggested that the total work involved with traditional
+RT alone may not maximize hypertrophy. Goto et al. (91)
+showed that the addition of one set per exercise (to a
+conventional RT workout) consisting of light loading for 25-
+35 repetitions led to increased muscle CSA whereas
+conventional strength training alone (e.g., multiple sets of
+3-5 RM) did not increase muscle CSA. The addition of the
+high-volume sets led to greater acute elevations in GH (91).
+However, light loading alone may not be sufficient as
+Campos et al. (33) have reported that 8 wk of training with
+two sets of 25-28 RM did not result in Type I or Type II
+muscle fiber hypertrophy. Thus, it appears that the combi-
+nation of strength training (emphasizing mechanical loading)
+and hypertrophy training, that is, moderate loading, high
+repetitions, short rest intervals, which emphasizes total work
+(and reliance upon glycolysis and metabolic factors), is most
+effective for advanced hypertrophy training.
+Evidence statement and recommendation. Evidence
+category A. For novice and intermediate individuals, it is
+recommended that moderate loading be used (70-85% of 1
+RM) for 8-12 repetitions per set for one to three sets per
+exercise (3,49,157,175,228,249).
+Evidence category C. For advanced training, it is
+recommended that a loading range of 70-100% of 1 RM
+be used for 1-12 repetitions per set for three to six sets per
+SPECIAL COMMUNICATIONS
+694
+Official Journal of the American College of Sports Medicine
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+http://www.acsm-msse.org
+
+exercise in periodized manner such that the majority of
+training is devoted to 6-12 RM and less training devoted to
+1-6 RM loading (149,155,169).
+Exercise Selection and Order
+Both single- and multiple-joint exercises increase hyper-
+trophy, and the complexity of the exercises chosen has been
+shown to affect the time course of hypertrophy such that
+multiple-joint exercises require a longer neural adaptive
+phase than single-joint exercises (37). Less is understood
+concerning the effect of exercise order on muscle hypertro-
+phy. Although exceptions exist (e.g., using an opposite
+sequencing strategy to induce higher levels of fatigue), it
+appears that the recommended exercise sequencing guide-
+lines for strength training apply for increasing muscle
+hypertrophy.
+Evidence statement and recommendation. Evidence
+category A. It is recommended that single- and multiple-joint
+free-weight and machine exercises be included in an RT
+program in novice, intermediate, and advanced individuals
+(30,157,169,172,178,248–250,274).
+Evidence category C. For exercise sequencing, an order
+similar to strength training is recommended (244,245,256).
+Rest Periods
+The amount of rest between sets and exercises
+significantly affects the metabolic (221) and the hor-
+monal (158) responses to an acute bout of resistance
+exercise. Rest period length significantly affects muscu-
+lar strength, but less is known concerning hypertrophy.
+One study reported no significant difference between 30-,
+90-, and 180-s rest intervals in muscle girth, skinfolds, or
+body mass in recreationally trained men over 5 wk (230).
+Ahtiainen et al. (3) showed that 3 months of training with
+5-min rest intervals produced similar increase in muscle
+CSA to training with 2-min rest intervals. Short rest
+periods (1-2 min) coupled with moderate to high
+intensity and volume have elicited the greatest acute
+anabolic hormonal response in comparison to programs
+utilizing very heavy loads with long rest periods
+(151,152). The acute hormonal responses have been
+regarded potentially more important for hypertrophy than
+chronic changes (177). It appears a range of rest intervals
+may be used effectively to target hypertrophy depending
+on training intensity. In that regard, training for muscular
+hypertrophy alone may differ from training for strength
+or power per se because the explicit objective is to
+produce an anabolic environment.
+Evidence statement and recommendation. Evidence
+category C. It is recommended that 1- to 2-min rest periods be
+used in novice and intermediate training programs. For
+advanced training, rest period length should correspond to
+the goals of each exercise or training phase such that 2- to 3-
+min rest periods may be used with heavy loading for core
+exercises and 1-2 min may be used for other exercises of
+moderate to moderately high intensity (3,151,152).
+Repetition Velocity
+Less is known concerning the effect of repetition velocity
+on hypertrophy. In untrained individuals, fast (1:1) and
+moderate to slow (3:3) velocities of training produced
+similar changes in elbow flexor girth after 6 wk of training
+(192). However, 8 wk of fast (210° s¹) ECC isokinetic
+training produced larger increases in Type II muscle fiber
+CSA than slow (20°·s¯¹) training (241), and 8 wk of fast
+ECC (180° s¹) isokinetic training produced greater hyper-
+trophy than slow ECC (30°-s¹), fast and slow CON
+training (64). For dynamic constant external RT, it has
+been suggested that higher velocities of movement pose less
+of a stimulus for hypertrophy than slow and moderate
+velocities. However, intentional slow velocities require
+significant reductions in loading and result in less of a
+blood lactate response and less metabolic response when
+total training time is equated (129). It does appear that the
+use of different velocities is warranted for long-term
+improvements in hypertrophy for advanced training.
+Evidence statement and recommendation. Evidence
+category C. It is recommended that slow to moderate
+velocities be used by novice- and intermediate-trained
+individuals. For advanced training, it is recommended that
+slow, moderate, and fast repetition velocities be used
+depending on the load, the repetition number, and the goals
+of the particular exercise (64,192).
+Frequency
+-1
+The frequency of training depends upon the number of
+muscle groups trained per workout as well as the volume and
+intensity. Frequencies of 2-3 d-wk have been effective in
+novice and intermediate men and women (34,49,116).
+Higher frequency of RT has been suggested for advanced
+hypertrophy training. However, only certain muscle groups
+are trained per workout with a high frequency.
+-1
+Evidence statement and recommendation. Evidence
+category A. It is recommended that a frequency of 2-3 dwk
+be used for novice training (when training the total body each
+workout) (34,49,116).
+Evidence category B. For intermediate training, the
+recommendation is similar for total-body workouts or 4
+when using an upper/lower body split routine (each
+major muscle group trained twice per week).
+d-wk
+-1
+Evidence category C. For advanced training, a frequency
+of 4-6 d-wk-1
+is recommended. Muscle group split routines
+(one to three muscle groups trained per workout) are
+common enabling higher volume per muscle group.
+PROGRAM DESIGN RECOMMENDATIONS FOR
+INCREASING MUSCULAR POWER
+Maximal power production is required in the movements of
+sport, work, and daily living. By definition, more power is
+produced when the same amount of work is completed in a
+shorter period or when a greater amount of work is performed
+during the same period. Muscular power is the scalar product
+SPECIAL COMMUNICATIONS
+Medicine & Science in Sports & Exercise Ⓡ 695
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+PROGRESSION AND RESISTANCE TRAINING
+
+of force generation and movement velocity, is demonstrated as
+the highest power output attainable during a given movement/
+repetition, and has been viewed as an exceedingly important
+testing variable and training objective.
+Neuromuscular contributions to maximal muscle power
+include 1) maximal rate of force development (RFD), 2) force
+production at slow and fast contraction velocities, 3) stretch-
+shortening cycle performance, and 4) coordination of move-
+ment pattern and skill. Several studies have shown improved
+power performance following traditional RT (1,88,156,277),
+demonstrating the reliance of power production on muscular
+force development. However, programs consisting of move-
+ments with high power output using relatively light loads
+have been shown to be superior for improving vertical jump
+ability than traditional strength training (98,99). Considering
+that power is the product of force and velocity, it appears that
+heavy RT with slow velocities improves maximal force
+production whereas power training (utilizing light to moder-
+ate loads at high velocities) increases force output at higher
+velocities and RFD (98,99).
+Heavy RT could decrease power output over time unless
+accompanied by explosive movements (25). The inherent
+problem with traditional weight training is that the load is
+decelerated for a considerable proportion (24-40%) of the
+CON movement (60,197). This percentage increases to 52%
+when performing the lift with a lower percentage (81%) of
+1 RM lifted (60) or when attempting to move the bar
+rapidly in an effort to train more specifically near the
+movement speed of the target activity (197). Ballistic
+resistance exercise (explosive movements which enable
+acceleration throughout the full range of motion resulting in
+greater peak and average lifting velocities) has been shown
+to limit this problem (48,121,198,276). Loaded jump squats
+with 30% of 1 RM have been shown to increase vertical
+jump performance more than traditional back squats and
+plyometrics (276).
+Exercise Selection and Order
+Although single-joint exercises have been studied,
+multiple-joint exercises have been used extensively for
+power training (139). The inclusion of total-body exercises
+(e.g., power clean and push press) is recommended as these
+exercises have been shown to require rapid force production
+(82) and be very effective for enhancing power (263). It is
+recommended that these exercises be performed early in a
+workout and sequenced based on complexity (e.g., snatch
+before power cleans and variations such as high pulls).
+Additionally, performing high-velocity power exercises
+before a multiple-joint exercise such as the squat has been
+shown to improve squat performance (247), for example,
+via postactivation potentiation.
+Evidence statement and recommendation. Evidence
+category B. The use of predominately multiple-joint exercises
+performed with sequencing guidelines similar to strength
+training is recommended for novice, intermediate, and
+advanced power training (82,139,247,263).
+Loading/Volume/Repetition Velocity
+The intensity of which peak power is attained has been
+variable and shown to be dependent on the type of exercise,
+whether it is ballistic or traditional, and the strength level of
+the individual (139). Peak power during ballistic exercises
+has been shown to range between 15% and 50% (upper
+body exercises), from 0% (body weight) to 60% (lower
+body exercises, primarily the jump squat), and peak power
+for traditional exercises ranges between 30% and 70% of 1
+RM (41-43,139,260). Peak power for the Olympic lifts
+typically occurs approximately 70-80% of 1 RM (42,140).
+Although any intensity can enhance muscle power and shift
+the force-velocity curve to the right, specificity is needed
+such that training encompasses a range of intensities but
+emphasis placed upon the intensities that match the
+demands of the sport or activities performed (139). Fast
+lifting velocities are needed to optimize power development
+with submaximal loading, and the intent to maximally lift
+the weight fast is critical when a higher intensity is
+used (19).
+Evidence statement and recommendation. Evidence
+category A. It is recommended that concurrent to a typical
+strength training program, a power component is incorporated
+consisting of one to three sets per exercise using light to
+moderate loading (30-60% of 1 RM for upper body exercises,
+0-60% of 1 RM for lower body exercises) for three to six
+repetitions (19,41-43,139,260).
+Evidence category B. Progression for power enhance-
+ment uses various loading strategies in a periodized manner.
+Heavy loading (85-100% of 1 RM) is necessary for
+increasing the force component of the power equation,
+and light to moderate loading (30-60% of 1 RM for upper
+body exercises, 0-60% of 1 RM for lower body exercises)
+performed at an explosive velocity is necessary for
+increasing fast force production. A multiple-set (three to
+six sets) power program be integrated into a strength
+training program consisting of one to six repetitions in
+periodized manner is recommended (74,199,206).
+Rest Periods
+Rest period length for power training is similar to
+strength training. Taking the needed rest is vital to ensure
+the quality of each repetition being performed in a set
+(achieving a high percent of peak velocity and achieving a
+high percentage of maximal power output). In addition to
+the technical quality of each repetition performed in a
+power training program, accentuated rest periods are
+also needed for preservation of the appropriate training
+intensity to occur, which will elicit the desired neurological
+response.
+Evidence statement and recommendation. Evidence
+category D. Rest periods of at least 2-3 min between
+sets for core exercises are recommended. A shorter
+rest interval (1-2 min) is recommended for assistance
+exercises.
+SPECIAL COMMUNICATIONS
+696
+Official Journal of the American College of Sports Medicine
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+http://www.acsm-msse.org
+
+Frequency
+Power training is typically integrated into a periodized
+strength training program due to the important inherent
+relationships between the two variables (97,198,199).
+Evidence statement and recommendation. Evidence
+category A. The recommended frequency for novice power
+training is similar to strength training (2-3 dwk stressing
+the total body).
+Evidence category B. For intermediate power training, it
+is recommended that either a total-body or an upper/lower-
+body split workout be used for a frequency of 3-4 d·wk¯‍
+Evidence category C. For advanced power training, a
+frequency of 4-5 d'wk¯¹ is recommended using predomi-
+nantly total-body or upper/lower body split workouts.
+PROGRAM DESIGN RECOMMENDATIONS FOR
+INCREASING MUSCULAR ENDURANCE
+Local muscular endurance, submaximal local muscular
+and high-intensity (or strength) endurance, has been shown
+to improve during RT (9,59,125,169,255). RT has been
+shown to increase absolute LME (i.e., the maximal number
+of repetitions performed with a specific pretraining load)
+(9,33,125,149), but limited effects are observed in relative
+LME (i.e., endurance assessed at a specific relative intensity
+or %1 RM) (172). Moderate to low RT with high repetitions
+has been shown to be most effective for improving absolute
+LME in most studies (9,33,91,125,227), although one study
+found high-intensity, low-repetition training to be more ef-
+fective in highly trained endurance athletes (59). A rela-
+tionship exists between increases in strength and LME such
+that strength training alone may improve endurance to a
+certain extent. However, specificity of training produces the
+greatest improvements (9,255). Training to increase LME
+implies that the individual 1) performs high repetitions
+(long-duration sets with high muscle time under tension)
+and/or 2) minimizes recovery between sets.
+Exercise Selection and Order
+Exercises stressing multiple or large muscle groups have
+elicited the greatest acute metabolic responses during
+resistance exercise (17). Metabolic demand is an important
+stimulus for adaptations within skeletal muscle necessary to
+improve LME (increased mitochondrial and capillary
+number, fiber type transitions, and buffering capacity).
+The sequencing of exercises may not be as important in
+comparison to strength training as fatigue (i.e., substrate
+depletion and accumulation of metabolic waste products) is
+a necessary component of endurance training.
+Evidence statement and recommendation. Evidence
+category A. It is recommended that unilateral and bilateral
+multiple- and single-joint exercises be included in a program
+targeting improved LME using various sequencing com-
+binations for novice, intermediate, and advanced LME training
+(9,59,125,169,255).
+Loading and Volume
+Loading is multidimensional. Light loads coupled with
+higher repetitions (15-25 repetitions or more) have been
+shown to be most effective for increasing LME (9,33,
+227,255). However, moderate to heavy loading (coupled
+with short rest periods) is also effective for increasing high-
+intensity and absolute LME (9,33). High-volume (including
+multiple sets) programs have been shown to be superior for
+LME enhancement (33,149,169,255).
+Evidence statement and recommendation. Evidence
+category A. For novice and intermediate training, it is
+recommended that relatively light loads be used (10-15
+repetitions) (9,33,227,255).
+Evidence category C. For advanced training, it is
+recommended that various loading strategies be used for
+multiple sets per exercise (10-25 repetitions or more) in
+periodized manner leading to higher overall volume using
+lighter intensities (227).
+Rest Periods
+The duration of rest intervals during resistance exercise
+appears to affect LME. It has been shown that bodybuilders
+(who typically train with high-volume and short rest
+periods) demonstrate a significantly lower fatigue rate in
+comparison to power lifters (who typically train with low to
+moderate volume and longer rest periods) (150). These data
+demonstrate the benefits of high-volume, short rest period
+workouts for improving LME. It is important to note that
+another popular method of endurance training is circuit RT.
+Circuit RT has been shown to increase LME (167,275) and
+is effective due to its high continuity. Thus, minimal rest is
+taken between exercises.
+Evidence statement and recommendation. Evidence
+category C. It is recommended that short rest periods be used
+for LME training, for example, 1-2 min for high-repetition
+sets (15-20 repetitions or more), <1 min for moderate (10-15
+repetitions) sets. For circuit weight training, it is recommended
+that rest periods correspond to the time needed to get from one
+exercise station to another (167,275).
+Frequency
+The frequency for LME training appears similar to
+hypertrophy training.
+Evidence statement and recommendation. Evidence
+category A. Low frequency (2-3 d-wk ¹) is effective in
+novice individuals when training the entire body
+(9,59,125,169,255).
+Evidence category B. For intermediate training, 3 dwk‍
+-1
+is recommended for total-body workouts and 4 dwk‍ is
+recommended for upper/lower body split routine workouts.
+Evidence category C. For advanced training, a higher
+frequency may be used (4-6 d'wk¯¹) if muscle group split
+routines are used.
+SPECIAL COMMUNICATIONS
+Medicine & Science in Sports & Exercise ® 697
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+PROGRESSION AND RESISTANCE TRAINING
+
+Repetition Velocity
+Studies examining isokinetic exercise have shown that a
+fast training velocity, that is, 180° s was more effective
+1
+"
+1
+"
+than a slow training velocity, that is, 30°.s for improving
+LME (2,186). Thus, fast contraction velocities are recom-
+mended for isokinetic training. However, it appears that both
+fast and slow velocities are effective for improving LME
+during dynamic constant external RT. Two effective strate-
+gies used to prolong set duration are 1) moderate repetition
+number using an intentionally slow velocity and 2) high rep-
+etition number using moderate to fast velocities. Ballor et al.
+(17) has shown that intentionally slow-velocity training with
+light loads (5:5 and slower) was more metabolically
+demanding than moderate and fast velocities. However,
+Mazzetti et al. (173) showed that explosive CON repetition
+velocity resulted in greater rates of energy expenditure than a
+slower velocity (2:2). When matched for intensity and volume,
+slower velocity may result in greater blood lactates (173).
+Increasing the time under tension with sufficient loading
+can increase muscular fatigue (262), and fatigue is
+important to eliciting LME enhancement. This result was
+shown by Tran et al. (262) who compared three sets of 10
+repetitions (5:5), 10 repetitions (2:2), or 5 repetitions (10:4)
+and reported that the highest volume load and time under
+tension, for example, protocol 1, resulted in the largest
+magnitude of peripheral fatigue. Peak ISOM force (19%)
+and rate of force development (RFD) (46%) were reduced
+significantly more than with the other protocols (13-15%
+and 9-13%, respectively). Thus, traditional velocities may
+result in less fatigue than slower velocities provided loading
+is sufficient. However, it is difficult to perform a large
+number of repetitions using intentionally slow velocities.
+Evidence statement and recommendation. Evidence
+category B. It is recommended that intentionally slow velocities
+be used when a moderate number of repetitions (10-15) are
+used. Moderate to fast velocities are more effective for
+increasing repetition number than slow-velocity training
+(161). If performing a large number of repetitions (15-25 or
+more), then moderate to faster velocities are recommended.
+RELEVANCE TO SPORTS APPLICATIONS
+Motor Performance
+Improved motor performance results from RT. The prin-
+ciple of "specificity" is important for improving motor per-
+formance as the greatest improvements are observed when
+RT programs are prescribed that are specific to the task or the
+activity. The recommendations for improving motor perfor-
+mance are similar to that of strength and power training.
+Vertical Jump
+Force production during isokinetic and dynamic resistance
+exercise measures correlates to vertical jump height
+(28,208,216), and RT may improve vertical jump (1,252).
+High correlations between closed-chain exercises (exercises
+where the distal segments are fixed, i.e., squat) and vertical (r
+= 0.72) and standing long jump (r = 0.65) performance have
+been reported (24), and training with closed-chain exercises
+is more effective for improving vertical jump than open-
+chain exercises (12). Total-body multiple-joint exercises such
+as the Olympic lifts (snatch, clean and jerk, and variations)
+have been shown to improve jumping ability (82,120,263) to
+a greater extent than strength training (120). The high
+velocity and joint involvement of these exercises and their
+ability to integrate strength, power, and neuromuscular
+coordination demonstrates a direct carryover to improving
+jump performance. The effect of intensity on vertical jump
+improvements appears related to contraction velocity. Sev-
+eral studies (98,99,276) have shown improvements in jump
+height using light loads (<60% of 1 RM). Other reports show
+vertical jump enhancement can be achieved while using
+higher intensities (>80% of 1 RM) (1). Multiple-set RT has
+been shown to be superior for improving vertical jump
+performance in comparison to single-set RT programs (149),
+and 5-6 d'wk of training elicited greater vertical jump
+improvements than 3-4 d'wk¹ in football players (118).
+1
+Evidence statement and recommendation. Evidence
+category B. It is recommended that multiple-joint exercises
+be performed using a combination of heavy and light to
+moderate loading (using fast repetition velocity), with moder-
+ate to high volume in periodized fashion 4-6 dwk for
+maximal progression in vertical jumping ability
+(1,82,98,99,120,149,263). The inclusion of plyometric training
+(explosive form of exercise involving various jumps) in
+combination with RT is recommended.
+Sprint Speed
+=
+Force production is related to sprint performance (4,11)
+and is a good indicator of speed when testing is performed
+at isokinetic velocities greater than 180°·s (205). Relative
+(to body mass) strength correlates highly with sprint
+velocity and acceleration (r 0.88) (208) as well as jump
+squat height and power (46). However, increasing maximal
+strength does not appear to be highly related to reducing
+sprint time (15). Traditional strength and ballistic training
+has only produced small reductions in sprint times
+(118,120,174). However, specific hip flexor strength train-
+ing was shown to reduce sprint time (50). The combination
+of strength and sprint training results in the greatest
+improvements in sprinting speed (52).
+Evidence statement and recommendation. Evidence
+category B. It is recommended that the combination of
+resistance and ballistic resistance exercise (along with sprint
+and plyometric training) be included for progression in
+sprinting ability (51,118,120,174).
+Agility
+Muscular strength is an important factor in an individual's
+ability to stop and change direction rapidly (11,119,208).
+SPECIAL COMMUNICATIONS
+698
+Official Journal of the American College of Sports Medicine
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+http://www.acsm-msse.org
+
+-1
+Lower-body multiple-joint exercise strength and power
+have been shown to correlate to various agility tests (168).
+A significant relationship has been reported between peak
+ECC hamstring force at 90°.s and agility run time and
+may be an important indicator of success (11). No change
+(48,119,120), a reduction (45), or an increase in time (78) in
+agility (t-test) has been observed following RT. It appears
+that agility-specific training is most beneficial for enhancing
+agility performance.
+Sport-Specific Activities
+The importance of RT for other sport-specific activities
+has been shown. Strength in the kicking limb for soccer
+players highly correlates to ball velocity (218). Significant
+correlations have been shown between wrist and elbow
+extensor and flexors, shoulder abduction/adduction, and
+shoulder internal rotation strength and throwing speed
+(73,204). Several studies have shown increases (2.0-4.1%)
+in throwing velocities in both baseball (162,180,196) and
+European handball (117) players following traditional
+(162,196) and ballistic (180) RT. Improvements in shot
+put performance (38), golf (261), distance running (134),
+swimming performance (86), and tennis service velocity
+(155) have been reported following RT.
+PROGRESSION MODELS FOR RESISTANCE
+EXERCISE IN HEALTHY, OLDER ADULTS
+Progression and maintenance (maintenance of physical
+function in this population may be viewed as progression)
+in healthy, older adults is brought about by systematic
+manipulation of the acute program variables. However,
+caution must be taken with the elderly population as to the
+rate of progression, particularly those with hypertension,
+arthritis, cardiovascular disease, or any other debilitating
+condition that limits physical function. There are other
+modes of resistance exercise, such as aquatic resistance
+exercise, that have been shown to be especially beneficial in
+the older population and to reduce some of the risks of
+resistance exercise. These studies have shown increased
+muscular strength, power, and bone mineral density as well
+as improvements in cardiovascular and psychological
+function (13,257,264,266,267). Further, each individual
+will respond differently based on their current training
+status and past experience, joint health, and individual
+response to the training stress. A quality training program
+should improve the quality of life by enhancing several
+components of muscular fitness, that is, strength, balance,
+etc. (61). Programs that include variation, gradual progres-
+sive overload, careful attention to recovery and stress, and
+specificity are warranted. This finding was recently shown
+in elderly women where peak torque and average power
+plateaued as a result of a significant increase in volume (at
+the same intensity) (243).
+Muscular strength and hypertrophy training may im-
+prove the quality of life and limit sarcopenia. Optimizing
+strength to meet/exceed performance goals is important to
+a growing number of older adults. Numerous studies have
+shown increased muscle strength and size in older adults
+following RT as long as basic requirements of intensity
+and volume are met (31,36,61,69,77,105,106). The basic
+RT program recommended by the ACSM for the healthy
+adult (6,7) has been an effective starting point in the el-
+derly population.
+−1
+When the older adult's long-term goal is progression
+toward higher levels of strength and hypertrophy, evidence
+supports the use of variation in program design (105,
+106,154). Studies have shown significant improvements in
+strength in this population (61,69,77). It is important that
+progression be introduced gradually. A training frequency of
+1-3 d.wk produced similar increases in strength; however,
+3 dwk
+was superior to 1-2 d for improving LME, co-
+ordination, balance, and cardiorespiratory fitness in older
+women (193). Some studies have shown similar strength
+increases between moderate (50-60% of 1 RM) and high
+(80-85% of 1 RM) training intensities or 6-15 RM (109,
+265) over 18-24 wk of training. Training 3 d-wk¯‍
+50%, 65%, and 80% of 1 RM each day produced similar
+strength increases to training 3 d-wk¹ with 80% of 1 RM
+(128). However, several studies have shown greater strength
+increases with high-intensity (80-83% of 1 RM) versus
+moderate-intensity (50-63% of 1 RM) and low-intensity
+(20-48% of 1 RM) training (53,65,66,135,136). Thus, a va-
+riety of intensities may be effective in this population es-
+pecially early in training.
+with
+Evidence statement and recommendation. Evidence
+category A. For improvements in strength and hypertrophy in
+older adults, the use of free-weight and machine multiple- and
+single-joint exercises with slow to moderate lifting velocity for
+one to three sets per exercise with 60-80% of 1 RM for 8-12
+repetitions with 1-3 min of rest in between sets for 2-3
+d-wk is recommended (31,53,61,65,66,69,77,105,106,
+109,128,135,136,265).
+The ability to develop high muscular power diminishes
+with age (107). An increase in strength and power enables
+the older adult to improve performance in tasks that re-
+quire a rapid RFD, including a reduced risk of falls (212).
+There is support for the inclusion of power training for
+the healthy older adult (107,154). Muscle atrophy results
+from fiber denervation with loss of some fibers and at-
+rophy of others, that is, especially fast twitch, with aging
+and inactivity (164). Age-related muscle atrophy is as-
+sociated with reductions in strength and power (77,104),
+and reductions in power exceed decreases in maximal
+strength (246). Although most studies in the elderly
+examined heavy RT programs, power training may
+optimize functional abilities as well as have secondary
+effects on other physiological systems, for example, con-
+nective tissue (18).
+Since 2001, several studies have examined power
+training, for example, free-weight and machine exercises
+with the CON phase performed rapidly with a controlled
+SPECIAL COMMUNICATIONS
+Medicine & Science in Sports & Exercise Ⓡ 699
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+PROGRESSION AND RESISTANCE TRAINING
+
+SPECIAL COMMUNICATIONS
+TABLE 2. Summary of progressive resistance training recommendations.
+Evidence Statement
+Strength training
+CON, ECC, and ISOM actions be included for novice, intermediate, and advanced training.
+Training with loads ~60-70% of 1 RM for 8-12 repetitions for novice to intermediate individuals and cycling loads of 80-100% of 1 RM for advanced individuals.
+When training at a specific RM load, it is recommended that a 2-10% increase in load be applied when the individual can perform the current workload for
+1-2 repetitions over the desired number on two consecutive training sessions.
+It is recommended that 1-3 sets per exercise be used by novice individuals.
+Multiple-set programs (with systematic variation of volume and intensity) are recommended for progression to intermediate and advanced training.
+Unilateral and bilateral single- and multiple-joint exercises should be included with emphasis on multiple-joint exercises for maximizing strength in novice, intermediate,
+and advanced individuals.
+Free-weight and machine exercises should be included for novice to intermediate training.
+For advanced strength training, it is recommended that emphasis be placed on free-weight exercises with machine exercises used to compliment program needs.
+Recommendations for sequencing exercises for novice, intermediate, and advanced strength training include large muscle group exercises before small muscle
+group exercises, multiple-joint exercises before single-joint exercises, higher-intensity exercises before lower-intensity exercises, or rotation of upper and lower body
+or opposing exercises.
+It is recommended that rest periods of at least 2-3 min be used for core exercises using heavier loads for novice, intermediate, and advanced training. For assistance
+exercises, a shorter rest period length of 1-2 min may suffice.
+For untrained individuals, it is recommended that slow and moderate CON velocities be used.
+For intermediate training, it is recommended that moderate CON velocity be used.
+For advanced training, the inclusion of a continuum of velocities from unintentionally slow to fast CON velocities is recommended and should correspond to the intensity.
+It is recommended that novice individuals train the entire body 2-3 d.wk 1.
+It is recommended that for progression to intermediate training, a frequency of 3-4 d-wk 1 be used (based on how many muscle groups are trained per workout).
+It is recommended that advanced lifters train 4-6 d-wk-1.
+Muscle hypertrophy
+It is recommended that CON, ECC, and ISOM muscle actions be included.
+For novice and intermediate training, it is recommended that moderate loading be used (70-85% of 1 RM) for 8-12 repetitions per set for 1-3 sets per exercise.
+For advanced training, it is recommended that a loading range of 70-100% of 1 RM be used for 1-12 repetitions per set for 3-6 sets per exercise in a periodized
+manner such that the majority of training is devoted to 6-12 RM and less training devoted to 1-6 RM loading.
+It is recommended that single- and multiple-joint free-weight and machine exercises be included in novice, intermediate, and advanced individuals.
+For exercise sequencing, an order similar to strength training is recommended.
+It is recommended that 1- to 2-min rest periods be used in novice and intermediate training; for advanced training, length of rest period should correspond to the
+goals of each exercise such that 2- to 3-min rest periods may be used with heavy loading for core exercises and 1-2 min may be used for other exercises of
+moderate to moderately high intensity.
+It is recommended that slow to moderate velocities be used by novice- and intermediate-trained individuals; for advanced training, it is recommended that slow,
+moderate, and fast repetition velocities be used depending on the load, repetition number, and goals of the particular exercise.
+It is recommended that a frequency of 2-3 d-wk¹ be used for novice training.
+For intermediate training, the recommendation is similar for total-body workouts or 4 d-wk1 when using an upper/lower body split routine.
+For advanced training, a frequency of 4-6 d-wk1 is recommended.
+Muscle power
+The use of predominately multiple-joint exercises performed with sequencing guidelines similar to strength training is recommended for novice, intermediate, and
+advanced power training.
+It is recommended that concurrent to a typical strength training program, a power component is incorporated consisting of 1-3 sets per exercise using light to
+moderate loading (30-60% of 1 RM for upper body exercises, 0-60% of 1 RM for lower body exercises) for 3-6 repetitions not to failure.
+Various loading strategies are recommended for advanced training. Heavy loading (85-100% of 1 RM) is necessary for increasing force and light to moderate loading
+(30-60% of 1 RM for upper body exercises, 0-60% of 1 RM for lower body exercises) performed at an explosive velocity is necessary for increasing fast force production.
+A multiple-set (3-6 sets) power program be integrated into a strength training program consisting of 1-6 repetitions in a periodized manner is recommended.
+Rest periods of at least 2-3 min between sets for core exercises are recommended when intensity is high. For assistance exercises and those of less intensity,
+a shorter rest interval (1-2 min) is recommended.
+The recommended frequency for novice power training is similar to strength training (2-3 d-wk 1).
+For intermediate power training, it is recommended that either a total-body or upper/lower-body split workout be used for a frequency of 3-4 d-wk
+For advanced power training, a frequency of 4-5 d-wk1 is recommended using predominantly total-body or upper/lower-body split workouts.
+Local muscular endurance
+It is recommended that unilateral and bilateral multiple- and single-joint exercises be included using various sequencing combinations for novice, intermediate, and
+advanced local muscular endurance training.
+For novice and intermediate training, it is recommended that relatively light loads be used (10-15 repetitions) with moderate to high volume.
+Grade
+AAB
+AAA
+A
+300
+А
+А
+BCAACABC
+А
+AAA
+ACC
+0
+ABC
+B
+A
+BA
+DACC
+AC
+A
+А
+For advanced training, it is recommended that various loading strategies be used for multiple sets per exercise (10-25 repetitions or more) in a periodized manner
+leading to a higher overall volume using lighter intensities.
+с
+It is recommended that short rest periods be used for muscular endurance training, e.g., 1-2 min for high-repetition sets (15-20 repetitions or more), less than 1 minute for
+moderate (10-15 repetitions) sets. For circuit weight training, it is recommended that rest periods correspond to the time needed to get from one exercise station to another.
+Low frequency (2-3 d-wk 1) is effective in novice individuals when training the entire body.
+с
+А
+For intermediate training, 3 d-wk 1 is recommended for total-body workouts and 4 d-wk 1 is recommended for upper/lower body split routine workouts.
+For advanced training, a higher frequency may be used (4-6 d-wk¹) if muscle group split routines are used.
+It is recommended that intentionally slow velocities be used when a moderate number of repetitions (10-15) are used.
+If performing a large number of repetitions (15-25 or more), then moderate to faster velocities are recommended.
+Motor performance
+It is recommended that multiple-joint exercises be performed using a combination of heavy and light to moderate loading (using fast repetition velocity) with
+moderate to high volume in periodized fashion 4-6 d-wk for maximal progression in vertical jumping ability. The inclusion of plyometric training (explosive
+form of exercise involving various jumps) in combination with resistance training is recommended.
+It is recommended that the combination of heavy resistance and ballistic resistance exercise (along with sprint and plyometric training) be included for progression in
+sprinting ability.
+Older adults
+For further improvements in strength and hypertrophy in older adults, the use of both multiple- and single-joint exercises (free weights and machines) with
+slow-to-moderate lifting velocity, for 1-3 sets per exercise with 60-80% of 1 RM for 8-12 repetitions with 1-3 min of rest in between sets for 2-3 d-wk is recommended.
+Increasing power in healthy older adults include: 1) training to improve muscular strength, and 2) the performance of both single- and multiple-joint exercises for
+1-3 sets per exercise using light to moderate loading (30-60% of 1 RM) for 6-10 repetitions with high repetition velocity.
+Similar recommendations may apply to older adults as young adults, e.g., low to moderate loads performed for moderate to high repetitions (10-15 or more) for
+enhancing muscular endurance.
+700
+Official Journal of the American College of Sports Medicine
+В
+ACCBB
+B
+B
+A
+B
+B
+http://www.acsm-msse.org
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+
+(2-3 s) ECC phase, in the elderly. Low-to-moderate
+intensity (20-80% of 1 RM), high-velocity training has
+been tolerable in this population and consistently shown to
+enhance power production, strength, and performance of
+activities of daily living, for example, chair rise, and
+balance (29,53,57,107,115,124,199,200,243). In compari-
+son to traditional RT, power training has been shown to
+produce similar (29,70) and inferior increases (185) in
+maximal strength, greater improvements in power (29,70),
+and greater functional performance enhancement (29,185).
+de Vos et al. (53) reported that power training with 50% of
+subjects' 1 RM led to the highest gains in muscle power,
+whereas RT with loads corresponding to 80% of subjects' 1
+RM led to the highest gains in muscular strength and
+endurance. On the basis of these data, it appears prudent to
+include high-velocity, low-intensity movements in progres-
+sion models for older adults.
+Evidence category B. Increasing power in healthy older
+adults include 1) training to improve muscular strength and 2)
+the performance of both single- and multiple-joint exercises for
+one tot three sets per exercise using light to moderate loading
+(30-60% of 1 RM) for 6-10 repetitions with high repetition
+velocity (29,53,57,70,107,115,124,185,199,200,243).
+Improvements in LME in the older adult may lead to an
+enhanced ability to perform submaximal work and recrea-
+tional activities. Although studies examining LME training
+in the older adult are limited, LME may be enhanced by
+circuit RT (275), strength training (125), and high repeti-
+tion, moderate-load programs (9) in younger populations.
+Multiple-set training led to 44.3-60.5% increases in LME,
+REFERENCES
+1. Adams KJ, O'Shea JP, O'Shea KL, Climstein M. The effect of
+six weeks of squat, plyometric and squat-plyometric training on
+power production. J Appl Sport Sci Res. 1992;6:36-41.
+2. Adeyanju K, Crews TR, Meadors WJ. Effects of two speeds of
+isokinetic training on muscular strength, power and endurance. J
+Sports Med. 1983;23:352–6.
+3. Ahtiainen JP, Pakarinen A, Alen M, Kraemer WJ, Häkkinen
+K. Short vs. long rest period between the sets in hypertrophic
+resistance training: influence on muscle strength, size, and hor-
+monal adaptations in trained men. J Strength Cond Res. 2005;
+19:572-82.
+4. Alexander MJL. The relationship between muscle strength and
+sprint kinematics in elite sprinters. Can J Sport Sci. 1989; 14:148–57.
+5. Alway SE, Grumbt WH, Gonyea WJ, Stray-Gundersen J. Con-
+trasts in muscle and myofibers of elite male and female
+bodybuilders. J Appl Physiol. 1989;67:24–31.
+6. American College of Sports Medicine. Exercise and physical ac-
+tivity for older adults. Med Sci Sports Exerc. 1998;30:992-1008.
+7. American College of Sports Medicine. Position Stand: the rec-
+ommended quantity and quality of exercise for developing and
+maintaining cardiorespiratory and muscular fitness, and flexibility
+in healthy adults. Med Sci Sports Exerc. 1998;30:975-91.
+8. American College of Sports Medicine. Progression models in
+resistance training for healthy adults. Med Sci Sports Exerc.
+2002;34:364-80.
+9. Anderson T, Kearney JT. Effects of three resistance training
+programs on muscular strength and absolute and relative en-
+durance. Res Q. 1982;53:1–7.
+whereas single-set training led approxiamtely 10% increases
+in individuals 65-78 yr of age (81).
+Similar recommendations may apply to older adults as
+young adults, for example, low to moderate loads (40-70%
+of 1 RM) performed for moderate to high repetitions (10-15
+or more) (81).
+CONCLUSION
+Progression in RT is dependent upon the development of
+appropriate and specific training goals and should be an
+"individualized" process using appropriate equipment,
+program design, and exercise techniques needed for the
+safe and effective implementation of a program. Trained
+and competent strength and conditioning specialists should
+be involved with this process to optimize the safety and
+design of a training program. Although examples and
+guidelines can be presented, ultimately the good judgment,
+experience, and educational training of the exercise profes-
+sional involved with this process will dictate the amount of
+training success. Nevertheless, many exercise prescription
+options are available in the progression of RT to attain goals
+related to health, fitness, and physical performance.
+This pronouncement was reviewed by the American College of
+Sports Medicine Pronouncements Committee and by Ira Jacobs,
+PhD, FACSM; Brian Schilling, PhD; Ann Swank, PhD, FACSM;
+Anthony Vandervoort, PhD, FACSM; and Joseph Weir, PhD,
+FACSM.
+This Position Stand replaces the 2002 ACSM Position Stand,
+"Progression Models in Resistance Training for Healthy Adults,"
+Med. Sci. Sports Exerc. 2002;34(2):364–80.
+10. Anderson K, Behm DG. Trunk muscle activity increases with
+unstable squat movements. Can J Appl Physiol. 2005;30:33–45.
+11. Anderson MA, Gieck JB, Perrin D, et al. The relationships
+among isometric, isotonic, and isokinetic quadriceps and ham-
+string force and three components of athletic performance. J
+Orthop Sports Phys Ther. 1991;14:114–20.
+12. Augustsson J, Esko A, Thomee R, Svantesson U. Weight train-
+ing of the thigh muscles using closed vs. open kinetic chain
+exercises: a comparison of performance enhancement. J Orthop
+Sports Phys Ther. 1998;27:3-8.
+13. Ay A, Yurtkuran M. Influence of aquatic and weight-bearing
+exercises on quantitative ultrasound variables in postmenopausal
+women. Am J Phys Med Rehabil. 2005;84:52–61.
+14. Baker D, Wilson G, Carlyon R. Periodization: the effect on
+strength of manipulating volume and intensity. J Strength Cond
+Res. 1994;8:235-42.
+15. Baker D, Nance S. The relation between running speed and
+measures of strength and power in professional rugby league
+players. J Strength Cond Res. 1999;13:230–5.
+16. Baker D, Newton RU. Acute effect on power output of alter-
+nating an agonist and antagonist muscle exercise during complex
+training. J Strength Cond Res. 2005;19:202-5.
+17. Ballor DL, Becque MD, Katch VL. Metabolic responses dur-
+ing hydraulic resistance exercise. Med Sci Sports Exerc. 1987;
+19:363-7.
+18. Bassey EJ, Fiatarone MA, O'Neill ER, et al. Leg extensor power
+and functional performance in very old men and women. Clin
+Sci. 1992;82:321-7.
+SPECIAL COMMUNICATIONS
+Medicine & Science in Sports & Exercise ® 701
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+PROGRESSION AND RESISTANCE TRAINING
+
+19. Behm DG, Sale DG. Intended rather than actual movement ve-
+locity determines the velocity-specific training response. J Appl
+Physiol. 1993;74:359-68.
+20. Behm DG, Reardon G, Fitzgerald J, Drinkwater E. The effect of
+5, 10, and 20 repetition maximums on the recovery of voluntary
+and evoked contractile properties. J Strength Cond Res. 2002;
+16:209-18.
+21. Behm DG, Anderson KG. The role of instability with resistance
+training. J Strength Cond Res. 2006;20:716-22.
+22. Berger RA. Optimum repetitions for the development of
+strength. Res Q. 1962;33:334–8.
+23. Berger RA. Effect of varied weight training programs on
+strength. Res Q. 1962;33:168–81.
+24. Blackburn JR, Morrissey MC. The relationship between open
+and closed kinetic chain strength of the lower limb and jumping
+performance. J Orthop Sports Phys Ther. 1998;27:430-5.
+25. Bobbert MA, Van Soest AJ. Effects of muscle strengthening on
+vertical jump height: a simulation study. Med Sci Sports Exerc.
+1994;26:1012-20.
+26. Bonde-Peterson F, Knuttgen HG, Henriksson J. Muscle metab-
+olism during exercise with concentric and eccentric contractions.
+J Appl Physiol. 1972;33:792-5.
+27. Borst SE, Dehoyos DV, Garzarella L, et al. Effects of resistance
+training on insulin-like growth factor-1 and IGF binding pro-
+teins. Med Sci Sports Exerc. 2001;33:648-53.
+28. Bosco C, Mognoni P, Luhtanen P. Relationship between iso-
+kinetic performance and ballistic movement. Eur J Appl Physiol.
+1983;51:357-64.
+29. Bottaro M, Machado SN, Nogueira W, Scales R, Veloso J.
+Effect of high versus low-velocity resistance training on mus-
+cular fitness and functional performance in older men. Eur J
+Appl Physiol. 2007;99:257–64.
+30. Boyer BT. A comparison of the effects of three strength training
+programs on women. J Appl Sports Sci Res. 1990;4:88-94.
+31. Brown AB, McCartney N, Sale DG. Positive adaptations to
+weight-lifting training in the elderly. J Appl Physiol. 1990;
+69:1725-33.
+32. Calder AW, Chilibeck PD, Webber CE, Sale DG. Comparison of
+whole and split weight training routines in young women. Can J
+Appl Physiol. 1994;19:185–99.
+33. Campos GE, Luecke TJ, Wendeln HK, et al. Muscular
+adaptations in response to three different resistance-training
+regimens: specificity of repetition maximum training zones. Eur
+J Appl Physiol. 2002;88:50–60.
+34. Candow DG, Burke DG. Effect of short-term equal-volume
+resistance training with different workout frequency on muscle
+mass and strength in untrained men and women. J Strength
+Cond Res. 2007;21:204-7.
+35. Capen EK. Study of four programs of heavy resistance
+exercises for development of muscular strength. Res Q.
+1956;27:132-42.
+36. Charette SL, McEvoy L, Pyka G, et al. Muscle hypertrophy
+response to resistance training in older women. J Appl Physiol.
+1991;70:1912–6.
+37. Chilibeck PD, Calder AW, Sale DG, Webber CE. A comparison
+of strength and muscle mass increases during resistance training
+in young women. Eur J Appl Physiol. 1998;77:170–5.
+38. Chu E. The effect of systematic weight training on athletic
+power. Res Q. 1950;21:188-94.
+39. Coburn JW, Housh TJ, Malek MH, et al. Neuromuscular
+responses to three days of velocity-specific isokinetic training.
+J Strength Cond Res. 2006;20:892-8.
+40. Coleman AE. Nautilus vs universal gym strength training in
+adult males. Am Correct Ther J. 1977;31:103-7.
+41. Cormie P, McBride JM, McCaulley GO. Validation of power
+measurement techniques in dynamic lower body resistance
+exercises. J Appl Biomech. 2007;23:103-18.
+42. Cormie P, McCaulley GO, McBride JM. Power versus strength-
+power jump squat training: influence on the load-power
+relationship. Med Sci Sports Exerc. 2007;39:996-1003.
+43. Cormie P, Deane R, McBride JM. Methodological concerns for
+determining power output in the jump squat. J Strength Cond
+Res. 2007;21:424-30.
+44. Coyle EF, Feiring DC, Rotkis TC, et al. Specificity of power
+improvements through slow and fast isokinetic training. J Appl
+Physiol. 1981;51:1437-42.
+45. Cressey EM, West CA, Tiberio DP, Kraemer WJ, Maresh CM.
+The effects of ten weeks of lower-body unstable surface training
+on markers of athletic performance. J Strength Cond Res. 2007;
+21:561-7.
+46. Cronin JB, Hansen KT. Strength and power predictors of sports
+speed. J Strength Cond Res. 2005;19:349–57.
+47. Cronin J, McNair PJ, Marshall RN. The effects of bungy weight
+training on muscle function and functional performance. J Sports
+Sci. 2003;21:59-71.
+48. Cronin J, McNair PJ, Marshall RN. Force-velocity analysis of
+strength-training techniques and load: implications for training
+strategy and research. J Strength Cond Res. 2003;17:148-55.
+49. Cureton KJ, Collins MA, Hill DW, McElhannon FM. Muscle
+hypertrophy in men and women. Med Sci Sports Exerc. 1988;
+20:338-44.
+50. Deane RS, Chow JW, Tillman MD, Fournier KA. Effects of hip
+flexor training on sprint, shuttle run, and vertical jump
+performance. J Strength Cond Res. 2005;19:615-21.
+51. Delecluse C. Influence of strength training on sprint running
+performance: current findings and implications for training.
+Sports Med. 1997;24:147-56.
+52. Delecluse C, Coppenolle HV, Willems E, et al. Influence of
+high-resistance and high velocity training on sprint performance.
+Med Sci Sports Exerc. 1995;27:1203-9.
+53. De Vos NJ, Singh NA, Ross DA, et al. Optimal load for in-
+creasing muscle power during explosive resistance training in
+older adults. J Gerontol. 2005;60A:638-47.
+54. Dolezal BA, Potteiger JA. Concurrent resistance and endurance
+training influence basal metabolic rate in nondieting individuals.
+J Appl Physiol. 1998;85:695–700.
+55. Dudley GA, Djamil R. Incompatibility of endurance- and
+strength-training modes of exercise. J Appl Physiol. 1985;
+59:1446-51.
+56. Dudley GA, Tesch PA, Miller BJ, Buchanan MD. Importance of
+eccentric actions in performance adaptations to resistance
+training. Aviat Space Environ Med. 1991;62:543–50.
+57. Earles DR, Judge JO, Gunnarsson OT. Velocity training induces
+power-specific adaptations in highly functioning older adults.
+Arch Phys Med Rehabil. 2001;82:872-8.
+58. Ebbeling CB, Clarkson PM. Exercise-induced muscle damage
+and adaptation. Sports Med. 1989;7:207-34.
+59. Ebben WP, Kindler AG, Chirdon KA, et al. The effect of high-
+load vs. high-repetition training on endurance performance. J
+Strength Cond Res. 2004;18:513–7.
+60. Elliott BC, Wilson GJ, Kerr GK. A biomechanical analysis of
+the sticking region in the bench press. Med Sci Sports Exerc.
+1989;21:450-62.
+61. Evans WJ. Exercise training guidelines for the elderly. Med Sci
+Sports Exerc. 1999;31:12–7.
+62. Ewart CK. Psychological effects of resistive weight training: impli-
+cations for cardiac patients. Med Sci Sports Exerc. 1989;21:683–8.
+63. Ewing JL, Wolfe DR, Rogers MA, Amundson ML, Stull GA.
+Effects of velocity of isokinetic training on strength, power, and
+quadriceps muscle fibre characteristics. Eur J Appl Physiol.
+1990;61:159–62.
+64. Farthing JP, Chilibeck PD. The effects of eccentric and
+concentric training at different velocities on muscle hypertrophy.
+Eur J Appl Physiol. 2003;89:578–86.
+SPECIAL COMMUNICATIONS
+702
+Official Journal of the American College of Sports Medicine
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+http://www.acsm-msse.org
+
+65. Fatouros IG, Tournis S, Leontsini D, et al. Leptin and adi-
+ponectin responses in overweight and inactive elderly following
+resistance training and detraining are intensity related. J Clin
+Endocrinol Metab. 2005;90:5970–7.
+66. Fatouros IG, Kambas A, Katrabasas I, et al. Resistance train-
+ing and detraining effects on flexibility performance in the elderly
+are intensity-dependent. J Strength Cond Res. 2006;20:634-42.
+67. Fees M, Decker T, Snyder-Mackler L, Axe MJ. Upper extremity
+weight-training modifications for the injured athlete: a clinical
+perspective. Am J Sports Med. 1998;26:732–42.
+68. Feigenbaum MS, Pollock ML. Prescription of resistance training
+for health and disease. Med Sci Sports Exerc. 1999;31:38–45.
+69. Fiatarone MA, Evans WJ. The etiology and reversibility of
+muscle dysfunction in the aged. J Gerontol. 1993;48:77–83.
+70. Fielding RA, Lebrasseur NK, Cuoco A, et al. High-velocity
+resistance training increases skeletal muscle peak power in older
+women. J Am Geriatr Soc. 2002;50:655-62.
+71. Finer JT, Simmons RM, Spudich JA. Single myosin molecule
+mechanics: piconewton forces and nanometre steps. Nature.
+1994;368:113-9.
+72. Fleck SJ. Cardiovascular adaptations to resistance training. Med
+Sci Sports Exerc. 1988;20:S146-51.
+73. Fleck SJ, Smith SL, Craib MW, et al. Upper extremity isokinetic
+torque and throwing velocity in team handball. J Appl Sport Sci
+Res. 1992;6:120-4.
+74. Fleck SJ. Periodized strength training: a critical review. J
+Strength Cond Res. 1999;13:82–9.
+75. Fleck SJ, Kraemer WJ. Designing Resistance Training Pro-
+grams. 2nd ed. Champaign (IL): Human Kinetics Books; 1997.
+p. 1-115.
+76. Focht BC. Perceived exertion and training load during self-
+selected and imposed-intensity resistance exercise in untrained
+women. J Strength Cond Res. 2007;21:183-7.
+77. Frontera WR, Hughes VA, Lutz KJ, Evans WJ. A cross-
+sectional study of muscle strength and mass in 45- to 78-yr-old
+men and women. J Appl Physiol. 1991;71:644–50.
+78. Fry AC, Kraemer WJ, Weseman CA, et al. The effects of an off-
+season strength and conditioning program on starters and non-
+starters in women's intercollegiate volleyball. J Appl Sport Sci
+Res. 1991;5:174-81.
+79. Fry AC, Kraemer WJ. Resistance exercise overtraining and
+overreaching. Neuroendocrine responses. Sports Med. 1997;
+23:106-29.
+80. Fujita S, Dreyer HC, Drummond MJ, et al. Nutrient signaling in
+the regulation of human muscle protein synthesis. J Physiol.
+2007;582:813-23.
+81. Galvão DA, Taaffe DR. Resistance exercise dosage in older
+adults: single- versus multiset effects on physical performance
+and body composition. J Am Geriatr Soc. 2005;53:2090–7.
+82. Garhammer J, Gregor R. Propulsion forces as a function of
+intensity for weightlifting and vertical jumping. J Appl Sports
+Sci Res. 1992;6:129-34.
+83. Gibala MJ, MacDougall JD, Tarnopolsky MA, Stauber WT,
+Elorriaga A. Changes in skeletal muscle ultrastructure and force
+production after acute resistance exercise. J Appl Physiol.
+1995;78:702-8.
+84. Gibala MJ, Interisano SA, Tarnopolsky MA, et al. Myofibrillar
+disruption following acute concentric and eccentric resistance
+exercise in strength-trained men. Can J Physiol Pharmacol.
+2000;78:656-61.
+85. Gillam GM. Effects of frequency of weight training on muscle
+strength enhancement. J Sports Med. 1981;21:432–6.
+86. Girold S, Maurin D, Dugue B, Chatard JC, Millet G. Effects
+of dry-land vs. resisted- and assisted-sprint exercises on
+swimming sprint performances. J Strength Cond Res. 2007;
+21:599-605.
+87. Glass S, Stanton D. Self-selected resistance training intensity in
+novice weightlifters. J Strength Cond Res. 2004;18:324–7.
+88. Glowacki SP, Martin SE, Maurer A, et al. Effects of resistance,
+endurance, and concurrent exercise on training outcomes in men.
+Med Sci Sports Exerc. 2004;36:2119–27.
+89. Goldberg AP. Aerobic and resistive exercise modify risk fac-
+tors for coronary heart disease. Med Sci Sports Exerc. 1989;
+21:669-74.
+90. Gonzalez-Badillo JJ, Gorostiaga EM, Arellano R, Izquierdo M.
+Moderate resistance training volume produces more favor-
+able strength gains than high or low volumes during a
+short-term training cycle. J Strength Cond Res. 2005;19:
+689-97.
+91. Goto K, Nagasawa M, Yanagisawa O, et al. Muscular
+adaptations to combinations of high- and low-intensity resis-
+tance exercises. J Strength Cond Res. 2004;18:730–7.
+92. Gotshalk LA, Loebel CC, Nindl BC, et al. Hormonal responses
+to multiset versus single-set heavy-resistance exercise protocols.
+Can J Appl Physiol. 1997;22:244–55.
+93. Graves JE, Pollock ML, Leggett SH, et al. Effect of reduced
+training frequency on muscular strength. Int J Sports Med.
+1988;9:316-9.
+94. Graves JE, Pollock ML, Jones AE, Colvin AB, Leggett SH.
+Specificity of limited range of motion variable resistance
+training. Med Sci Sports Exerc. 1989;21:84-9.
+95. Gulch RW. Force-velocity relations in human skeletal muscle.
+Int J Sports Med. 1994;15(Suppl):S2-10.
+96. Häkkinen K, Alen M, Komi PV. Changes in isometric force-and
+relaxation-time, electromyographic and muscle fibre character-
+istics of human skeletal muscle during strength training and
+detraining. Acta Physiol Scand. 1985;125:573–85.
+97. Häkkinen K, Komi PV, Alen M. Effect of explosive type
+strength training on isometric force-and relaxation-time,
+electromyographic and muscle fibre characteristics of leg
+extensor muscles. Acta Physiol Scand. 1985;125:587-600.
+98. Häkkinen K, Komi PV. Changes in electrical and mechanical
+behavior of leg extensor muscles during heavy resistance
+strength training. Scand J Sports Sci. 1985;7:55-64.
+99. Häkkinen K, Komi PV. The effect of explosive type strength
+training on electromyographic and force production character-
+istics of leg extensor muscles during concentric and various
+stretch-shortening cycle exercises. Scand J Sports Sci. 1985;
+7:65-76.
+100. Häkkinen K, Pakarinen A, Alen M, Kauhanen H, Komi PV.
+Relationships between training volume, physical performance
+capacity, and serum hormone concentrations during prolonged
+training in elite weight lifters. Int J Sports Med. 1987;
+8(Suppl):61-5.
+101. Häkkinen K, Pakarinen A, Alen M, Kauhanen H, Komi PV.
+Neuromuscular and hormonal adaptations in athletes to strength
+training in two years. J Appl Physiol. 1988;65:2406-12.
+102. Häkkinen K, Pakarinen A, Alen M, Kauhanen H, Komi PV.
+Neuromuscular and hormonal responses in elite athletes to two
+successive strength training sessions in one day. Eur J Appl
+Physiol. 1988;57:133–9.
+103. Häkkinen K, Kallinen M. Distribution of strength training
+volume into one or two daily sessions and neuromuscular adap-
+tations in female athletes. Electromyogr Clin Neurophysiol.
+1994;34:117-24.
+104. Häkkinen K, Häkkinen A. Neuromuscular adaptations during
+intensive strength training in middle-aged and elderly males and
+females. Electromyogr Clin Neurophysiol. 1995;35:137–47.
+105. Häkkinen K, Kallinen M, Izquierdo M, et al. Changes in agonist-
+antagonist EMG, muscle CSA, and force during strength training
+in middle-aged and older people. J Appl Physiol. 1998;84:
+1341-9.
+SPECIAL COMMUNICATIONS
+Medicine & Science in Sports & Exercise Ⓡ 703
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+PROGRESSION AND RESISTANCE TRAINING
+
+106. Häkkinen K, Newton RU, Gordon SE, et al. Changes in muscle
+morphology, electromyographic activity, and force production
+characteristics during progressive strength training in young and
+older men. J Gerontol. 1998;53A:B415-23.
+107. Häkkinen K, Kraemer WJ, Newton RU, Alen M. Changes in
+electromyographic activity, muscle fibre and force production
+characteristics during heavy resistance/power strength training in
+middle-aged and older men and women. Acta Physiol Scand.
+2001;171:51-62.
+108. Harber MP, Fry AC, Rubin MR, Smith JC, Weiss LW. Skeletal
+muscle and hormonal adaptations to circuit weight training in
+untrained men. Scand J Med Sci Sports. 2004;14:176–85.
+109. Harris C, Debeliso MA, Spitzer-Gibson TA, Adams KJ. The
+effect of resistance-training intensity on strength-gain response in
+the older adult. J Strength Cond Res. 2004;18:833–8.
+110. Hass CJ, Garzarella L, Dehoyos D, Pollock ML. Single versus
+multiple sets and long-term recreational weightlifters. Med Sci
+Sports Exerc. 2000;32:235-42.
+111. Hatfield DL, Kraemer WJ, Spiering BA, et al. The impact of
+velocity of movement on performance factors in resistance
+exercise. J Strength Cond Res. 2006;20:760-6.
+112. Hather BM, Tesch PA, Buchanan P, Dudley GA. Influence of
+eccentric actions on skeletal muscle adaptations to resistance
+training. Acta Physiol Scand. 1991;143:177–85.
+113. Hay JG, Andrews JG, Vaughan CL. Effects of lifting rate on
+elbow torques exerted during arm curl exercises. Med Sci Sports
+Exerc. 1983;15:63-71.
+114. Henneman E, Somjen G, Carpenter D. Functional significance
+of cell size in spinal motoneurons. J Neurophysiol. 1965; 28:
+560-80.
+115. Henwood TR, Taaffe DR. Improved physical performance in
+older adults undertaking a short-term programme of high-
+velocity resistance training. Gerontol. 2005;51:108-15.
+116. Hickson RC, Hidaka K, Foster C. Skeletal muscle fiber type,
+resistance training, and strength-related performance. Med Sci
+Sports Exerc. 1994;26:593-8.
+117. Hoff J, Almasbakk B. The effects of maximum strength training
+on throwing velocity and muscle strength in female team-
+handball players. J Strength Cond Res. 1995;9:255–8.
+118. Hoffman JR, Kraemer WJ, Fry AC, Deschenes M, Kemp DM.
+The effect of self-selection for frequency of training in a winter
+conditioning program for football. J Appl Sport Sci Res. 1990;
+3:76-82.
+119. Hoffman JR, Maresh CM, Armstrong LE, Kraemer WJ. Effects
+of off-season and in-season resistance training programs on a
+collegiate male basketball team. J Hum Muscle Perform. 1991;
+1:48-55.
+120. Hoffman JR, Cooper J, Wendell M, Kang J. Comparison of
+Olympic vs. traditional power lifting training programs in
+football players. J Strength Cond Res. 2004;18:129–35.
+121. Hoffman JR, Ratamess NA, Cooper JJ, et al. Comparison of
+loaded and unloaded jump squat training on strength/power
+performance in college football players. J Strength Cond Res.
+2005;19:810-5.
+122. Hortobagyi T, Barrier J, Beard D, et al. Greater initial adap-
+tations to submaximal muscle lengthening than maximal short-
+ening. J Appl Physiol. 1996;81:1677–82.
+123. Housh DJ, Housh TJ, Johnson GO, Chu WK. Hypertrophic
+response to unilateral concentric isokinetic resistance training. J
+Appl Physiol. 1992;73:65–70.
+124. Hruda KV, Hicks AL, McCartney N. Training for muscle power
+in older adults: effects on functional abilities. Can J Appl
+Physiol. 2003;28:178–89.
+125. Huczel HA, Clarke DH. A comparison of strength and muscle
+endurance in strength-trained and untrained women. Eur J Appl
+Physiol. 1992;64:467-70.
+126. Humburg H, Baars H, Schröder J, Reer R, Braumann KM. 1-Set
+vs. 3-set resistance training: a crossover study. J Strength Cond
+Res. 2007;21:578–82.
+127. Hunter GR. Changes in body composition, body build, and
+performance associated with different weight training frequen-
+cies in males and females. NSCA J. 1985;7:26–8.
+128. Hunter GR, Wetzstein CJ, McLafferty CL, et al. High-resistance
+versus variable-resistance training in older adults. Med Sci Sports
+Exerc. 2001;33:1759-64.
+129. Hunter GR, Seelhorst D, Snyder S. Comparison of metabolic and
+heart rate responses to super slow vs. traditional resistance
+training. J Strength Cond Res. 2003;17:76-81.
+130. Hurley BF, Kokkinos PF. Effects of weight training on
+risk factors for coronary heart disease. Sports Med. 1987;4:
+231-8.
+131. Jackson A, Jackson T, Hnatek J, West J. Strength development:
+using functional isometrics in an isotonic strength training
+program. Res Q Exerc Sport. 1985;56:234–7.
+132. Jacobson BH. A comparison of two progressive weight training
+techniques on knee extensor strength. J Athl Train. 1986;
+21:315-9.
+133. Jones K, Hunter G, Fleisig G, Escamilla R, Lemak L. The ef-
+fects of compensatory acceleration on upper-body strength and
+power in collegiate football players. J Strength Cond Res. 1999;
+13:99-105.
+134. Jung AP. The impact of resistance training on distance running
+performance. Sports Med. 2003;33:539-52.
+135. Kalapotharakos V, Michalopoulos M, Godolias G, et al.
+The effects of high- and moderate-resistance training on
+muscle function in the elderly. J Aging Phys Act. 2004;11:
+131-43.
+136. Kalapotharakos V, Michalopoulos M, Tokmakidis SP, Godolias
+G, Gourgoulis V. Effects of a heavy and a moderate resistance
+training on functional performance in older adults. J Strength
+Cond Res. 2005;19:652-7.
+137. Kanehisa H, Miyashita M. Specificity of velocity in strength
+training. Eur J Appl Physiol. 1983;52:104–6.
+138. Kawakami Y, Abe T, Fukunaga T. Muscle-fiber pennation
+angles are greater in hypertrophied than in normal muscles. J
+Appl Physiol. 1993;74:2740-4.
+139. Kawamori N, Haff GG. The optimal training load for the
+development of muscular power. J Strength Cond Res. 2004;
+18:675-84.
+140. Kawamori N, Crum AJ, Blumert PA, et al. Influence of different
+relative intensities on power output during the hang power clean:
+identification of the optimal load. J Strength Cond Res. 2005;
+19:698-708.
+141. Keeler LK, Finkelstein LH, Miller W, Fernhall B. Early-phase
+adaptations of traditional-speed vs. superslow resistance training
+on strength and aerobic capacity in sedentary individuals. J
+Strength Cond Res. 2001;15:309–14.
+142. Kemmler WK, Lauber D, Engelke K, Weineck J. Effects of
+single- vs. multiple-set resistance training on maximum strength
+and body composition in trained postmenopausal women. J
+Strength Cond Res. 2004;18:689–94.
+143. Keogh JWL, Wilson GJ, Weatherby RP. A cross-sectional
+comparison of different resistance training techniques in the
+bench press. J Strength Cond Res. 1999;13:247–58.
+144. Kibler WB, Press J, Sciascia A. The role of core stability in
+athletic function. Sports Med. 2006;36:189–98.
+145. Knapik JJ, Mawdsley RH, Ramos MU. Angular specificity and
+test mode specificity of isometric and isokinetic strength training.
+J Orthop Sports Phys Ther. 1983;5:58–65.
+146. Koffler KH, Menkes A, Redmond RA, et al. Strength training
+accelerates gastrointestinal transit in middle-aged and older men.
+Med Sci Sports Exerc. 1992;24:415–9.
+SPECIAL COMMUNICATIONS
+704
+Official Journal of the American College of Sports Medicine
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+http://www.acsm-msse.org
+
+147. Komi PV, Kaneko M, Aura O. EMG activity of leg extensor
+muscles with special reference to mechanical efficiency in
+concentric and eccentric exercise. Int J Sports Med. 1987;
+8(Suppl):22-9.
+148. Kosek DJ, Kim JS, Petrella JK, Cross JM, Bamman MM.
+Efficacy of 3 days/wk resistance training on myofiber hypertro-
+phy and myogenic mechanisms in young vs. older adults. J Appl
+Physiol. 2006;101:531-54.
+149. Kraemer WJ. A series of studies-the physiological basis for
+strength training in American football: fact over philosophy. J
+Strength Cond Res. 1997;11:131-42.
+150. Kraemer WJ, Noble BJ, Clark MJ, Culver BW. Physiologic
+responses to heavy-resistance exercise with very short rest
+periods. Int J Sports Med. 1987;8:247–52.
+151. Kraemer WJ, Marchitelli L, Gordon SE, et al. Hormonal and
+growth factor responses to heavy resistance exercise protocols. J
+Appl Physiol. 1990;69:1442-50.
+152. Kraemer WJ, Gordon SE, Fleck SJ, et al. Endogenous anabolic
+hormonal and growth factor responses to heavy resistance exer-
+cise in males and females. Int J Sports Med. 1991;12:228–35.
+153. Kraemer WJ, Fleck SJ, Dziados JE, et al. Changes in hormonal
+concentrations after different heavy-resistance exercise protocols
+in women. J Appl Physiol. 1993;75:594–604.
+154. Kraemer WJ, Häkkinen K, Newton RU, et al. Effects of heavy-
+resistance training on hormonal response patterns in younger vs.
+older men. J Appl Physiol. 1999;87:982–92.
+155. Kraemer WJ, Ratamess N, Fry AC, et al. Influence of resistance
+training volume and periodization on physiological and perfor-
+mance adaptations in college women tennis players. Am J Sports
+Med. 2000;28:626–33.
+156. Kraemer WJ, Nindl BC, RatamessNA, et al. Changes in muscle
+hypertrophy in women with periodized resistance training. Med
+Sci Sports Exerc. 2004;36:697–708.
+157. Kraemer WJ, RatamessNA. Fundamentals of resistance training:
+progression and exercise prescription. Med Sci Sport Exerc.
+2004;36:674-8.
+158. Kraemer WJ, RatamessNA. Hormonal responses and adaptations
+to resistance exercise and training. Sports Med. 2005;35:339–61.
+159. Kraemer WJ, Spiering BA, Volek JS, et al. Androgenic re-
+sponses to resistance exercise: effects of feeding and L-carnitine.
+Med Sci Sports Exerc. 2006;38:1288–96.
+160. Kramer JB, Stone MH, O'Bryant HS, et al. Effects of single vs.
+multiple sets of weight training: impact of volume, intensity, and
+variation. J Strength Cond Res. 1997;11:143–7.
+161. Lachance PF, Hortobagyi T. Influence of cadence on muscular
+performance during push-up and pull-up exercises. J Strength
+Cond Res. 1994;8:76-9.
+162. Lachowetz T, Evon J, Pastiglione J. The effect of an upper body
+strength program on intercollegiate baseball throwing velocity. J
+Strength Cond Res. 1998;12:116-9.
+163. Layne JE, Nelson ME. The effect of progressive resistance
+training on bone density: a review. Med Sci Sports Exerc. 1999;
+31:25-30.
+164. Lexell J, Downham D. What is the effect of aging on type 2
+muscle fibers? J Neurol Sci. 1992;107:250-1.
+165. Linnamo V, Pakarinen A, Komi PV, Kraemer WJ, Häkkinen K.
+Acute hormonal responses to submaximal and maximal heavy
+resistance and explosive exercises in men and women. J Strength
+Cond Res. 2005;19:566-71.
+166. MacDougall JD, Gibala MJ, Tarnopolsky MA, et al. The time
+course for elevated muscle protein synthesis following heavy
+resistance exercise. Can J Appl Physiol. 1995;20:480–6.
+167. Marcinik EJ, Hodgdon JA, Mittleman K, O'Brien JJ. Aerobic/
+calisthenic and aerobic/circuit weight training programs for
+Navy men: a comparative study. Med Sci Sports Exerc. 1985;
+17:482-7.
+168. Marcovic G. Poor relationship between strength and power
+qualities and agility performance. J Sports Med Phys Fitness.
+2007;47:276–83.
+169. Marx JO, Ratamess NA, Nindl BC, et al. The effects of single-
+set vs. periodized multiple-set resistance training on muscular
+performance and hormonal concentrations in women. Med Sci
+Sports Exerc. 2001;33:635–43.
+170. Mayhew JL, Gross PM. Body composition changes in young
+women with high resistance training. Res Q. 1974;45:433-40.
+171. Maynard J, Ebben WP. The effects of antagonist prefatigue on
+agonist torque and electromyography. J Strength Cond Res.
+2003;17:469-74.
+172. Mazzetti SA, Kraemer WJ, Volek JS, et al. The influence of
+direct supervision of resistance training on strength performance.
+Med Sci Sports Exerc. 2000;32:1175–84.
+173. Mazzetti S, Douglass M, Yocum A, Harber M. Effect
+of explosive versus slow contractions and exercise inten-
+sity on energy expenditure. Med Sci Sports Exerc. 2007;
+39:1291-301.
+174. McBride JM, Triplett-McBride T, Davie A, Newton RU. The
+effect of heavy- vs. light-load jump squats on the development
+of strength, power, and speed. J Strength Cond Res. 2002;
+16:75-82.
+175. McBride JM, Blaak JB, Triplett-McBride T. Effect of resistance
+exercise volume and complexity on EMG, strength, and regional
+body composition. Eur J Appl Physiol. 2003;90:626-32.
+176. McCall GE, Byrnes WC, Dickinson A, Pattany PM, Fleck SJ.
+Muscle fiber hypertrophy, hyperplasia, and capillary density in
+college men after resistance training. J Appl Physiol. 1996;
+81:2004-12.
+177. McCall GE, Byrnes WC, Fleck SJ, Dickinson A, Kraemer WJ.
+Acute and chronic hormonal responses to resistance training
+designed to promote muscle hypertrophy. Can J Appl Physiol.
+1999;24:96-107.
+178. McCaw ST, Friday JJ. A comparison of muscle activity between
+a free weight and machine bench press. J Strength Cond Res.
+1994;8:259–64.
+179. McCurdy KW, Langford GA, Doscher MW, Wiley LP, Mallard
+KG. The effects of short-term unilateral and bilateral lower-body
+resistance training on measures of strength and power. J Strength
+Cond Res. 2005;19:9-15.
+180. McEvoy KP, Newton RU. Baseball throwing speed and base
+running speed: the effects of ballistic resistance training. J
+Strength Cond Res. 1998;12:216–21.
+181. McGill SM. Low back stability: from formal description to
+issues for performance and rehabilitation. Exerc Sports Sci Rev.
+2001;29:26-31.
+182. Deleted in proof.
+183. McLester JR, Bishop P, Guilliams ME. Comparison of 1 day and
+3 days per week of equal-volume resistance training in
+experienced subjects. J Strength Cond Res. 2000;14:273–81.
+184. Miller WJ, Sherman WM, Ivy JL. Effect of strength training on
+glucose tolerance and post-glucose insulin response. Med Sci
+Sports Exerc. 1984;16:539-43.
+185. Miszko TA, Cress ME, Slade JM, et al. Effect of strength and
+power training on physical function in community-dwelling
+older adults. J Gerontol A Biol Sci Med Sci. 2003;58:171-5.
+186. Moffroid M, Whipple RH. Specificity of speed of exercise. Phys
+Ther. 1970;50:1692-700.
+187. Mookerjee S, Ratamess NA. Comparison of strength differences
+and joint action durations between full and partial range-of-motion
+bench press exercise. J Strength Cond Res. 1999;13:76–81.
+188. Moritani T, DeVries H. Neural factors vs hypertrophy in the
+time course of muscle strength gain. Am J Phys Med. 1979;58:
+115-30.
+SPECIAL COMMUNICATIONS
+Medicine & Science in Sports & Exercise ® 705
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+PROGRESSION AND RESISTANCE TRAINING
+
+189. Morrissey MC, Harman EA, Frykman PN, Han KH. Early phase
+differential effects of slow and fast barbell squat training. Am J
+Sports Med. 1998;26:221-30.
+190. Moss BM, Refsnes PE, Abildgaard A, Nicolaysen K, Jensen J.
+Effects of maximal effort strength training with different loads
+on dynamic strength, cross-sectional area, load-power and load-
+velocity relationships. Eur J Appl Physiol. 1997;75:193–9.
+191. Mulligan SE, Fleck SJ, Gordon SE, et al. Influence of resistance
+exercise volume on serum growth hormone and cortisol concen-
+trations in women. J Strength Cond Res. 1996;10:256–62.
+192. Munn J, Herbert RD, Hancock MJ, Gandevia SC. Resistance
+training for strength: effect of number of sets and contraction
+speed. Med Sci Sports Exerc. 2005;37:1622-6.
+193. Nakamura Y, Tanaka K, Yabushita N, Sakai T, Shigematsu R.
+Effects of exercise frequency on functional fitness in older adult
+women. Arch Gerontol Geriatr. 2007;44:163-73.
+194. National Institutes of Health and National Heart, Lung, and
+Blood Institute. Clinical guidelines on the identification,
+evaluation, and treatment of overweight and obesity in
+adults: the Evidence Report. NIH Publication 98-4093.
+1998;288 p.
+195. Neils CM, Uderman BE, Brice GA, Winchester JB, McGuigan
+MR. Influence of contraction velocity in untrained individuals
+over the initial early phase of resistance training. J Strength
+Cond Res. 2005;19:883–7.
+196. Newton RU, McEvoy KP. Baseball throwing velocity: A
+comparison of medicine ball training and weight training. J
+Strength Cond Res. 1994;8:198–203.
+197. Newton RU, Kraemer WJ, Häkkinen K, Humphries BJ, Murphy
+AJ. Kinematics, kinetics, and muscle activation during explosive
+upper body movements. J Appl Biomech. 1996;12:31-43.
+198. Newton RU, Kraemer WJ, Häkkinen K. Short-term ballistic
+resistance training in the pre-season preparation of elite volley-
+ball players. Med Sci Sports Exerc. 1999;31:323–30.
+199. Newton RU, Häkkinen K, Häkkinen A, et al. Mixed-methods
+resistance training increases power and strength of young and
+older men. Med Sci Sports Exerc. 2002;34:1367-75.
+200. Orr R, DeVos NJ, Singh NA, et al. Power training improves
+balance in healthy older adults. J Gerontol. 2006;61A:78–85.
+201. O'Shea P. Effects of selected weight training programs on the
+development of strength and muscle hypertrophy. Res Q. 1966;
+37:95-102.
+202. Ostrowski KJ, Wilson GJ, Weatherby R, Murphy PW, Lyttle
+AD. The effect of weight training volume on hormonal output
+and muscular size and function. J Strength Cond Res. 1997;
+11:148-54.
+203. Paulsen G, Myklestad D, Raastad T. The influence of volume of
+exercise on early adaptations to strength training. J Strength
+Cond Res. 2003;17:115-20.
+204. Pedegna LR, Elsner RC, Roberts D, Lang J, Farewell V. The
+relationship of upper extremity strength to throwing speed. Am J
+Sports Med. 1982;10:352-4.
+205. Perrine JJ, Edgerton VR. Muscle force-velocity and power-
+velocity relationships under isokinetic loading. Med Sci Sports.
+1978;10:159–66.
+206. Peterson MD, Rhea MR, Alvar BA. Maximizing strength
+development in athletes: a meta-analysis to determine the dose-
+response relationship. J Strength Cond Res. 2004;18:377–82.
+207. Peterson MD, Rhea MR, Alvar BA. Applications of the dose-
+response for muscular strength development: a review of meta-
+analytic efficacy and reliability for designing training prescrip-
+tion. J Strength Cond Res. 2005;19:950–8.
+208. Peterson MD, Alvar BA, Rhea MR. The contribution of maximal
+force production to explosive movement among young collegiate
+athletes. J Strength Cond Res. 2006;20:867-73.
+209. Peterson MD, Dodd DJ, Alvar BA, Rhea MR, Favre M.
+Undulation training for development of hierarchical fitness and
+improved firefighter job performance. J Strength Cond Res.
+2008;22:1683-95.
+210. Phillips S, Tipton K, Aarsland A, Wolf S, Wolfe R. Mixed
+muscle protein synthesis and breakdown after resistance exercise
+in humans. Am J Physiol. 1997;273:E99–107.
+211. Phillips SM. Short-term training: when do repeated bouts of
+resistance exercise become training? Can J Appl Physiol.
+2000;25:185-93.
+212. Pijnappels M, van der Burg JCE, Reeves ND, van Dieen JH.
+Identification of elderly fallers by muscle strength measures. Eur
+J Appl Physiol. 2008;102:585–92.
+213. Pincivero DM, Lephart SM, Karunakara RG. Effects of rest
+interval on isokinetic strength and functional performance after
+short term high intensity training. Br J Sports Med.
+1997;31:229–34.
+214. Pincivero DM, Campy RM. The effects of rest interval length
+and training on quadriceps femoris muscle. Part I: knee extensor
+torque and muscle fatigue. J Sports Med Phys Fitness.
+2004;44:111-8.
+215. Ploutz LL, Tesch PA, Biro RL, Dudley GA. Effect of resistance
+training on muscle use during exercise. J Appl Physiol. 1994;
+76:1675-81.
+216. Podolosky A, Kaufman KR, Cahalan TD, Aleskinsky SY, Chao
+EY. The relationship of strength and jump height in figure
+skaters. Am J Sports Med. 1990;18:400–5.
+217. Pollock ML, Graves JE, Bamman MM, et al. Frequency and
+volume of resistance training: effect of cervical extension
+strength. Arch Phys Med Rehabil. 1993;74:1080-6.
+218. Poulmedis P, Rondoyannis G, Mitsou A, Tsarouchas E. The in-
+fluence of isokinetic muscle torque exerted in various speeds of
+soccer ball velocity. J Orthop Sports Phys Ther. 1988;10:93-6.
+219. Raastad T, Bjoro T, Hallen J. Hormonal responses to high- and
+moderate-intensity strength exercise. Eur J Appl Physiol.
+2000;82:121-8.
+220. Ratamess NA, Kraemer WJ, Volek JS, et al. Androgen receptor
+content following heavy resistance exercise in men. J Steroid
+Biochem Mol Biol. 2005;93:35-42.
+221. Ratamess NA, Falvo MJ, Mangine GT, et al. The effect of rest
+interval length on metabolic responses to the bench press
+exercise. Eur J Appl Physiol. 2007;100:1-17.
+222. Ratamess NA, Faigenbaum AD, Hoffman JR, Kang J. Self-
+selected resistance training intensity in healthy women: the
+influence of a personal trainer. J Strength Cond Res. 2008;
+22:103-11.
+223. Rhea MR, Alderman BL. A meta-analysis of periodized versus
+nonperiodized strength and power training programs. Res Q
+Exerc Sport. 2004;75:413-22.
+224. Rhea MR, Alvar BA, Burkett LN. Single versus multiple sets for
+strength: a meta-analysis to address the controversy. Res Q Sport
+Exerc. 2002;73:485–8.
+225. Rhea MR, Alvar BA, Burkett LN, Ball SD. A meta-analysis to
+determine the dose response for strength development. Med Sci
+Sports Exerc. 2003;35:456–64.
+226. Rhea MR, Ball SD, Phillips WT, Burkett LN. A comparison of
+linear and daily undulating periodized programs with equated
+volume and intensity for strength. J Strength Cond Res.
+2002;16:250-5.
+227. Rhea MR, Phillips WT, Burkett LN, et al. A comparison of
+linear and daily undulating periodized programs with equated
+volume and intensity for local muscular endurance. J Strength
+Cond Res. 2003;17:82-7.
+228. Rhea MR, Alvar BA, Ball SD, Burkett LN. Three sets of weight
+training superior to 1 set with equal intensity for eliciting
+strength. J Strength Cond Res. 2002;16:525-9.
+229. Richmond SR, Godard MP. The effects of varied rest periods
+between sets to failure using the bench press in recreationally
+trained men. J Strength Cond Res. 2004;18:846–9.
+SPECIAL COMMUNICATIONS
+706
+Official Journal of the American College of Sports Medicine
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+http://www.acsm-msse.org
+
+230. Robinson JM, Stone MH, Johnson RL, et al. Effects of different
+weight training exercise/rest intervals on strength, power, and
+high intensity exercise endurance. J Strength Cond Res. 1995;
+9:216-21.
+231. Rønnestad BR, Egeland W, Kvamme NH, et al. Dissimilar ef-
+fects of one- and three-set strength training on strength and
+muscle mass gains in upper and lower body in untrained
+subjects. J Strength Cond Res. 2007;21:157-63.
+232. Roth SM, Ferrell RE, Peters DG, et al. Influence of age, sex, and
+strength training on human muscle gene expression determined
+by microarray. Physiol Genomics. 2002;10:181-90.
+233. Roth SM, Martel GF, Ferrell RE, et al. Myostatin gene
+expression is reduced in humans with heavy-resistance
+strength training: a brief communication. Exp Biol Med.
+2003;228:706-9.
+234. Sakamoto A, Sinclair PJ. Effect of movement velocity on the
+relationship between training load and the number of repetitions
+of bench press. J Strength Cond Res. 2006;20:523-7.
+235. Sale DG. Neural adaptations to strength training. In: Komi PV,
+editor. Strength and Power in Sport. Oxford: Blackwell
+Scientific; 1992. p. 249–65.
+236. Sale DG, Jacobs I, MacDougall JD, Garner S. Comparisons of
+two regimens of concurrent strength and endurance training. Med
+Sci Sports Exerc. 1990;22:348–56.
+237. Sanborn K, Boros R, Hruby J, et al. Short-term performance
+effects of weight training with multiple sets not to failure vs a
+single set to failure in women. J Strength Cond Res. 2000;
+14:328-31.
+238. Schlumberger A, Stec J, Schmidtbleicher D. Single- vs. multiple-
+set strength training in women. J Strength Cond Res. 2001;
+15:284-9.
+239. Selye H. Forty years of stress research: principal remaining prob-
+lems and misconceptions. Can Med Assoc J. 1976;115:53–6.
+240. Sforzo GA, Touey PR. Manipulating exercise order affects
+muscular performance during a resistance exercise training
+session. J Strength Cond Res. 1996;10:20–4.
+241. Shepstone TN, Tang JE, Dallaire S, et al. Short-term high- vs.
+low-velocity isokinetic lengthening training results in greater
+hypertrophy of the elbow flexors in young men. J Appl Physiol.
+2005;98:1768-76.
+242. Shinohara M, Kouzaki M, Yoshihisa T, Fukunaga T. Efficacy of
+tourniquet ischemia for strength training with low resistance. Eur
+J Appl Physiol. 1998;77:189–91.
+243. Signorile JF, Carmel MP, Lai S, Roos BA. Early plateaus of
+power and torque gains during high- and low-speed resistance
+training of older women. J Appl Physiol. 2005;98:1213-20.
+244. Simao R, Farinatti PTV, Polito MD, Maior AS, Fleck SJ.
+Influence of exercise order on the number of repetitions
+performed and perceived exertion during resistive exercises. J
+Strength Cond Res. 2005;19:152–6.
+245. Simao R, Farinatti PTV, Polito MD, Viveiros L, Fleck SJ.
+Influence of exercise order on the number of repetitions
+performed and perceived exertion during resistance exercise in
+women. J Strength Cond Res. 2007;21:23-8.
+246. Skelton DA, Greig CA, Davies JM, Young A. Strength, power
+and related functional ability of healthy people aged 65-89
+years. Age Aging. 1994;23:371–7.
+247. Spreuwenberg LP, Kraemer WJ, Spiering BA, et al. Influence of
+exercise order in a resistance-training exercise session. J Strength
+Cond Res. 2006;20:141-4.
+248. Starkey DB, Pollock ML, Ishida Y, et al. Effect of resistance
+training volume on strength and muscle thickness. Med Sci
+Sports Exerc. 1996;28:1311-20.
+249. Staron RS, Leonardi MJ, Karapondo DL, et al. Strength and
+skeletal muscle adaptations in heavy-resistance-trained women
+after detraining and retraining. J Appl Physiol. 1991;70:631-40.
+250. Staron RS, Karapondo DL, Kraemer WJ, et al. Skeletal muscle
+adaptations during early phase of heavy-resistance training in
+men and women. J Appl Physiol. 1994;76:1247-55.
+251. Stone MH, Johnson RL, Carter DR. A short term comparison of
+two different methods of resistance training on leg strength and
+power. J Athl Train. 1979;14:158–61.
+252. Stone MH, O'Bryant H, Garhammer J. A hypothetical model for
+strength training. J Sports Med. 1981;21:342-51.
+253. Stone MH, Plisk SS, Stone ME, et al. Athletic performance
+development: volume load-1 set vs. multiple sets, training
+velocity and training variation. NSCA J. 1998;20:22–31.
+254. Stone MH, Potteiger JA, Pierce KC, et al. Comparison of the
+effects of three different weight-training programs on the one
+repetition maximum squat. J Strength Cond Res. 2000;14:332–7.
+255. Stone WJ, Coulter SP. Strength/endurance effects from three
+resistance training protocols with women. J Strength Cond Res.
+1994;8:231-4.
+256. Stowers T, McMillian J, Scala D, et al. The short-term effects of
+three different strength-power training methods. NSCA J.
+1983;5:24-7.
+257. Takeshima N, Rogers M, Watanabe E, et al. Water-based ex-
+ercise improves health-related aspects of fitness in older women.
+Med Sci Sports Exerc. 2002;33:544-51.
+258. Tesch PA, Komi PV, Häkkinen K. Enzymatic adaptations con-
+sequent to long-term strength training. Int J Sports Med. 1987;
+8(Suppl):66-9.
+259. Tesch PA, Thorsson A, Essen-Gustavsson B. Enzyme activities
+of FT and ST muscle fibres in heavy-resistance trained athletes. J
+Appl Physiol. 1989;67:83–7.
+260. Thomas GA, Kraemer WJ, Spiering BA, et al. Maximal power at
+different percentages of one repetition maximum: influence of
+resistance and gender. J Strength Cond Res. 2007;21:336-42.
+261. Thompson CJ, Cobb KM, Blackwell J. Functional training im-
+proves club head speed and functional fitness in older golfers.
+J Strength Cond Res. 2007;21:131-7.
+262. Tran QT, Docherty D, Behm D. The effects of varying time
+under tension and volume load on acute neuromuscular
+responses. Eur J Appl Physiol. 2006;98:402-10.
+263. Tricoli V, Lamas L, Carnevale R, Ugrinowitsch C. Short-term
+effects on lower-body functional power development: weightlift-
+ing vs. vertical jump training programs. J Strength Cond Res.
+2005;19:433-7.
+264. Tsourlou T, Benik A, Dipla K, Zafeiridis A, Kellis S. The effects
+of a twenty-four-week aquatic training program on muscular
+strength performance in healthy elderly women. J Strength Cond
+Res. 2006;20:811–8.
+265. Vincent KR, Braith RW, Feldman RA, Kallas HE, Lowenthal
+DT. Improved cardiorespiratory endurance following 6 months
+of resistance exercise in elderly men and women. Arch Intern
+Med. 2003;162:673-8.
+266. Volaklis KA, Spassis AT, Tokmakidis SP. Land versus water
+exercise in patients with coronary heart disease: effects on body
+composition, blood lipids, and physical fitness. Am Heart J.
+2007;154:560.e1-6.
+267. Wang TJ, Belza B, Thompson FE, Whitney JD, Bennett K.
+Effects of aquatic exercise on flexibility, strength and aerobic
+fitness in adults with osteoarthritis of the hip or knee. J Adv
+Nurs. 2007;57:141–52.
+268. Weiss LW, Coney HD, Clark FC. Differential functional
+adaptations to short-term low- moderate-, and high-repetition
+weight training. J Strength Cond Res. 1999;13:236-41.
+269. Willardson JM, Burkett LN. A comparison of 3 different rest
+intervals on the exercise volume completed during a workout. J
+Strength Cond Res. 2005;19:23–6.
+270. Willardson JM, Burkett LN. The effect of rest interval length on
+bench press performance with heavy vs. light loads. J Strength
+Cond Res. 2006;20:396–9.
+SPECIAL COMMUNICATIONS
+Medicine & Science in Sports & Exercise ® 707
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+PROGRESSION AND RESISTANCE TRAINING
+
+SPECIAL COMMUNICATIONS
+271. Willardson JM, Burkett LN. The effect of rest interval length on
+the sustainability of squat and bench press repetitions. J Strength
+Cond Res. 2006;20:400-3.
+272. Willoughby DS. A comparison of three selected weight training
+programs on the upper and lower body strength of trained males.
+Ann J Appl Res Coach Athl. 1992 Mar: 124 46.
+273. Willoughby DS. The effects of meso-cycle-length weight training
+programs involving periodization and partially equated volumes
+on upper and lower body strength. J Strength Cond Res. 1993;
+7:2-8.
+274. Willoughby DSGillespie JW. A comparison of isotonic free
+weights and omnikinetic exercise machines on strength. J
+Human Mov Stud. 1990;19:93-100.
+275. Wilmore JH, Parr RB, Girandola RN, et al. Physiological al-
+terations consequent to circuit weight training. Med Sci Sports.
+1978;10:79–84.
+276. Wilson GJ, Newton RU, Murphy AJ, Humphries BJ.
+The optimal training load for the development of dyna-
+mic athletic performance. Med Sci Sports Exerc. 1993;25:
+1279-86.
+277. Wilson GJ, Murphy AJ, Walshe AD. Performance benefits from
+weight and plyometric training: Effects of initial strength level.
+Coach Sport Sci J. 1997;2:3–8.
+278. Wolfe BL, Lemura LM, Cole PJ. Quantitative analysis of single-
+vs. multiple-set programs in resistance training. J Strength Cond
+Res. 2004;18:35-47.
+279. Woods S, Bridge T, Nelson D, Risse K, Pincivero DM. The
+effects of rest interval length on ratings of perceived exertion
+during dynamic knee extension exercise. J Strength Cond Res.
+2004;18:540–5.
+280. Zatsiorsky V, Kraemer WJ. Science and Practice of Strength
+Training. 2nd ed. Champaign (IL): Human Kinetics; 2006.
+708
+Official Journal of the American College of Sports Medicine
+Copyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.
+http://www.acsm-msse.org

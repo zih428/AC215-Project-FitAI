@@ -37,6 +37,22 @@ docker compose up --build -d
 curl -X POST http://localhost:8001/run-etl
 ```
 
+### 3. Using OCR Preprocessed Literature pdfs
+**Default mode (process only unprocessed PDFs):**
+```bash
+curl -X POST "http://localhost:8003/perform-ocr"
+# equivalent (explicit):
+# curl -X POST "http://localhost:8003/perform-ocr?full_process=false"
+```
+**Full-process mode (re-process all PDFs in raw-literature):**
+```bash
+curl -X POST "http://localhost:8003/perform-ocr?full_process=true"
+```
+You should get a quick acknowledgement while the job runs in the background:
+```json
+{"status":"started","message":"OCR job running in background"}
+```
+
 ### Shut down and remove containers (when finished)
 ```bash
 docker compose down -v

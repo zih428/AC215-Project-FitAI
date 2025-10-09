@@ -30,6 +30,19 @@ services:
     ports:
       - "8001:8001"
 
+  ocr_engine:
+    build: ./services/ocr_engine
+    container_name: fitai-ocr-engine
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /secrets/rich-access-471117-r0-f17d92fbf298.json
+      Vision_Credentials: /secrets/ac215-471616-590d86ddb6a0.json
+    volumes:
+      - ./ac215-471616-590d86ddb6a0.json:/secrets/ac215-471616-590d86ddb6a0.json:ro
+      - ./rich-access-471117-r0-f17d92fbf298.json:/secrets/rich-access-471117-r0-f17d92fbf298.json:ro
+      - ./services/ocr_engine:/app
+    ports:
+      - "8003:8003"
+
   # ml:
   #   build: ./services/ml
   #   container_name: fitai-ml

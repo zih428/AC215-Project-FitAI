@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pandas
+psycopg2-binary
+google-cloud-storage
+google-auth
+requests
+Pillow
+PyMuPDF
+google-cloud-vision

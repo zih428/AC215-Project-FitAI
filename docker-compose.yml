@@ -45,20 +45,34 @@ services:
     ports:
       - "8003:8003"
 
-  # ml:
-  #   build: ./services/ml
-  #   container_name: fitai-ml
-  #   environment:
-  #     POSTGRES_USER: fitai
-  #     POSTGRES_PASSWORD: fitai
-  #     POSTGRES_DB: fitai_app
-  #     POSTGRES_HOST: db
-  #     POSTGRES_PORT: 5432
-  #   depends_on:
-  #     - db
-  #   ports:
-  #     - "8002:8002"
+  rag-cli:
+    build: ./services/rag_pipeline
+    container_name: fitai-rag-cli
+    volumes:
+      - ./services/rag_pipeline:/app
+      - ./secrets:/secrets
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /secrets/rich-access-471117-r0-f17d92fbf298.json
+      GCP_PROJECT: rich-access-471117
+      CHROMADB_HOST: chromadb
+      CHROMADB_PORT: 8000
+    depends_on:
+      - chromadb
+    ports:
+      - "8002:8002"
 
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: llm-rag-chromadb
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./docker-volumes/chromadb:/chroma/chroma
+    environment:
+      - IS_PERSISTENT=TRUE
+      - ANONYMIZED_TELEMETRY=FALSE
+      - CHROMA_CORS_ALLOW_ORIGINS=["*"]
+      
   # frontend:
   #   build: ./services/frontend
   #   container_name: fitai-frontend

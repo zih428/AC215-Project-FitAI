@@ -1,3 +1,4 @@
-__pycache__/
-tmp/
-*.json
+# Only ignore these in the root, not in service subfolders
+/__pycache__/
+/tmp/
+/*.json

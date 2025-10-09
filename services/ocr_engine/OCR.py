@@ -8,10 +8,10 @@ from google.oauth2 import service_account
 
 class OCR:
     def __init__(self):
-        key_path = os.getenv("Vision_Credentials")
+        key_path = os.getenv("VISION_CREDENTIALS")
         if not key_path or not os.path.exists(key_path):
             raise RuntimeError(
-                "Vision_Credentials is not set or file not found"
+                "VISION_CREDENTIALS is not set or file not found"
             )
         credentials = service_account.Credentials.from_service_account_file(key_path)
         self.client = vision.ImageAnnotatorClient(credentials=credentials)

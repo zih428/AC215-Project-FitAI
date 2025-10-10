@@ -12,5 +12,6 @@ echo "UV version: $(uv --version)"
 echo "Activating virtual environment..."
 source /.venv/bin/activate
 
-# Keep a shell open
-exec /bin/bash
+# Start FastAPI server
+echo "Starting FastAPI server..."
+exec python -m uvicorn app:app --host 0.0.0.0 --port 8002

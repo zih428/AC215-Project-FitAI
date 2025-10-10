@@ -10,3 +10,6 @@ __pycache__/
 *.pyc
 *.pyo
 /services/ocr_engine/tmp
+# Docker volumes and secrets
+docker-volumes/
+secrets/

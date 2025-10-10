@@ -1,30 +1,41 @@
-# ===== Stage 1: Build base image =====
-FROM python:3.10-slim AS base
+# --- Base image ---
+FROM python:3.12-slim-bookworm
 
-# Prevent Python from writing .pyc files and buffering output
-ENV PYTHONDONTWRITEBYTECODE=1
+# --- System dependencies ---
+ARG DEBIAN_PACKAGES="build-essential curl"
+ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG=C.UTF-8
 ENV PYTHONUNBUFFERED=1
+ENV UV_LINK_MODE=copy
+ENV UV_PROJECT_ENVIRONMENT=/.venv
 
-# Set working directory inside container
+# --- Install deps & create non-root user ---
+RUN set -ex; \
+    for i in $(seq 1 8); do mkdir -p "/usr/share/man/man${i}"; done && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends $DEBIAN_PACKAGES && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    pip install --no-cache-dir --upgrade pip && \
+    pip install uv && \
+    useradd -ms /bin/bash app -d /home/app -u 1000 && \
+    mkdir -p /app /.venv && chown -R app:app /app /.venv
+
+USER app
 WORKDIR /app
 
-# Install system-level dependencies (for Pillow & PyMuPDF)
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libjpeg-dev \
-    libpng-dev \
-    libfreetype6-dev \
-    libharfbuzz-dev \
-    libfribidi-dev \
-    libxcb1-dev \
-    && rm -rf /var/lib/apt/lists/*
+# --- Dependency installation ---
+COPY --chown=app:app pyproject.toml uv.lock* ./
+RUN uv sync --frozen --no-dev
 
-# ===== Stage 2: Install dependencies =====
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# --- Copy source code ---
+COPY --chown=app:app . ./
+COPY --chown=app:app docker-entrypoint.sh /app/docker-entrypoint.sh
+RUN chmod +x /app/docker-entrypoint.sh
 
-# ===== Stage 3: Copy source code =====
-COPY . .
+# --- Runtime config ---
+EXPOSE 8003
 
-# ===== Stage 4: Default command =====
-# If you run via docker-compose, the command there will override this.
-CMD ["python", "run_ocr_main.py"]
+# Service env
+ENV GOOGLE_APPLICATION_CREDENTIALS=/secrets/rich-access-471117-r0-f17d92fbf298.json 
+
+ENTRYPOINT ["bash", "/app/docker-entrypoint.sh"]

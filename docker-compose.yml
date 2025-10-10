@@ -35,9 +35,6 @@ services:
     container_name: fitai-ocr-engine
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /secrets/rich-access-471117-r0-f17d92fbf298.json
-      VISION_CREDENTIALS: /secrets/ac215-471616-590d86ddb6a0.json
-      START_ON_BOOT: "true"
-      PROCESS_FULL_FOLDER: "true"
     volumes:
       - ./secrets/ac215-471616-590d86ddb6a0.json:/secrets/ac215-471616-590d86ddb6a0.json:ro
       - ./secrets/rich-access-471117-r0-f17d92fbf298.json:/secrets/rich-access-471117-r0-f17d92fbf298.json:ro

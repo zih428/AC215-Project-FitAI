@@ -1,0 +1,35 @@
+[project]
+name = "ocr_engine"
+version = "0.1.0"
+description = "FastAPI OCR microservice"
+requires-python = ">=3.11"
+dependencies = [
+  # Web/API
+  "fastapi~=0.110",
+  "uvicorn[standard]~=0.30",
+  "pydantic~=2.6",
+  "python-multipart~=0.0.9",
+
+  # OCR / PDF / Imaging
+  "PyMuPDF~=1.24",
+  "Pillow~=10.3",
+
+  # GCP
+  "google-cloud-vision~=3.6",
+  "google-cloud-storage~=2.16",
+  "google-auth~=2.29",
+  "protobuf>=3.20.3,<6.0.0",
+
+  # Utilities
+  "pandas~=2.2",
+  "requests~=2.32",
+]
+
+[project.scripts]
+serve = "uvicorn app:app --host 0.0.0.0 --port 8003"
+
+[tool.uv]
+dev-dependencies = [
+  "ruff~=0.5",
+  "pytest~=8.2",
+]

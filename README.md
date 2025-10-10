@@ -57,3 +57,23 @@ You should get a quick acknowledgement while the job runs in the background:
 ```bash
 docker compose down -v
 ```
+
+
+
+
+---
+
+## Process txt from GCS and load to ChromaDB 📊
+
+---
+
+
+
+
+---
+
+## Interaction with it through chat or query 💬
+
+---
+
+

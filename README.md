@@ -73,13 +73,13 @@ docker-compose up -d
 ```bash
 docker-compose ps # Check service status
 ```
-# API 1 & 2  -> Test Health  & Check ChromaDB collections
+### API 1 & 2  -> Test Health  & Check ChromaDB collections
 ```bash
 curl http://localhost:8002/health
 
 curl http://localhost:8002/collections
 ```
-# API 3 Process txt file in GCS
+### API 3 Process txt file in GCS
 ```bash
 curl -X POST "http://localhost:8002/process-gcs" \
   -H "Content-Type: application/json" \
@@ -100,7 +100,7 @@ curl -X POST "http://localhost:8002/process-gcs" \
 
 ---
 
-# API 4 Chat
+### API 4 Chat
 ```bash
 curl -X POST "http://localhost:8002/chat" \
   -H "Content-Type: application/json" \
@@ -111,7 +111,7 @@ curl -X POST "http://localhost:8002/chat" \
   }'
 ```
 
-# API 5 Query
+### API 5 Query
 ```bash
 curl -X POST "http://localhost:8002/query" \
   -H "Content-Type: application/json" \

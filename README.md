@@ -18,6 +18,7 @@ FitAI is a containerized system for generating personalized fitness recommendati
 - `services/pipeline/` → ETL service (loads raw CSVs into the database & scientific literature into vector db)
 - `services/ml/` → ML service (model + plan generation API)
 - `services/frontend/` → Next.js app (user interface)
+- `services/rag_pipeline/` → Rag service (with ChromaDB volume track)
 
 ---
 
@@ -63,7 +64,7 @@ docker compose down -v
 
 ---
 
-## Process txt from GCS and load to ChromaDB 📊
+## 📊 Process txt from GCS and load to ChromaDB 
 
 ---
 ```bash
@@ -73,13 +74,13 @@ docker-compose up -d
 ```bash
 docker-compose ps # Check service status
 ```
-### API 1 & 2  -> Test Health  & Check ChromaDB collections
+### 🧐 API 1 & 2  -> Test Health  & Check ChromaDB collections 
 ```bash
 curl http://localhost:8002/health
 
 curl http://localhost:8002/collections
 ```
-### API 3 Process txt file in GCS
+### ⚙️ API 3 Process txt file in GCS
 ```bash
 curl -X POST "http://localhost:8002/process-gcs" \
   -H "Content-Type: application/json" \
@@ -96,11 +97,11 @@ curl -X POST "http://localhost:8002/process-gcs" \
 
 ---
 
-## Interaction with it through chat or query 💬
+## 💬 Interaction with it through chat or query 
 
 ---
 
-### API 4 Chat
+### 🤖 API 4 Chat
 ```bash
 curl -X POST "http://localhost:8002/chat" \
   -H "Content-Type: application/json" \
@@ -111,7 +112,7 @@ curl -X POST "http://localhost:8002/chat" \
   }'
 ```
 
-### API 5 Query
+### 🔍 API 5 Query
 ```bash
 curl -X POST "http://localhost:8002/query" \
   -H "Content-Type: application/json" \

@@ -307,7 +307,7 @@ def load(method="char-split"):
 
 
 def query(method="char-split"):
-    print("load()")
+    print("query()")
 
     # Connect to chroma DB
     client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
@@ -315,12 +315,22 @@ def query(method="char-split"):
     # Get a collection object from an existing collection, by name. If it doesn't exist, create it.
     collection_name = f"{method}-collection"
 
-    query = input("Enter your FitAI question: ") or "Summarize this text."
+    # Ask user for question
+    query = input("Enter your FitAI question: ") or "Summarize the main findings."
+    print(f"\nQuery: {query}")
+
+    # Generate embedding for the question
     query_embedding = generate_query_embedding(query)
-    print("Embedding values:", query_embedding)
 
     # Get the collection
     collection = client.get_collection(name=collection_name)
+
+    # Run semantic similarity search
+    results = collection.query(
+        query_embeddings=[query_embedding],
+        n_results=5  # top 5 similar chunks
+    )
+    print("\n\nResults:", results)
 
     # # 1: Query based on embedding value
     # results = collection.query(
@@ -350,15 +360,15 @@ def query(method="char-split"):
     # print("\n\nResults:", results)
 
     # 4: Query based on embedding value + lexical search filter
-    search_string = "Italian"
-    results = collection.query(
-        query_embeddings=[query_embedding],
-        n_results=10,
-        where={"book": "The Complete Book of Cheese"},
-        where_document={"$contains": search_string}
-    )
-    print("Query:", query)
-    print("\n\nResults:", results)
+    # search_string = "Italian"
+    # results = collection.query(
+    #     query_embeddings=[query_embedding],
+    #     n_results=10,
+    #     where={"book": "The Complete Book of Cheese"},
+    #     where_document={"$contains": search_string}
+    # )
+    # print("Query:", query)
+    # print("\n\nResults:", results)
 
 
 def chat(method="char-split"):

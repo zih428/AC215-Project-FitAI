@@ -1,15 +1,23 @@
 # AC215-Project-FitAI
 
-Fall 2025 **AC 215** course project.  
-FitAI is a containerized system for generating personalized fitness recommendations using LLM & RAG.
+**FitAI** is a containerized, end-to-end system that delivers personalized fitness recommendations powered by large language models (LLMs) and retrieval-augmented generation (RAG).
+
+The platform integrates user-specific data such as body metrics and training goals with insights extracted from scientific literature on exercise physiology. These research papers are processed through an ETL and RAG pipeline that performs document chunking and vector embedding before storing them in a vector database (ChromaDB). When users interact with the system - whether asking training questions or requesting plan adjustments - the RAG module retrieves the most relevant literature chunks and combines them with the LLM’s reasoning to generate evidence-based, personalized recommendations.
+
+By combining structured user data with knowledge from scientific sources, FitAI aims to create an adaptive and transparent foundation for intelligent fitness planning.
 
 ---
 
-## 👩‍💻 Authors
+## 👩‍💻 Team Members
 - Leo Cheng
 - Faye Fang  
 - Steven Ge  
 - Harry Hu
+
+---
+
+## 🖼️ Frontend Mockups
+Explore the application's user interface design and key user flows in the [UI Mockups](UI_Mockups.md) document.
 
 ---
 
@@ -23,7 +31,11 @@ FitAI is a containerized system for generating personalized fitness recommendati
 
 ---
 
-## Raw datasets are stored on GCS
+## 🧠 RAG Training Data Storage
+
+All raw and processed exercise physiology literature, along with relevant training-tracking and exercise catalog data, are stored in a Google Cloud Storage (GCS) bucket.
+
+![screenshot of GCS bucket](screenshots/GCS.png)
 
 ---
 

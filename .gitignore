@@ -3,13 +3,16 @@
 */.DS_Store
 .vscode
 */.vscode
-# Ignore all JSON secrets at root level
-/*.json
+
 # Ignore Python cache and compiled files
 __pycache__/
 *.pyc
 *.pyo
 /services/ocr_engine/tmp
-# Docker volumes and secrets
+
+# Docker volumes
 docker-volumes/
-secrets/
+
+# Secrets folder: ignore everything inside except .gitkeep
+/secrets/*
+!/secrets/.gitkeep

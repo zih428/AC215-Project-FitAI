@@ -1,3 +1,5 @@
+# 🎨 FitAI UI Mockup
+
 ## 🧍‍♂️ User Profile
 
 Users are prompted to input their body metrics and define fitness goals upon first login.

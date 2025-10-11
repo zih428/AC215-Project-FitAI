@@ -17,7 +17,7 @@ By combining structured user data with knowledge from scientific sources, FitAI 
 ---
 
 ## 🖼️ Frontend Mockups
-Explore the application's user interface design and key user flows in the [UI Mockups](UI_Mockups.md) document.
+Explore the application's user interface design and key user flows in the [UI Mockups](docs/UI_Mockups.md) document.
 
 ---
 

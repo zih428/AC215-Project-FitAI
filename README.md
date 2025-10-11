@@ -86,7 +86,7 @@ curl -X POST "http://localhost:8002/process-gcs" \
   -H "Content-Type: application/json" \
   -d '{
     "bucket_name": "fitai-data-bucket",
-    "folder_path": ~~"fitness-docs/"~~,
+    "folder_path": "processed-literature",
     "method": "char-split"
   }'
 ```

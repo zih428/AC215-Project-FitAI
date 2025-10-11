@@ -34,6 +34,8 @@ FitAI is a containerized system for generating personalized fitness recommendati
 docker compose up --build -d
 ```
 
+![screenshot of containers running](screenshots/screenshot_of_running_instances.png)
+
 ---
 
 ## (Optional) Exercise catalog & tracking raw data pipeline

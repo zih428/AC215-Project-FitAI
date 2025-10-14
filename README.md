@@ -71,9 +71,9 @@ curl -X POST "http://localhost:8003/perform-ocr"
 ```bash
 curl -X POST "http://localhost:8003/perform-ocr?full_process=true"
 ```
-You should get a quick acknowledgement while the job runs in the background:
+You should get a quick acknowledgement while the job finished:
 ```json
-{"status":"started","message":"OCR job running in background"}
+{"status": "completed", "message": "OCR process finished."}
 ```
 
 ---

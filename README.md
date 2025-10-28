@@ -41,7 +41,7 @@ All raw and processed exercise physiology literature, along with relevant traini
 
 ## 🚀 Quick Start
 
-### Run all containers
+#### Run all containers
 ```bash
 docker compose up --build -d
 ```
@@ -50,17 +50,17 @@ docker compose up --build -d
 
 ---
 
-## (Optional) Exercise catalog & tracking raw data pipeline
-### (Optional, not needed for RAG or milestone 2) Ingest raw data into the database
+### (Optional) Exercise catalog & tracking raw data pipeline
+#### (Optional, not needed for RAG or milestone 2) Ingest raw data into the database
 ```bash
 curl -X POST http://localhost:8001/run-etl
 ```
 
 ---
 
-## OCR engine service
+### OCR engine service
 
-### Use OCR to preprocess phyisology literature from pdf to txt
+#### Use OCR to preprocess phyisology literature from pdf to txt
 **Default mode (process only unprocessed PDFs):**
 ```bash
 curl -X POST "http://localhost:8003/perform-ocr"
@@ -71,22 +71,22 @@ curl -X POST "http://localhost:8003/perform-ocr"
 ```bash
 curl -X POST "http://localhost:8003/perform-ocr?full_process=true"
 ```
-You should get a quick acknowledgement while the job runs in the background:
+You should get a quick acknowledgement while the job finished:
 ```json
-{"status":"started","message":"OCR job running in background"}
+{"status": "completed", "message": "OCR process finished."}
 ```
 
 ---
 
-## RAG pipeline service
+### RAG pipeline service
 
-### Chunk txt files and insert into Chroma
+#### Chunk txt files and insert into Chroma
 ```bash
 curl -X POST "http://localhost:8002/process-gcs" \
   -H "Content-Type: application/json" \
   -d '{
     "bucket_name": "fitai-data-bucket",
-    "folder_path": ~~"fitness-docs/"~~,
+    "folder_path": "processed-literature",
     "method": "char-split"
   }'
 ```
@@ -95,7 +95,7 @@ curl -X POST "http://localhost:8002/process-gcs" \
 - `folder_path`: （leave it empty '' means root path）
 - `method`: chunking method (`char-split`, `recursive-split`, `semantic-split`)
 
-### Check ChromaDB collections 
+#### Check ChromaDB collections 
 ```bash
 curl http://localhost:8002/collections
 ```
@@ -112,7 +112,7 @@ curl http://localhost:8002/collections
 }
 ```
 
-### Chat
+#### Chat
 ```bash
 curl -X POST "http://localhost:8002/chat" \
   -H "Content-Type: application/json" \
@@ -133,7 +133,7 @@ curl -X POST "http://localhost:8002/chat" \
 }
 ```
 
-### Query
+#### Query
 ```bash
 curl -X POST "http://localhost:8002/query" \
   -H "Content-Type: application/json" \
@@ -193,7 +193,7 @@ curl -X POST "http://localhost:8002/query" \
 ```
 ---
 
-### Shut down and remove containers (when finished)
+#### Shut down and remove containers (when finished)
 ```bash
 docker compose down -v
 ```

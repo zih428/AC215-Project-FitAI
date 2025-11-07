@@ -1,6 +1,6 @@
 import os, re, io
 import pandas as pd
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
 from google.cloud import storage
 from google.oauth2 import service_account
 
@@ -66,13 +66,55 @@ def load_csv_to_table(blob_name, table_name):
 
     # Write to Postgres
     df.to_sql(table_name, engine, if_exists="append", index=False)
-    print(f"✅ Loaded {len(df)} rows into {table_name}")
+    print(f"Loaded {len(df)} rows into {table_name}")
+
+
+def seed_users():
+    """Insert a few demo users so the USER table always has baseline data."""
+    demo_users = [
+        {
+            "full_name": "Avery Chen",
+            "height_cm": 170.2,
+            "weight_kg": 68.5,
+            "body_type": "mesomorph",
+            "age_years": 28,
+            "training_goal": "build lean muscle",
+        },
+        {
+            "full_name": "Jordan Patel",
+            "height_cm": 182.9,
+            "weight_kg": 82.1,
+            "body_type": "ectomorph",
+            "age_years": 34,
+            "training_goal": "increase strength",
+        },
+        {
+            "full_name": "Maya Lopez",
+            "height_cm": 160.0,
+            "weight_kg": 60.3,
+            "body_type": "endomorph",
+            "age_years": 41,
+            "training_goal": "improve metabolic health",
+        },
+    ]
+
+    insert_stmt = text(
+        "INSERT INTO users (full_name, height_cm, weight_kg, body_type, age_years, training_goal) "
+        "VALUES (:full_name, :height_cm, :weight_kg, :body_type, :age_years, :training_goal)"
+    )
+
+    with engine.begin() as conn:
+        conn.execute(text("TRUNCATE TABLE users RESTART IDENTITY CASCADE"))
+        conn.execute(insert_stmt, demo_users)
+
+    print(f"Seeded {len(demo_users)} demo rows into users")
 
 
 def run_etl():
     load_csv_to_table("raw-data/gym_recommendation.csv", "gym_recommendation")
     load_csv_to_table("raw-data/gym_members_exercise_tracking.csv", "exercise_tracking")
     load_csv_to_table("raw-data/exercise_catalog.csv", "exercise_catalog")
+    seed_users()
 
 
 if __name__ == "__main__":

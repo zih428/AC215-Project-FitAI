@@ -9,6 +9,22 @@ DROP TABLE IF EXISTS ml_generated_plans CASCADE;
 DROP TABLE IF EXISTS exercise_tracking CASCADE;
 DROP TABLE IF EXISTS exercise_catalog CASCADE;
 DROP TABLE IF EXISTS gym_recommendation CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+
+-- ====================================================
+-- USER
+-- Stores basic demographic info and training goals
+-- ====================================================
+CREATE TABLE users (
+    id              SERIAL PRIMARY KEY,
+    full_name       VARCHAR(255) NOT NULL,
+    height_cm       NUMERIC(5,2),
+    weight_kg       NUMERIC(6,2),
+    body_type       VARCHAR(50),
+    age_years       INT,
+    training_goal   VARCHAR(255),
+    created_at      TIMESTAMP DEFAULT NOW()
+);
 
 -- ====================================================
 -- GYM_RECOMMENDATION

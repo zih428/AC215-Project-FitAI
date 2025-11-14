@@ -3,24 +3,14 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { 
-  LayoutDashboard, 
   MessageCircle, 
   Dumbbell, 
-  Calendar as CalendarIcon,
-  TrendingUp,
-  ClipboardList,
-  CheckSquare,
   User
 } from 'lucide-react'
 
 const navigation = [
-  { name: 'Dashboard', href: '/', icon: LayoutDashboard },
   { name: 'AI Coach', href: '/ai-coach', icon: MessageCircle },
   { name: 'Workouts', href: '/workouts', icon: Dumbbell },
-  { name: 'Calendar', href: '/calendar', icon: CalendarIcon },
-  { name: 'Progress Tracking', href: '/progress', icon: TrendingUp },
-  { name: 'Workout Logs', href: '/logs', icon: ClipboardList },
-  { name: 'Check-in Surveys', href: '/surveys', icon: CheckSquare },
   { name: 'Profile', href: '/profile', icon: User },
 ]
 

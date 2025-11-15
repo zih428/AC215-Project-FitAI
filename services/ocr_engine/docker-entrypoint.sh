@@ -18,6 +18,14 @@ else
   echo "Google credentials found."
 fi
 
+# Run incremental OCR once during startup
+echo "Triggering OCR warm-up..."
+python - <<'PY'
+from run_ocr_main import run_ocr
+run_ocr(full_folder_process=False)
+PY
+echo "OCR warm-up completed."
+
 # Start FastAPI server
 echo "Starting FastAPI server..."
 exec uvicorn app:app --host 0.0.0.0 --port 8003 --reload

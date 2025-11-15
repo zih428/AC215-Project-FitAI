@@ -25,7 +25,7 @@ services:
       - db-data:/var/lib/postgresql/data
       - ./services/db/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - "5432:5432"   # ✅ expose Postgres so VS Code (localhost) can connect
+      - "5432:5432"   # expose Postgres so VS Code (localhost) can connect
 
   pipeline:
     build: ./services/pipeline

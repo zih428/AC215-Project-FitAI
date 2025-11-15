@@ -62,6 +62,8 @@ export default function AICoach() {
   const [profileId, setProfileId] = useState<number | null>(null)
   const [profile, setProfile] = useState<ProfileResponse | null>(null)
   const [profileError, setProfileError] = useState<string | null>(null)
+  const [collectionsStatus, setCollectionsStatus] = useState<'checking' | 'ready' | 'empty' | 'error'>('checking')
+  const collectionsReady = collectionsStatus === 'ready'
 
   // Restore chat history from browser storage
   useEffect(() => {
@@ -197,8 +199,38 @@ export default function AICoach() {
     }
   }
 
+  // Check if collections exist (gate UI until embeddings are present)
+  const checkCollections = useCallback(async () => {
+    try {
+      const res = await fetch('http://localhost:8002/collections', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      const data = await res.json()
+      const list = Array.isArray(data?.collections) ? data.collections : []
+      setCollectionsStatus(list.length > 0 ? 'ready' : 'empty')
+      return list.length > 0
+    } catch {
+      setCollectionsStatus('error')
+      return false
+    }
+  }, [])
+
+  useEffect(() => {
+    checkCollections()
+    const timer = setInterval(checkCollections, 5000)
+    return () => clearInterval(timer)
+  }, [checkCollections])
+
   const handleSend = async () => {
     if (!input.trim() || isLoading) return
+
+    // Double-check collections status before sending
+    if (!collectionsReady) {
+      console.warn('Cannot send message: collections not ready')
+      return
+    }
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -268,27 +300,48 @@ export default function AICoach() {
         }
       } else {
         const errorData = await response.json().catch(() => ({}))
-        throw new Error(errorData.detail || `HTTP ${response.status}: ${response.statusText}`)
+        const errorMessage = errorData.detail || `HTTP ${response.status}: ${response.statusText}`
+        
+        // Check if error is about missing collection - recheck collections status
+        if (errorMessage.includes('not found') || errorMessage.includes('Collection')) {
+          // Recheck collections to get actual status (not just check error message)
+          const hasCollections = await checkCollections()
+          if (!hasCollections) {
+            // Collections are actually empty - remove user message silently
+            setMessages((prev) => prev.filter((msg) => msg.id !== userMessage.id))
+            console.warn('Collections not available, message not sent')
+            return
+          }
+        }
+        
+        throw new Error(errorMessage)
       }
     } catch (error) {
       console.error('RAG service error:', error)
-      
-      // Show error message instead of fallback
       const errorMessage = error instanceof Error ? error.message : 'Unknown error'
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: `⚠️ **RAG Service Connection Error**\n\n${errorMessage}\n\nPlease ensure:\n1. RAG service is running (http://localhost:8002)\n2. ChromaDB is connected\n3. Collections are available\n\nRun: \`docker compose up -d rag-service\` to start the service.`,
-        timestamp: new Date(),
-        source: 'fallback',
-      }
-      setMessages((prev) => [...prev, assistantMessage])
       
-      // Update connection status
+      // Check if error is about missing collection - recheck collections status
+      if (errorMessage.includes('not found') || errorMessage.includes('Collection')) {
+        // Recheck collections to get actual status (not just check error message)
+        const hasCollections = await checkCollections()
+        if (!hasCollections) {
+          // Collections are actually empty - remove user message silently
+          // Don't update connectionStatus - service is fine, just no collections
+          setMessages((prev) => prev.filter((msg) => msg.id !== userMessage.id))
+          console.warn('Collections not available, message not sent')
+          return
+        }
+      }
+      
+      // For other errors (not collection-related), update connection status
+      // But still don't show error message in chat
       setConnectionStatus({
         status: 'disconnected',
-        message: `Connection failed: ${errorMessage}`,
+        message: `Connection failed`,
       })
+      
+      // Remove user message since we can't process it
+      setMessages((prev) => prev.filter((msg) => msg.id !== userMessage.id))
     } finally {
       setIsLoading(false)
     }
@@ -398,7 +451,13 @@ export default function AICoach() {
             <div className="text-xs text-gray-600 space-y-1 font-mono">
               <div>API Endpoint: <span className="text-blue-600">http://localhost:8002/chat</span></div>
               <div>Health Check: <span className="text-blue-600">http://localhost:8002/health</span></div>
+              <div>Collections: <span className="text-blue-600">http://localhost:8002/collections</span></div>
               <div>Status: <span className={connectionStatus.status === 'connected' ? 'text-green-600' : 'text-red-600'}>{connectionStatus.status}</span></div>
+              <div>Collections Status: <span className={
+                collectionsStatus === 'ready' ? 'text-green-600'
+                : collectionsStatus === 'checking' ? 'text-yellow-600'
+                : 'text-red-600'
+              }>{collectionsStatus}</span></div>
             </div>
           </div>
         )}
@@ -503,6 +562,13 @@ export default function AICoach() {
       {/* Input Area */}
       <div className="p-8 border-t border-gray-200 bg-white">
         <div className="max-w-4xl mx-auto">
+          {collectionsStatus !== 'ready' && (
+            <div className="mb-3 text-sm text-yellow-700 bg-yellow-50 border border-yellow-200 rounded-lg px-3 py-2">
+              {collectionsStatus === 'checking' && 'Checking knowledge base readiness…'}
+              {collectionsStatus === 'empty' && 'Knowledge base is empty. Building embeddings — please wait or trigger ingestion.'}
+              {collectionsStatus === 'error' && 'Unable to verify knowledge base. Ensure RAG service is running and collections are available.'}
+            </div>
+          )}
           <div className="flex items-end space-x-4">
             <div className="flex-1">
               <textarea
@@ -512,11 +578,12 @@ export default function AICoach() {
                 placeholder="Ask me anything about fitness, workouts, or nutrition..."
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
                 rows={3}
+                disabled={!collectionsReady}
               />
             </div>
             <button
               onClick={handleSend}
-              disabled={!input.trim() || isLoading}
+              disabled={!input.trim() || isLoading || !collectionsReady}
               className="px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2 transition-colors"
             >
               <Send className="w-5 h-5" />

@@ -1,4 +1,19 @@
 services:
+  agent_pipeline:
+    build: ./services/agent_pipeline
+    container_name: fitai-agent-pipeline
+    env_file:
+      - ./secrets/agent.env
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /secrets/rich-access-471117-r0-f17d92fbf298.json
+    volumes:
+      - ./secrets/rich-access-471117-r0-f17d92fbf298.json:/secrets/rich-access-471117-r0-f17d92fbf298.json:ro
+      - ./services/agent_pipeline:/app
+    depends_on:
+      - db
+    ports:
+      - "8004:8004"
+
   db:
     image: postgres:15
     container_name: fitai-db

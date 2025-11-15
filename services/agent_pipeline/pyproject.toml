@@ -1,0 +1,18 @@
+[project]
+name = "agent-pipeline"
+version = "0.1.0"
+description = "FitAI Agent Pipeline Service"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+
+# Dependencies used by the service
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn>=0.30.0",
+    "python-multipart>=0.0.9",
+    "pillow>=10.4.0",
+    "openai>=1.40.0",
+    "pydantic>=2.7.0",
+    "pydantic-settings>=2.1.0",
+]

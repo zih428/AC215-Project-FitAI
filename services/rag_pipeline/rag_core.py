@@ -5,6 +5,7 @@ import time
 import hashlib
 import chromadb
 from io import StringIO
+from typing import Optional
 
 # Google Cloud
 from google import genai
@@ -285,7 +286,38 @@ def api_query_vector_db(query: str, method: str = "char-split", n_results: int =
     except Exception as e:
         raise Exception(str(e))
 
-def api_chat_with_llm(query: str, method: str = "char-split", n_results: int = 10):
+def format_user_profile_prompt(profile: dict) -> str:
+    """Format user profile dict into natural language snippet."""
+    parts = []
+    if not profile:
+        return ""
+    name = profile.get("full_name")
+    if name:
+        parts.append(f"Full Name: {name}")
+    age = profile.get("age_years")
+    if age is not None:
+        parts.append(f"Age: {age} years")
+    height = profile.get("height_cm")
+    if height is not None:
+        parts.append(f"Height: {height} cm")
+    weight = profile.get("weight_kg")
+    if weight is not None:
+        parts.append(f"Weight: {weight} kg")
+    body_type = profile.get("body_type")
+    if body_type:
+        parts.append(f"Body Type: {body_type}")
+    gender = profile.get("gender")
+    if gender:
+        parts.append(f"Gender: {gender}")
+    goal = profile.get("training_goal")
+    if goal:
+        parts.append(f"Training Goal: {goal}")
+    if not parts:
+        return ""
+    return "\n".join(parts)
+
+
+def api_chat_with_llm(query: str, method: str = "char-split", n_results: int = 10, user_profile: Optional[dict] = None):
     """API版本的聊天功能"""
     try:
         client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
@@ -306,10 +338,15 @@ def api_chat_with_llm(query: str, method: str = "char-split", n_results: int = 1
         # 将查询结果拼接成上下文
         context_chunks = "\n\n---\n".join(results["documents"][0])
         
-        # 构建prompt
+        user_profile_prompt = format_user_profile_prompt(user_profile or {})
+        profile_section = (
+            f"\nUser profile information:\n{user_profile_prompt}\n"
+            if user_profile_prompt
+            else "\n"
+        )
         input_prompt = f"""
         System: {SYSTEM_INSTRUCTION}
-        
+        {profile_section}
         User question:
         {query}
         

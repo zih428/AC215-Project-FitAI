@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Send, Bot, User as UserIcon, CheckCircle, XCircle, AlertCircle, Info } from 'lucide-react'
+import Link from 'next/link'
 
 interface Message {
   id: string
@@ -20,7 +21,22 @@ interface ConnectionStatus {
   message: string
 }
 
+interface ProfileResponse {
+  id: number
+  full_name: string
+  height_cm: number
+  weight_kg: number
+  body_type: string
+  gender: string
+  age_years: number
+  training_goal: string
+}
+
 const STORAGE_KEY = 'fitai-ai-coach-messages'
+const PROFILE_STORAGE_KEY = 'fitai-profile-user-id'
+const PROFILE_UPDATED_EVENT = 'fitai-profile-updated'
+const PIPELINE_BASE_URL =
+  process.env.NEXT_PUBLIC_PIPELINE_URL ?? 'http://localhost:8001'
 
 const createDefaultMessages = (): Message[] => [
   {
@@ -43,6 +59,9 @@ export default function AICoach() {
   })
   const [showDebug, setShowDebug] = useState(false)
   const [isHydrated, setIsHydrated] = useState(false)
+  const [profileId, setProfileId] = useState<number | null>(null)
+  const [profile, setProfile] = useState<ProfileResponse | null>(null)
+  const [profileError, setProfileError] = useState<string | null>(null)
 
   // Restore chat history from browser storage
   useEffect(() => {
@@ -66,6 +85,57 @@ export default function AICoach() {
       setIsHydrated(true)
     }
   }, [])
+
+  const fetchProfile = useCallback(async (id: number) => {
+    try {
+      const response = await fetch(`${PIPELINE_BASE_URL}/users/${id}`)
+      if (!response.ok) {
+        throw new Error('Unable to load saved profile.')
+      }
+      const data: ProfileResponse = await response.json()
+      setProfile(data)
+      setProfileError(null)
+    } catch (error) {
+      console.error('Failed to load profile for AI Coach:', error)
+      setProfile(null)
+      setProfileError('Profile unavailable. Save your profile to personalize responses.')
+    }
+  }, [])
+
+  useEffect(() => {
+    if (profileId == null) return
+    fetchProfile(profileId)
+  }, [profileId, fetchProfile])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const loadProfileId = () => {
+      const storedId = window.localStorage.getItem(PROFILE_STORAGE_KEY)
+      if (!storedId) {
+        setProfileId(null)
+        setProfile(null)
+        setProfileError('Profile unavailable. Save your profile to personalize responses.')
+        return
+      }
+
+      const parsedId = Number(storedId)
+      if (!Number.isFinite(parsedId)) {
+        window.localStorage.removeItem(PROFILE_STORAGE_KEY)
+        setProfileId(null)
+        return
+      }
+
+      if (profileId !== parsedId) {
+        setProfileId(parsedId)
+      }
+    }
+
+    loadProfileId()
+
+    window.addEventListener(PROFILE_UPDATED_EVENT, loadProfileId)
+    return () => window.removeEventListener(PROFILE_UPDATED_EVENT, loadProfileId)
+  }, [profileId])
 
   // Persist chat history whenever it changes
   useEffect(() => {
@@ -153,6 +223,18 @@ export default function AICoach() {
           query: userInput,
           method: 'char-split',
           n_results: 10,
+          user_profile: profile
+            ? {
+                id: profile.id,
+                full_name: profile.full_name,
+                height_cm: profile.height_cm,
+                weight_kg: profile.weight_kg,
+                body_type: profile.body_type,
+                gender: profile.gender,
+                age_years: profile.age_years,
+                training_goal: profile.training_goal,
+              }
+            : null,
         }),
       })
 
@@ -241,11 +323,27 @@ export default function AICoach() {
       {/* Header */}
       <div className="p-8 border-b border-gray-200 bg-white">
         <div className="flex items-start justify-between mb-4 gap-4">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">AI Coach</h1>
-            <p className="text-gray-600">
-              Get personalized fitness advice powered by AI and scientific research
-            </p>
+          <div className="space-y-2">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">AI Coach</h1>
+              <p className="text-gray-600">
+                Get personalized fitness advice powered by AI and scientific research
+              </p>
+            </div>
+            {profile ? (
+              <p className="text-sm text-gray-600">
+                Chatting as <span className="font-semibold">{profile.full_name}</span> (
+                {profile.age_years} yrs, {profile.body_type}, {profile.weight_kg} kg)
+              </p>
+            ) : (
+              <p className="text-sm text-gray-500">
+                Save your{' '}
+                <Link className="text-primary-600 underline" href="/profile">
+                  profile
+                </Link>{' '}
+                to personalize responses.
+              </p>
+            )}
           </div>
           <div className="flex items-center space-x-3">
             <button
@@ -305,6 +403,19 @@ export default function AICoach() {
           </div>
         )}
       </div>
+
+      {/* Profile alerts */}
+      {!profile && profileError && (
+        <div className="mx-8 mt-4">
+          <div className="max-w-4xl mx-auto border border-yellow-200 bg-yellow-50 text-yellow-800 px-4 py-3 rounded-lg text-sm">
+            {profileError}{' '}
+            <Link href="/profile" className="underline font-medium">
+              Update profile
+            </Link>
+            .
+          </div>
+        </div>
+      )}
 
       {/* Chat Area */}
       <div className="flex-1 overflow-y-auto p-8 bg-gray-50">

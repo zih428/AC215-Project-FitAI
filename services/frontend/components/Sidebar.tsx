@@ -9,9 +9,9 @@ import {
 } from 'lucide-react'
 
 const navigation = [
+  { name: 'Profile', href: '/profile', icon: User },
   { name: 'AI Coach', href: '/ai-coach', icon: MessageCircle },
   { name: 'Workouts', href: '/workouts', icon: Dumbbell },
-  { name: 'Profile', href: '/profile', icon: User },
 ]
 
 export default function Sidebar() {
@@ -79,4 +79,3 @@ export default function Sidebar() {
     </div>
   )
 }
-

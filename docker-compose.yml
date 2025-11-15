@@ -71,14 +71,15 @@ services:
       - ANONYMIZED_TELEMETRY=FALSE
       - CHROMA_CORS_ALLOW_ORIGINS=["*"]
       
-  # frontend:
-  #   build: ./services/frontend
-  #   container_name: fitai-frontend
-  #   depends_on:
-  #     - ml
-  #     - pipeline
-  #   ports:
-  #     - "3000:3000"
+  frontend:
+    build:
+      context: ./services/frontend
+    container_name: fitai-frontend
+    depends_on:
+      - pipeline
+      - rag_pipeline
+    ports:
+      - "3000:3000"
 
 volumes:
   db-data:

@@ -20,16 +20,20 @@ interface ConnectionStatus {
   message: string
 }
 
+const STORAGE_KEY = 'fitai-ai-coach-messages'
+const defaultMessages: Message[] = [
+  {
+    id: '1',
+    role: 'assistant',
+    content:
+      "Hello! I'm your AI fitness coach. How can I help you today? You can ask me about workout plans, nutrition advice, or any fitness-related questions.",
+    timestamp: new Date(),
+    source: 'rag',
+  },
+]
+
 export default function AICoach() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      role: 'assistant',
-      content: 'Hello! I\'m your AI fitness coach. How can I help you today? You can ask me about workout plans, nutrition advice, or any fitness-related questions.',
-      timestamp: new Date(),
-      source: 'rag',
-    },
-  ])
+  const [messages, setMessages] = useState<Message[]>(defaultMessages)
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>({
@@ -37,6 +41,45 @@ export default function AICoach() {
     message: 'Checking RAG Pipeline connection...',
   })
   const [showDebug, setShowDebug] = useState(false)
+  const [isHydrated, setIsHydrated] = useState(false)
+
+  // Restore chat history from browser storage
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    try {
+      const stored = window.localStorage.getItem(STORAGE_KEY)
+      if (stored) {
+        type StoredMessage = Omit<Message, 'timestamp'> & { timestamp: string }
+        const parsed = JSON.parse(stored) as StoredMessage[]
+        const restored = parsed.map((message) => ({
+          ...message,
+          timestamp: new Date(message.timestamp),
+        }))
+        setMessages(restored)
+      }
+    } catch (error) {
+      console.error('Failed to load AI Coach history from storage:', error)
+      window.localStorage.removeItem(STORAGE_KEY)
+    } finally {
+      setIsHydrated(true)
+    }
+  }, [])
+
+  // Persist chat history whenever it changes
+  useEffect(() => {
+    if (!isHydrated || typeof window === 'undefined') return
+
+    try {
+      const serializable = messages.map((message) => ({
+        ...message,
+        timestamp: message.timestamp.toISOString(),
+      }))
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(serializable))
+    } catch (error) {
+      console.error('Failed to save AI Coach history to storage:', error)
+    }
+  }, [messages, isHydrated])
 
   // Check RAG Pipeline connection on component mount
   useEffect(() => {
@@ -350,4 +393,3 @@ export default function AICoach() {
     </div>
   )
 }
-

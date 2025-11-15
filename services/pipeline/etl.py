@@ -1,21 +1,9 @@
 import os, re, io
 import pandas as pd
-from sqlalchemy import create_engine, text
+from sqlalchemy import text
 from google.cloud import storage
 from google.oauth2 import service_account
-
-# ----------------------------
-# Database connection settings
-# ----------------------------
-DB_USER = os.getenv("POSTGRES_USER", "fitai")
-DB_PASSWORD = os.getenv("POSTGRES_PASSWORD", "fitai")
-DB_NAME = os.getenv("POSTGRES_DB", "fitai_app")
-DB_HOST = os.getenv("POSTGRES_HOST", "db")  # service name from docker-compose
-DB_PORT = os.getenv("POSTGRES_PORT", "5432")
-
-engine = create_engine(
-    f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-)
+from db import engine
 
 # ----------------------------
 # GCS configuration

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "Starting Agent Pipeline container..."
+echo "Starting Calendar Agent container..."
 echo "Architecture: $(uname -m)"
 echo "Python version: $(python --version)"
 echo "UV version: $(uv --version)"

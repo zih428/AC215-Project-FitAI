@@ -8,7 +8,7 @@
 __pycache__/
 *.pyc
 *.pyo
-/services/ocr_engine/tmp
+/services/ocr-engine/tmp
 
 # Docker volumes
 docker-volumes/

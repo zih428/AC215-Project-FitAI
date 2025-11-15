@@ -1,14 +1,14 @@
 services:
-  agent_pipeline:
-    build: ./services/agent_pipeline
-    container_name: fitai-agent-pipeline
+  calendar-agent:
+    build: ./services/calendar-agent
+    container_name: fitai-calendar-agent
     env_file:
       - ./secrets/agent.env
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /secrets/rich-access-471117-r0-f17d92fbf298.json
     volumes:
       - ./secrets/rich-access-471117-r0-f17d92fbf298.json:/secrets/rich-access-471117-r0-f17d92fbf298.json:ro
-      - ./services/agent_pipeline:/app
+      - ./services/calendar-agent:/app
     depends_on:
       - db
     ports:
@@ -27,9 +27,9 @@ services:
     ports:
       - "5432:5432"   # expose Postgres so VS Code (localhost) can connect
 
-  pipeline:
-    build: ./services/pipeline
-    container_name: fitai-pipeline
+  core-etl-api:
+    build: ./services/core-etl-api
+    container_name: fitai-core-etl-api
     environment:
       POSTGRES_USER: fitai
       POSTGRES_PASSWORD: fitai
@@ -39,29 +39,29 @@ services:
       GOOGLE_APPLICATION_CREDENTIALS: /secrets/rich-access-471117-r0-f17d92fbf298.json
     volumes:
       - ./secrets/rich-access-471117-r0-f17d92fbf298.json:/secrets/rich-access-471117-r0-f17d92fbf298.json:ro
-      - ./services/pipeline:/app   # mount your pipeline code
+      - ./services/core-etl-api:/app   # mount your pipeline code
     depends_on:
       - db
     ports:
       - "8001:8001"
 
-  ocr_engine:
-    build: ./services/ocr_engine
+  ocr-engine:
+    build: ./services/ocr-engine
     container_name: fitai-ocr-engine
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /secrets/rich-access-471117-r0-f17d92fbf298.json
     volumes:
       - ./secrets/rich-access-471117-r0-f17d92fbf298.json:/secrets/rich-access-471117-r0-f17d92fbf298.json:ro
-      - ./services/ocr_engine:/app
+      - ./services/ocr-engine:/app
     ports:
       - "8003:8003"
 
-  rag_pipeline:
+  rag-service:
     build:
-      context: ./services/rag_pipeline
-    container_name: fitai-rag-pipeline
+      context: ./services/rag-service
+    container_name: fitai-rag-service
     volumes:
-      - ./services/rag_pipeline:/app
+      - ./services/rag-service:/app
       - ./secrets/rich-access-471117-r0-f17d92fbf298.json:/secrets/rich-access-471117-r0-f17d92fbf298.json:ro
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /secrets/rich-access-471117-r0-f17d92fbf298.json
@@ -78,7 +78,6 @@ services:
     container_name: llm-rag-chromadb
     ports:
       - "8000:8000"
-    # 数据持久化保存
     volumes:
       - ./docker-volumes/chromadb:/data
     environment:
@@ -91,8 +90,8 @@ services:
       context: ./services/frontend
     container_name: fitai-frontend
     depends_on:
-      - pipeline
-      - rag_pipeline
+      - core-etl-api
+      - rag-service
     ports:
       - "3000:3000"
 

@@ -55,7 +55,7 @@ export default function AICoach() {
   const [isLoading, setIsLoading] = useState(false)
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>({
     status: 'checking',
-    message: 'Checking RAG Pipeline connection...',
+    message: 'Checking RAG service connection...',
   })
   const [showDebug, setShowDebug] = useState(false)
   const [isHydrated, setIsHydrated] = useState(false)
@@ -152,7 +152,7 @@ export default function AICoach() {
     }
   }, [messages, isHydrated])
 
-  // Check RAG Pipeline connection on component mount
+  // Check RAG service connection on component mount
   useEffect(() => {
     checkRAGConnection()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -169,17 +169,17 @@ export default function AICoach() {
       
       if (response.ok) {
         const data = await response.json()
-        if (data.status === 'ok' && data.service === 'rag_pipeline') {
+        if (data.status === 'ok' && data.service === 'rag-service') {
           setConnectionStatus({
             status: 'connected',
-            message: 'Connected to RAG Pipeline',
+            message: 'Connected to RAG service',
           })
           return
         } else {
           console.error('Invalid response format:', data)
           setConnectionStatus({
             status: 'disconnected',
-            message: `RAG Pipeline service not responding correctly: ${JSON.stringify(data)}`,
+            message: `RAG service not responding correctly: ${JSON.stringify(data)}`,
           })
           return
         }
@@ -188,11 +188,11 @@ export default function AICoach() {
         throw new Error(`HTTP ${response.status}: ${errorText}`)
       }
     } catch (error) {
-      console.error('RAG Pipeline connection error:', error)
+      console.error('RAG service connection error:', error)
       const errorMessage = error instanceof Error ? error.message : String(error)
       setConnectionStatus({
         status: 'disconnected',
-        message: `Cannot connect to RAG Pipeline: ${errorMessage}`,
+        message: `Cannot connect to RAG service: ${errorMessage}`,
       })
     }
   }
@@ -260,25 +260,25 @@ export default function AICoach() {
           if (connectionStatus.status === 'disconnected') {
             setConnectionStatus({
               status: 'connected',
-              message: 'Connected to RAG Pipeline',
+              message: 'Connected to RAG service',
             })
           }
         } else {
-          throw new Error('Invalid response format from RAG Pipeline')
+          throw new Error('Invalid response format from RAG service')
         }
       } else {
         const errorData = await response.json().catch(() => ({}))
         throw new Error(errorData.detail || `HTTP ${response.status}: ${response.statusText}`)
       }
     } catch (error) {
-      console.error('RAG Pipeline Error:', error)
+      console.error('RAG service error:', error)
       
       // Show error message instead of fallback
       const errorMessage = error instanceof Error ? error.message : 'Unknown error'
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: `⚠️ **RAG Pipeline Connection Error**\n\n${errorMessage}\n\nPlease ensure:\n1. RAG Pipeline service is running (http://localhost:8002)\n2. ChromaDB is connected\n3. Collections are available\n\nRun: \`docker compose up -d rag_pipeline\` to start the service.`,
+        content: `⚠️ **RAG Service Connection Error**\n\n${errorMessage}\n\nPlease ensure:\n1. RAG service is running (http://localhost:8002)\n2. ChromaDB is connected\n3. Collections are available\n\nRun: \`docker compose up -d rag-service\` to start the service.`,
         timestamp: new Date(),
         source: 'fallback',
       }

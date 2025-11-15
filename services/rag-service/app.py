@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
 import rag_core
 
-app = FastAPI(title="FitAI RAG Pipeline", version="1.0.0")
+app = FastAPI(title="FitAI RAG Service", version="1.0.0")
 
 # 添加 CORS 支持，允许前端访问
 app.add_middleware(
@@ -49,7 +49,7 @@ class ChatRequest(BaseModel):
 # API 端点
 @app.get("/health")
 def health_check():
-    return {"status": "ok", "service": "rag_pipeline"}
+    return {"status": "ok", "service": "rag-service"}
 
 @app.post("/process-gcs")
 def process_gcs_to_chromadb(request: GCSProcessRequest):

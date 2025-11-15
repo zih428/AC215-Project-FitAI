@@ -1,8 +1,8 @@
-# FitAI RAG Pipeline - Quick Start Guide
+# FitAI RAG Service - Quick Start Guide
 
 ## 🚀 Overview
 
-**FitAI RAG Pipeline** is a cloud-based Retrieval-Augmented Generation (RAG) service built on **Google Cloud Storage (GCS)** that provides intelligent Q&A for **fitness** and **nutrition** knowledge.
+**FitAI RAG Service** is a cloud-based Retrieval-Augmented Generation (RAG) service built on **Google Cloud Storage (GCS)** that provides intelligent Q&A for **fitness** and **nutrition** knowledge.
 
 ### ✨ Core Features
 - **Cloud Storage**: Reads and processes `.txt` files directly from GCS  
@@ -48,15 +48,15 @@ GCS File → Loaded into Memory → Chunking → Embedding Generation → Stored
 ### 1. Start All Services
 ```bash
 # Run in project root
-docker-compose up -d
+docker compose up -d
 ```
 
 ### 2. Check Service Status
 ```bash
-docker-compose ps
+docker compose ps
 
-# Check RAG pipeline service logs
-docker-compose logs rag_pipeline
+# Check RAG service logs
+docker compose logs rag-service
 ```
 
 ### 3. Test APIs

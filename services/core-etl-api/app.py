@@ -72,7 +72,7 @@ def fetch_user(user_id: int) -> dict:
 
 @app.get("/health")
 def health_check():
-    return {"status": "ok", "service": "pipeline"}
+    return {"status": "ok", "service": "core-etl-api"}
 
 
 @app.post("/run-etl")

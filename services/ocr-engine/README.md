@@ -33,7 +33,7 @@ When not set, `run_ocr_main.py` falls back to the baked-in defaults above.
 ## Running With Docker Compose
 
 ```bash
-docker compose up ocr_engine
+docker compose up ocr-engine
 ```
 
 The root `docker-compose.yml` mounts the credentials JSON into `/secrets` and publishes the API on `localhost:8003`. Logs stream to the terminal; the OCR run output is visible there.
@@ -55,7 +55,7 @@ Stop the stack with `Ctrl+C`. Containers can be removed using `docker compose do
 
 2. **Create the virtual environment and sync dependencies:**
    ```bash
-   cd services/ocr_engine
+   cd services/ocr-engine
    uv sync
    ```
 
@@ -114,5 +114,3 @@ If the run fails, the endpoint responds with HTTP 500 and the error message for 
 - **Vision API quota / permissions errors:** Confirm the service account has Vision and Storage permissions and quotas are sufficient.
 - **Blank OCR output:** Google Vision sometimes omits text for low-resolution scans; raise the DPI conversion in `OCR.py` if needed.
 - **Stale dependencies:** Re-run `uv sync` after updating `pyproject.toml` or `uv.lock` and restart the service.
-
-

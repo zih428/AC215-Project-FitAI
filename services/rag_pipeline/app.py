@@ -1,9 +1,22 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
 import rag_core
 
 app = FastAPI(title="FitAI RAG Pipeline", version="1.0.0")
+
+# 添加 CORS 支持，允许前端访问
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",  # Next.js 开发服务器
+        "http://127.0.0.1:3000",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # 定义API请求的格式
 class GCSProcessRequest(BaseModel):

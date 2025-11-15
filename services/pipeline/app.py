@@ -19,6 +19,7 @@ app.add_middleware(
 
 
 BodyType = Literal["ectomorphic", "mesomorphic", "endomorphic"]
+GenderType = Literal["female", "male", "non-binary", "prefer_not_to_say"]
 
 
 class UserProfilePayload(BaseModel):
@@ -26,6 +27,7 @@ class UserProfilePayload(BaseModel):
     height_cm: confloat(gt=0)
     weight_kg: confloat(gt=0)
     body_type: BodyType
+    gender: GenderType
     age_years: conint(gt=0)
     training_goal: constr(strip_whitespace=True, min_length=1)
 
@@ -42,7 +44,7 @@ class UserProfileResponse(UserProfilePayload):
 
 
 USER_COLUMNS = (
-    "id, full_name, height_cm, weight_kg, body_type, age_years, training_goal, created_at"
+    "id, full_name, height_cm, weight_kg, body_type, gender, age_years, training_goal, created_at"
 )
 
 
@@ -53,6 +55,7 @@ def serialize_user(row) -> dict:
         "height_cm": float(row["height_cm"]) if row["height_cm"] is not None else None,
         "weight_kg": float(row["weight_kg"]) if row["weight_kg"] is not None else None,
         "body_type": row["body_type"],
+        "gender": row["gender"],
         "age_years": row["age_years"],
         "training_goal": row["training_goal"],
     }
@@ -87,13 +90,14 @@ def run_etl():
 @app.post("/users", response_model=UserProfileResponse)
 def create_user(profile: UserProfilePayload):
     insert_stmt = text(
-        "INSERT INTO users (full_name, height_cm, weight_kg, body_type, age_years, training_goal) "
-        "VALUES (:full_name, :height_cm, :weight_kg, :body_type, :age_years, :training_goal) "
+        "INSERT INTO users (full_name, height_cm, weight_kg, body_type, gender, age_years, training_goal) "
+        "VALUES (:full_name, :height_cm, :weight_kg, :body_type, :gender, :age_years, :training_goal) "
         f"RETURNING {USER_COLUMNS}"
     )
 
     payload = profile.dict()
     payload["body_type"] = payload["body_type"].lower()
+    payload["gender"] = payload["gender"].lower()
 
     with engine.begin() as conn:
         row = conn.execute(insert_stmt, payload).mappings().first()
@@ -109,6 +113,7 @@ def update_user(user_id: int, profile: UserProfilePayload):
         "height_cm = :height_cm, "
         "weight_kg = :weight_kg, "
         "body_type = :body_type, "
+        "gender = :gender, "
         "age_years = :age_years, "
         "training_goal = :training_goal "
         "WHERE id = :user_id "
@@ -117,6 +122,7 @@ def update_user(user_id: int, profile: UserProfilePayload):
 
     payload = profile.dict()
     payload["body_type"] = payload["body_type"].lower()
+    payload["gender"] = payload["gender"].lower()
     payload["user_id"] = user_id
 
     with engine.begin() as conn:

@@ -21,6 +21,7 @@ CREATE TABLE users (
     height_cm       NUMERIC(5,2),
     weight_kg       NUMERIC(6,2),
     body_type       VARCHAR(50),
+    gender          VARCHAR(50),
     age_years       INT,
     training_goal   VARCHAR(255),
     created_at      TIMESTAMP DEFAULT NOW()

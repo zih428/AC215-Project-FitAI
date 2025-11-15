@@ -21,9 +21,10 @@ interface ConnectionStatus {
 }
 
 const STORAGE_KEY = 'fitai-ai-coach-messages'
-const defaultMessages: Message[] = [
+
+const createDefaultMessages = (): Message[] => [
   {
-    id: '1',
+    id: Date.now().toString(),
     role: 'assistant',
     content:
       "Hello! I'm your AI fitness coach. How can I help you today? You can ask me about workout plans, nutrition advice, or any fitness-related questions.",
@@ -33,7 +34,7 @@ const defaultMessages: Message[] = [
 ]
 
 export default function AICoach() {
-  const [messages, setMessages] = useState<Message[]>(defaultMessages)
+  const [messages, setMessages] = useState<Message[]>(createDefaultMessages)
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>({
@@ -218,23 +219,49 @@ export default function AICoach() {
     }
   }
 
+  const handleClearConversation = () => {
+    if (isLoading) return
+    const initialMessages = createDefaultMessages()
+    setMessages(initialMessages)
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(
+          initialMessages.map((message) => ({
+            ...message,
+            timestamp: message.timestamp.toISOString(),
+          }))
+        )
+      )
+    }
+  }
+
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
       <div className="p-8 border-b border-gray-200 bg-white">
-        <div className="flex items-start justify-between mb-4">
+        <div className="flex items-start justify-between mb-4 gap-4">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">AI Coach</h1>
             <p className="text-gray-600">
               Get personalized fitness advice powered by AI and scientific research
             </p>
           </div>
-          <button
-            onClick={() => setShowDebug(!showDebug)}
-            className="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            {showDebug ? 'Hide' : 'Show'} Debug
-          </button>
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={handleClearConversation}
+              disabled={isLoading}
+              className="px-3 py-1.5 text-sm text-red-600 border border-red-200 rounded-lg hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Clear Conversation
+            </button>
+            <button
+              onClick={() => setShowDebug(!showDebug)}
+              className="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              {showDebug ? 'Hide' : 'Show'} Debug
+            </button>
+          </div>
         </div>
         
         {/* Connection Status */}

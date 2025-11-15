@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { User } from 'lucide-react'
 
 const PROFILE_STORAGE_KEY = 'fitai-profile-user-id'
+const PROFILE_CACHE_KEY = 'fitai-profile-data'
+const PROFILE_UPDATED_EVENT = 'fitai-profile-updated'
 const PIPELINE_BASE_URL =
   process.env.NEXT_PUBLIC_PIPELINE_URL ?? 'http://localhost:8001'
 
@@ -32,6 +34,7 @@ interface ProfileFormState {
   height_cm: string
   weight_kg: string
   body_type: BodyTypeValue | ''
+  gender: string
   age_years: string
   training_goal: string
 }
@@ -44,8 +47,21 @@ interface ProfileResponse {
   height_cm: number
   weight_kg: number
   body_type: BodyTypeValue
+  gender: string
   age_years: number
   training_goal: string
+}
+
+const persistProfileToStorage = (data: ProfileResponse) => {
+  if (typeof window === 'undefined') return
+  window.localStorage.setItem(PROFILE_CACHE_KEY, JSON.stringify(data))
+  window.dispatchEvent(new Event(PROFILE_UPDATED_EVENT))
+}
+
+const clearProfileFromStorage = () => {
+  if (typeof window === 'undefined') return
+  window.localStorage.removeItem(PROFILE_CACHE_KEY)
+  window.dispatchEvent(new Event(PROFILE_UPDATED_EVENT))
 }
 
 const defaultFormState: ProfileFormState = {
@@ -53,6 +69,7 @@ const defaultFormState: ProfileFormState = {
   height_cm: '',
   weight_kg: '',
   body_type: '',
+  gender: '',
   age_years: '',
   training_goal: '',
 }
@@ -64,6 +81,7 @@ export default function Profile() {
   const [isLocked, setIsLocked] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
+  const [hasSavedOnce, setHasSavedOnce] = useState(false)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -74,6 +92,7 @@ export default function Profile() {
     const parsedId = Number(storedId)
     if (!Number.isFinite(parsedId)) {
       window.localStorage.removeItem(PROFILE_STORAGE_KEY)
+      clearProfileFromStorage()
       return
     }
 
@@ -88,6 +107,8 @@ export default function Profile() {
         const data: ProfileResponse = await response.json()
         populateForm(data)
         setIsLocked(true)
+        setHasSavedOnce(true)
+        persistProfileToStorage(data)
       } catch (error) {
         console.error(error)
         setStatusMessage({
@@ -95,6 +116,7 @@ export default function Profile() {
           message: 'We could not load your saved profile. Please re-enter your information.',
         })
         window.localStorage.removeItem(PROFILE_STORAGE_KEY)
+        clearProfileFromStorage()
         setProfileId(null)
         setIsLocked(false)
       } finally {
@@ -111,6 +133,7 @@ export default function Profile() {
       height_cm: data.height_cm?.toString() ?? '',
       weight_kg: data.weight_kg?.toString() ?? '',
       body_type: data.body_type,
+      gender: data.gender ?? '',
       age_years: data.age_years?.toString() ?? '',
       training_goal: data.training_goal,
     })
@@ -134,6 +157,8 @@ export default function Profile() {
       validationErrors.height_cm = 'Height is required.'
     } else if (Number.isNaN(parsedHeight)) {
       validationErrors.height_cm = 'Height must be a number.'
+    } else if (parsedHeight <= 0) {
+      validationErrors.height_cm = 'Height must be greater than zero.'
     }
 
     const parsedWeight = Number(formData.weight_kg)
@@ -141,10 +166,16 @@ export default function Profile() {
       validationErrors.weight_kg = 'Weight is required.'
     } else if (Number.isNaN(parsedWeight)) {
       validationErrors.weight_kg = 'Weight must be a number.'
+    } else if (parsedWeight <= 0) {
+      validationErrors.weight_kg = 'Weight must be greater than zero.'
     }
 
     if (!formData.body_type) {
       validationErrors.body_type = 'Body type is required.'
+    }
+
+    if (!formData.gender.trim()) {
+      validationErrors.gender = 'Gender is required.'
     }
 
     const parsedAge = Number(formData.age_years)
@@ -152,6 +183,8 @@ export default function Profile() {
       validationErrors.age_years = 'Age is required.'
     } else if (!Number.isInteger(parsedAge)) {
       validationErrors.age_years = 'Age must be a whole number.'
+    } else if (parsedAge <= 0) {
+      validationErrors.age_years = 'Age must be greater than zero.'
     }
 
     if (!formData.training_goal.trim()) {
@@ -168,6 +201,7 @@ export default function Profile() {
             height_cm: parsedHeight,
             weight_kg: parsedWeight,
             body_type: formData.body_type as BodyTypeValue,
+            gender: formData.gender,
             age_years: parsedAge,
             training_goal: formData.training_goal.trim(),
           }
@@ -205,7 +239,9 @@ export default function Profile() {
       if (typeof window !== 'undefined') {
         window.localStorage.setItem(PROFILE_STORAGE_KEY, data.id.toString())
       }
+      persistProfileToStorage(data)
       setIsLocked(true)
+      setHasSavedOnce(true)
       setStatusMessage({ type: 'success', message: 'Profile saved successfully.' })
     } catch (error) {
       console.error(error)
@@ -220,6 +256,7 @@ export default function Profile() {
 
   const handleUnlock = () => {
     setIsLocked(false)
+    setHasSavedOnce(false)
     setStatusMessage(null)
   }
 
@@ -327,6 +364,25 @@ export default function Profile() {
               </div>
 
               <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                <select
+                  value={formData.gender}
+                  onChange={(e) => handleChange('gender', e.target.value)}
+                  disabled={fieldDisabled}
+                  className={`w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 ${
+                    errors.gender ? 'border-red-400 focus:ring-red-200' : 'border-gray-300 focus:ring-primary-200'
+                  } ${fieldDisabled ? 'bg-gray-50 text-gray-500' : ''}`}
+                >
+                  <option value="">Select gender</option>
+                  <option value="female">Female</option>
+                  <option value="male">Male</option>
+                  <option value="non-binary">Non-binary</option>
+                  <option value="prefer_not_to_say">Prefer not to say</option>
+                </select>
+                {errors.gender && <p className="text-sm text-red-500 mt-1">{errors.gender}</p>}
+              </div>
+
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Age (years)</label>
                 <input
                   type="number"
@@ -361,9 +417,9 @@ export default function Profile() {
             <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <button
                 onClick={handleSave}
-                disabled={fieldDisabled || isLoading}
+                disabled={(fieldDisabled && hasSavedOnce) || isLoading}
                 className={`px-6 py-2 rounded-lg text-white font-medium ${
-                  fieldDisabled || isLoading
+                  (fieldDisabled && hasSavedOnce) || isLoading
                     ? 'bg-primary-200 cursor-not-allowed'
                     : 'bg-primary-500 hover:bg-primary-600'
                 }`}
@@ -400,4 +456,3 @@ export default function Profile() {
     </div>
   )
 }
-

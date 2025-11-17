@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
 import rag_core
 
-app = FastAPI(title="FitAI RAG Pipeline", version="1.0.0")
+app = FastAPI(title="FitAI RAG Service", version="1.0.0")
 
 # 添加 CORS 支持，允许前端访问
 app.add_middleware(
@@ -29,16 +29,27 @@ class QueryRequest(BaseModel):
     method: str = "char-split"
     n_results: int = 5
 
+class UserProfile(BaseModel):
+    id: int
+    full_name: str
+    height_cm: float
+    weight_kg: float
+    body_type: str
+    gender: str
+    age_years: int
+    training_goal: str
+
 class ChatRequest(BaseModel):
     query: str
     method: str = "char-split"
     n_results: int = 10
+    user_profile: Optional[UserProfile] = None
 
 
 # API 端点
 @app.get("/health")
 def health_check():
-    return {"status": "ok", "service": "rag_pipeline"}
+    return {"status": "ok", "service": "rag-service"}
 
 @app.post("/process-gcs")
 def process_gcs_to_chromadb(request: GCSProcessRequest):
@@ -64,7 +75,12 @@ def query_vector_db(request: QueryRequest):
 def chat_with_llm(request: ChatRequest):
     """Chat with LLM using retrieved context"""
     try:
-        return rag_core.api_chat_with_llm(request.query, request.method, request.n_results)
+        return rag_core.api_chat_with_llm(
+            request.query,
+            request.method,
+            request.n_results,
+            request.user_profile.dict() if request.user_profile else None,
+        )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

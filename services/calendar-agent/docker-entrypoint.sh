@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "Starting OCR Engine container..."
+echo "Starting Calendar Agent container..."
 echo "Architecture: $(uname -m)"
 echo "Python version: $(python --version)"
 echo "UV version: $(uv --version)"
@@ -19,5 +19,5 @@ else
 fi
 
 # Start FastAPI server
-echo "Starting FastAPI server..."
-exec uvicorn app:app --host 0.0.0.0 --port 8003 --reload
+echo "Starting FastAPI server on port 8004..."
+exec uvicorn app:app --host 0.0.0.0 --port 8004 --reload

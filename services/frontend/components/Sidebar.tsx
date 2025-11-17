@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { 
@@ -9,13 +10,41 @@ import {
 } from 'lucide-react'
 
 const navigation = [
+  { name: 'Profile', href: '/profile', icon: User },
   { name: 'AI Coach', href: '/ai-coach', icon: MessageCircle },
   { name: 'Workouts', href: '/workouts', icon: Dumbbell },
-  { name: 'Profile', href: '/profile', icon: User },
 ]
+
+const PROFILE_CACHE_KEY = 'fitai-profile-data'
+const PROFILE_UPDATED_EVENT = 'fitai-profile-updated'
+const FALLBACK_NAME = 'Fitness User'
 
 export default function Sidebar() {
   const pathname = usePathname()
+  const [displayName, setDisplayName] = useState(FALLBACK_NAME)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const loadProfileName = () => {
+      try {
+        const cached = window.localStorage.getItem(PROFILE_CACHE_KEY)
+        if (!cached) {
+          setDisplayName(FALLBACK_NAME)
+          return
+        }
+        const parsed = JSON.parse(cached) as { full_name?: string }
+        setDisplayName(parsed.full_name?.trim() || FALLBACK_NAME)
+      } catch (error) {
+        console.error('Failed to read cached profile data:', error)
+        setDisplayName(FALLBACK_NAME)
+      }
+    }
+
+    loadProfileName()
+    window.addEventListener(PROFILE_UPDATED_EVENT, loadProfileName)
+    return () => window.removeEventListener(PROFILE_UPDATED_EVENT, loadProfileName)
+  }, [])
 
   return (
     <div className="w-64 bg-white border-r border-gray-200 flex flex-col h-full">
@@ -64,11 +93,15 @@ export default function Sidebar() {
       <div className="p-4 border-t border-gray-200">
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
-            <span className="text-white font-semibold text-sm">U</span>
+            <span className="text-white font-semibold text-sm">
+              {displayName === FALLBACK_NAME
+                ? 'U'
+                : displayName.charAt(0).toUpperCase()}
+            </span>
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-gray-900 truncate">
-              Fitness User
+              {displayName || FALLBACK_NAME}
             </p>
             <p className="text-xs text-gray-500 truncate">
               Stay strong & healthy
@@ -79,4 +112,3 @@ export default function Sidebar() {
     </div>
   )
 }
-

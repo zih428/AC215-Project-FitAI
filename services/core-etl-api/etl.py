@@ -1,21 +1,9 @@
 import os, re, io
 import pandas as pd
-from sqlalchemy import create_engine, text
+from sqlalchemy import text
 from google.cloud import storage
 from google.oauth2 import service_account
-
-# ----------------------------
-# Database connection settings
-# ----------------------------
-DB_USER = os.getenv("POSTGRES_USER", "fitai")
-DB_PASSWORD = os.getenv("POSTGRES_PASSWORD", "fitai")
-DB_NAME = os.getenv("POSTGRES_DB", "fitai_app")
-DB_HOST = os.getenv("POSTGRES_HOST", "db")  # service name from docker-compose
-DB_PORT = os.getenv("POSTGRES_PORT", "5432")
-
-engine = create_engine(
-    f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
-)
+from db import engine
 
 # ----------------------------
 # GCS configuration
@@ -77,6 +65,7 @@ def seed_users():
             "height_cm": 170.2,
             "weight_kg": 68.5,
             "body_type": "mesomorph",
+            "gender": "female",
             "age_years": 28,
             "training_goal": "build lean muscle",
         },
@@ -85,6 +74,7 @@ def seed_users():
             "height_cm": 182.9,
             "weight_kg": 82.1,
             "body_type": "ectomorph",
+            "gender": "male",
             "age_years": 34,
             "training_goal": "increase strength",
         },
@@ -93,14 +83,15 @@ def seed_users():
             "height_cm": 160.0,
             "weight_kg": 60.3,
             "body_type": "endomorph",
+            "gender": "female",
             "age_years": 41,
             "training_goal": "improve metabolic health",
         },
     ]
 
     insert_stmt = text(
-        "INSERT INTO users (full_name, height_cm, weight_kg, body_type, age_years, training_goal) "
-        "VALUES (:full_name, :height_cm, :weight_kg, :body_type, :age_years, :training_goal)"
+        "INSERT INTO users (full_name, height_cm, weight_kg, body_type, gender, age_years, training_goal) "
+        "VALUES (:full_name, :height_cm, :weight_kg, :body_type, :gender, :age_years, :training_goal)"
     )
 
     with engine.begin() as conn:

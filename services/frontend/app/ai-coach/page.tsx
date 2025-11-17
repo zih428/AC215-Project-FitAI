@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Send, Bot, User as UserIcon, CheckCircle, XCircle, AlertCircle, Info } from 'lucide-react'
+import Link from 'next/link'
 
 interface Message {
   id: string
@@ -20,25 +21,140 @@ interface ConnectionStatus {
   message: string
 }
 
+interface ProfileResponse {
+  id: number
+  full_name: string
+  height_cm: number
+  weight_kg: number
+  body_type: string
+  gender: string
+  age_years: number
+  training_goal: string
+}
+
+const STORAGE_KEY = 'fitai-ai-coach-messages'
+const PROFILE_STORAGE_KEY = 'fitai-profile-user-id'
+const PROFILE_UPDATED_EVENT = 'fitai-profile-updated'
+const PIPELINE_BASE_URL =
+  process.env.NEXT_PUBLIC_PIPELINE_URL ?? 'http://localhost:8001'
+
+const createDefaultMessages = (): Message[] => [
+  {
+    id: Date.now().toString(),
+    role: 'assistant',
+    content:
+      "Hello! I'm your AI fitness coach. How can I help you today? You can ask me about workout plans, nutrition advice, or any fitness-related questions.",
+    timestamp: new Date(),
+    source: 'rag',
+  },
+]
+
 export default function AICoach() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      role: 'assistant',
-      content: 'Hello! I\'m your AI fitness coach. How can I help you today? You can ask me about workout plans, nutrition advice, or any fitness-related questions.',
-      timestamp: new Date(),
-      source: 'rag',
-    },
-  ])
+  const [messages, setMessages] = useState<Message[]>(createDefaultMessages)
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>({
     status: 'checking',
-    message: 'Checking RAG Pipeline connection...',
+    message: 'Checking RAG service connection...',
   })
   const [showDebug, setShowDebug] = useState(false)
+  const [isHydrated, setIsHydrated] = useState(false)
+  const [profileId, setProfileId] = useState<number | null>(null)
+  const [profile, setProfile] = useState<ProfileResponse | null>(null)
+  const [profileError, setProfileError] = useState<string | null>(null)
+  const [collectionsStatus, setCollectionsStatus] = useState<'checking' | 'ready' | 'empty' | 'error'>('checking')
+  const collectionsReady = collectionsStatus === 'ready'
 
-  // Check RAG Pipeline connection on component mount
+  // Restore chat history from browser storage
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    try {
+      const stored = window.localStorage.getItem(STORAGE_KEY)
+      if (stored) {
+        type StoredMessage = Omit<Message, 'timestamp'> & { timestamp: string }
+        const parsed = JSON.parse(stored) as StoredMessage[]
+        const restored = parsed.map((message) => ({
+          ...message,
+          timestamp: new Date(message.timestamp),
+        }))
+        setMessages(restored)
+      }
+    } catch (error) {
+      console.error('Failed to load AI Coach history from storage:', error)
+      window.localStorage.removeItem(STORAGE_KEY)
+    } finally {
+      setIsHydrated(true)
+    }
+  }, [])
+
+  const fetchProfile = useCallback(async (id: number) => {
+    try {
+      const response = await fetch(`${PIPELINE_BASE_URL}/users/${id}`)
+      if (!response.ok) {
+        throw new Error('Unable to load saved profile.')
+      }
+      const data: ProfileResponse = await response.json()
+      setProfile(data)
+      setProfileError(null)
+    } catch (error) {
+      console.error('Failed to load profile for AI Coach:', error)
+      setProfile(null)
+      setProfileError('Profile unavailable. Save your profile to personalize responses.')
+    }
+  }, [])
+
+  useEffect(() => {
+    if (profileId == null) return
+    fetchProfile(profileId)
+  }, [profileId, fetchProfile])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const loadProfileId = () => {
+      const storedId = window.localStorage.getItem(PROFILE_STORAGE_KEY)
+      if (!storedId) {
+        setProfileId(null)
+        setProfile(null)
+        setProfileError('Profile unavailable. Save your profile to personalize responses.')
+        return
+      }
+
+      const parsedId = Number(storedId)
+      if (!Number.isFinite(parsedId)) {
+        window.localStorage.removeItem(PROFILE_STORAGE_KEY)
+        setProfileId(null)
+        return
+      }
+
+      if (profileId !== parsedId) {
+        setProfileId(parsedId)
+      }
+    }
+
+    loadProfileId()
+
+    window.addEventListener(PROFILE_UPDATED_EVENT, loadProfileId)
+    return () => window.removeEventListener(PROFILE_UPDATED_EVENT, loadProfileId)
+  }, [profileId])
+
+  // Persist chat history whenever it changes
+  useEffect(() => {
+    if (!isHydrated || typeof window === 'undefined') return
+
+    try {
+      const serializable = messages.map((message) => ({
+        ...message,
+        timestamp: message.timestamp.toISOString(),
+      }))
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(serializable))
+    } catch (error) {
+      console.error('Failed to save AI Coach history to storage:', error)
+    }
+  }, [messages, isHydrated])
+
+  // Check RAG service connection on component mount
   useEffect(() => {
     checkRAGConnection()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -55,17 +171,17 @@ export default function AICoach() {
       
       if (response.ok) {
         const data = await response.json()
-        if (data.status === 'ok' && data.service === 'rag_pipeline') {
+        if (data.status === 'ok' && data.service === 'rag-service') {
           setConnectionStatus({
             status: 'connected',
-            message: 'Connected to RAG Pipeline',
+            message: 'Connected to RAG service',
           })
           return
         } else {
           console.error('Invalid response format:', data)
           setConnectionStatus({
             status: 'disconnected',
-            message: `RAG Pipeline service not responding correctly: ${JSON.stringify(data)}`,
+            message: `RAG service not responding correctly: ${JSON.stringify(data)}`,
           })
           return
         }
@@ -74,17 +190,47 @@ export default function AICoach() {
         throw new Error(`HTTP ${response.status}: ${errorText}`)
       }
     } catch (error) {
-      console.error('RAG Pipeline connection error:', error)
+      console.error('RAG service connection error:', error)
       const errorMessage = error instanceof Error ? error.message : String(error)
       setConnectionStatus({
         status: 'disconnected',
-        message: `Cannot connect to RAG Pipeline: ${errorMessage}`,
+        message: `Cannot connect to RAG service: ${errorMessage}`,
       })
     }
   }
 
+  // Check if collections exist (gate UI until embeddings are present)
+  const checkCollections = useCallback(async () => {
+    try {
+      const res = await fetch('http://localhost:8002/collections', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      const data = await res.json()
+      const list = Array.isArray(data?.collections) ? data.collections : []
+      setCollectionsStatus(list.length > 0 ? 'ready' : 'empty')
+      return list.length > 0
+    } catch {
+      setCollectionsStatus('error')
+      return false
+    }
+  }, [])
+
+  useEffect(() => {
+    checkCollections()
+    const timer = setInterval(checkCollections, 5000)
+    return () => clearInterval(timer)
+  }, [checkCollections])
+
   const handleSend = async () => {
     if (!input.trim() || isLoading) return
+
+    // Double-check collections status before sending
+    if (!collectionsReady) {
+      console.warn('Cannot send message: collections not ready')
+      return
+    }
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -109,6 +255,18 @@ export default function AICoach() {
           query: userInput,
           method: 'char-split',
           n_results: 10,
+          user_profile: profile
+            ? {
+                id: profile.id,
+                full_name: profile.full_name,
+                height_cm: profile.height_cm,
+                weight_kg: profile.weight_kg,
+                body_type: profile.body_type,
+                gender: profile.gender,
+                age_years: profile.age_years,
+                training_goal: profile.training_goal,
+              }
+            : null,
         }),
       })
 
@@ -134,35 +292,56 @@ export default function AICoach() {
           if (connectionStatus.status === 'disconnected') {
             setConnectionStatus({
               status: 'connected',
-              message: 'Connected to RAG Pipeline',
+              message: 'Connected to RAG service',
             })
           }
         } else {
-          throw new Error('Invalid response format from RAG Pipeline')
+          throw new Error('Invalid response format from RAG service')
         }
       } else {
         const errorData = await response.json().catch(() => ({}))
-        throw new Error(errorData.detail || `HTTP ${response.status}: ${response.statusText}`)
+        const errorMessage = errorData.detail || `HTTP ${response.status}: ${response.statusText}`
+        
+        // Check if error is about missing collection - recheck collections status
+        if (errorMessage.includes('not found') || errorMessage.includes('Collection')) {
+          // Recheck collections to get actual status (not just check error message)
+          const hasCollections = await checkCollections()
+          if (!hasCollections) {
+            // Collections are actually empty - remove user message silently
+            setMessages((prev) => prev.filter((msg) => msg.id !== userMessage.id))
+            console.warn('Collections not available, message not sent')
+            return
+          }
+        }
+        
+        throw new Error(errorMessage)
       }
     } catch (error) {
-      console.error('RAG Pipeline Error:', error)
-      
-      // Show error message instead of fallback
+      console.error('RAG service error:', error)
       const errorMessage = error instanceof Error ? error.message : 'Unknown error'
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: `⚠️ **RAG Pipeline Connection Error**\n\n${errorMessage}\n\nPlease ensure:\n1. RAG Pipeline service is running (http://localhost:8002)\n2. ChromaDB is connected\n3. Collections are available\n\nRun: \`docker compose up -d rag_pipeline\` to start the service.`,
-        timestamp: new Date(),
-        source: 'fallback',
-      }
-      setMessages((prev) => [...prev, assistantMessage])
       
-      // Update connection status
+      // Check if error is about missing collection - recheck collections status
+      if (errorMessage.includes('not found') || errorMessage.includes('Collection')) {
+        // Recheck collections to get actual status (not just check error message)
+        const hasCollections = await checkCollections()
+        if (!hasCollections) {
+          // Collections are actually empty - remove user message silently
+          // Don't update connectionStatus - service is fine, just no collections
+          setMessages((prev) => prev.filter((msg) => msg.id !== userMessage.id))
+          console.warn('Collections not available, message not sent')
+          return
+        }
+      }
+      
+      // For other errors (not collection-related), update connection status
+      // But still don't show error message in chat
       setConnectionStatus({
         status: 'disconnected',
-        message: `Connection failed: ${errorMessage}`,
+        message: `Connection failed`,
       })
+      
+      // Remove user message since we can't process it
+      setMessages((prev) => prev.filter((msg) => msg.id !== userMessage.id))
     } finally {
       setIsLoading(false)
     }
@@ -175,23 +354,65 @@ export default function AICoach() {
     }
   }
 
+  const handleClearConversation = () => {
+    if (isLoading) return
+    const initialMessages = createDefaultMessages()
+    setMessages(initialMessages)
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(
+          initialMessages.map((message) => ({
+            ...message,
+            timestamp: message.timestamp.toISOString(),
+          }))
+        )
+      )
+    }
+  }
+
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
       <div className="p-8 border-b border-gray-200 bg-white">
-        <div className="flex items-start justify-between mb-4">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">AI Coach</h1>
-            <p className="text-gray-600">
-              Get personalized fitness advice powered by AI and scientific research
-            </p>
+        <div className="flex items-start justify-between mb-4 gap-4">
+          <div className="space-y-2">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">AI Coach</h1>
+              <p className="text-gray-600">
+                Get personalized fitness advice powered by AI and scientific research
+              </p>
+            </div>
+            {profile ? (
+              <p className="text-sm text-gray-600">
+                Chatting as <span className="font-semibold">{profile.full_name}</span> (
+                {profile.age_years} yrs, {profile.body_type}, {profile.weight_kg} kg)
+              </p>
+            ) : (
+              <p className="text-sm text-gray-500">
+                Save your{' '}
+                <Link className="text-primary-600 underline" href="/profile">
+                  profile
+                </Link>{' '}
+                to personalize responses.
+              </p>
+            )}
           </div>
-          <button
-            onClick={() => setShowDebug(!showDebug)}
-            className="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            {showDebug ? 'Hide' : 'Show'} Debug
-          </button>
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={handleClearConversation}
+              disabled={isLoading}
+              className="px-3 py-1.5 text-sm text-red-600 border border-red-200 rounded-lg hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Clear Conversation
+            </button>
+            <button
+              onClick={() => setShowDebug(!showDebug)}
+              className="px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              {showDebug ? 'Hide' : 'Show'} Debug
+            </button>
+          </div>
         </div>
         
         {/* Connection Status */}
@@ -230,11 +451,30 @@ export default function AICoach() {
             <div className="text-xs text-gray-600 space-y-1 font-mono">
               <div>API Endpoint: <span className="text-blue-600">http://localhost:8002/chat</span></div>
               <div>Health Check: <span className="text-blue-600">http://localhost:8002/health</span></div>
+              <div>Collections: <span className="text-blue-600">http://localhost:8002/collections</span></div>
               <div>Status: <span className={connectionStatus.status === 'connected' ? 'text-green-600' : 'text-red-600'}>{connectionStatus.status}</span></div>
+              <div>Collections Status: <span className={
+                collectionsStatus === 'ready' ? 'text-green-600'
+                : collectionsStatus === 'checking' ? 'text-yellow-600'
+                : 'text-red-600'
+              }>{collectionsStatus}</span></div>
             </div>
           </div>
         )}
       </div>
+
+      {/* Profile alerts */}
+      {!profile && profileError && (
+        <div className="mx-8 mt-4">
+          <div className="max-w-4xl mx-auto border border-yellow-200 bg-yellow-50 text-yellow-800 px-4 py-3 rounded-lg text-sm">
+            {profileError}{' '}
+            <Link href="/profile" className="underline font-medium">
+              Update profile
+            </Link>
+            .
+          </div>
+        </div>
+      )}
 
       {/* Chat Area */}
       <div className="flex-1 overflow-y-auto p-8 bg-gray-50">
@@ -322,6 +562,13 @@ export default function AICoach() {
       {/* Input Area */}
       <div className="p-8 border-t border-gray-200 bg-white">
         <div className="max-w-4xl mx-auto">
+          {collectionsStatus !== 'ready' && (
+            <div className="mb-3 text-sm text-yellow-700 bg-yellow-50 border border-yellow-200 rounded-lg px-3 py-2">
+              {collectionsStatus === 'checking' && 'Checking knowledge base readiness…'}
+              {collectionsStatus === 'empty' && 'Knowledge base is empty. Building embeddings — please wait or trigger ingestion.'}
+              {collectionsStatus === 'error' && 'Unable to verify knowledge base. Ensure RAG service is running and collections are available.'}
+            </div>
+          )}
           <div className="flex items-end space-x-4">
             <div className="flex-1">
               <textarea
@@ -331,11 +578,12 @@ export default function AICoach() {
                 placeholder="Ask me anything about fitness, workouts, or nutrition..."
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
                 rows={3}
+                disabled={!collectionsReady}
               />
             </div>
             <button
               onClick={handleSend}
-              disabled={!input.trim() || isLoading}
+              disabled={!input.trim() || isLoading || !collectionsReady}
               className="px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2 transition-colors"
             >
               <Send className="w-5 h-5" />
@@ -350,4 +598,3 @@ export default function AICoach() {
     </div>
   )
 }
-

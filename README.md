@@ -22,11 +22,11 @@ Explore the application's user interface design and key user flows in the [UI Mo
 ---
 
 ## 📦 Container Structure
-- `services/ocr_engine/` → OCR service that processes literatures from pdf to txt
-- `services/rag_pipeline/` → RAG pipeline that handles literature chunking & Chroma insertion
+- `services/ocr-engine/` → OCR service that processes literatures from pdf to txt
+- `services/rag-service/` → RAG service that handles literature chunking & Chroma insertion
 - `services/chromadb/` → Chroma vector database
 - (Optional for milestone 2) `services/db/` → main Postgres database (with initialization schema `init.sql`)
-- (Optional for milestone 2) `services/pipeline/` → ETL service (loads raw CSVs into the Postgres)
+- (Optional for milestone 2) `services/core-etl-api/` → Core ETL/API service (loads raw CSVs into Postgres and exposes REST endpoints)
 - (Optional for milestone 2) `services/frontend/` → Next.js app (user interface)
 
 ---
@@ -78,7 +78,7 @@ You should get a quick acknowledgement while the job finished:
 
 ---
 
-### RAG pipeline service
+### RAG service
 
 #### Chunk txt files and insert into Chroma
 ```bash

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🔍 测试 RAG Pipeline 连接"
+echo "🔍 测试 RAG 服务连接"
 echo "================================"
 echo ""
 
@@ -12,14 +12,14 @@ if [ $? -eq 0 ]; then
     echo "   📋 响应: $HEALTH_RESPONSE"
     
     # 检查响应内容
-    if echo "$HEALTH_RESPONSE" | grep -q "rag_pipeline"; then
-        echo "   ✅ 确认是 RAG Pipeline 服务"
+    if echo "$HEALTH_RESPONSE" | grep -q "rag-service"; then
+        echo "   ✅ 确认是 RAG 服务"
     else
         echo "   ⚠️  响应格式可能不正确"
     fi
 else
     echo "   ❌ 无法连接到 http://localhost:8002"
-    echo "   请确保 RAG Pipeline 服务正在运行"
+    echo "   请确保 RAG 服务正在运行"
     exit 1
 fi
 
@@ -82,9 +82,8 @@ echo "================================"
 echo "✅ 测试完成！"
 echo ""
 echo "如果所有测试都通过，你的前端应该能够："
-echo "  1. 显示 'Connected to RAG Pipeline' 状态"
+echo "  1. 显示 'Connected to RAG service' 状态"
 echo "  2. 发送消息并收到来自 RAG 的回复"
 echo "  3. 在消息上看到 '✓ RAG' 标签和 chunks 数量"
 echo ""
 echo "访问 http://localhost:3000/ai-coach 查看前端界面"
-

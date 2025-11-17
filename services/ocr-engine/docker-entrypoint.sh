@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "Starting Agent Pipeline container..."
+echo "Starting OCR Engine container..."
 echo "Architecture: $(uname -m)"
 echo "Python version: $(python --version)"
 echo "UV version: $(uv --version)"
@@ -18,6 +18,14 @@ else
   echo "Google credentials found."
 fi
 
+# Run incremental OCR once during startup
+echo "Triggering OCR warm-up..."
+python - <<'PY'
+from run_ocr_main import run_ocr
+run_ocr(full_folder_process=False)
+PY
+echo "OCR warm-up completed."
+
 # Start FastAPI server
-echo "Starting FastAPI server on port 8004..."
-exec uvicorn app:app --host 0.0.0.0 --port 8004 --reload
+echo "Starting FastAPI server..."
+exec uvicorn app:app --host 0.0.0.0 --port 8003 --reload

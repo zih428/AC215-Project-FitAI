@@ -7,7 +7,7 @@ app = FastAPI()
 
 @app.get("/health")
 def health_check():
-    return {"status": "ok", "service": "ocr_engine"}
+    return {"status": "ok", "service": "ocr-engine"}
 
 @app.post("/perform-ocr")
 def perform_ocr(full_process: bool = False):

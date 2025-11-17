@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>RAG Pipeline Connection Test</title>
+    <title>RAG Service Connection Test</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -33,7 +33,7 @@
     </style>
 </head>
 <body>
-    <h1>RAG Pipeline 连接测试</h1>
+    <h1>RAG 服务连接测试</h1>
     
     <button onclick="testConnection()">测试连接</button>
     <button onclick="testCORS()">测试 CORS</button>
@@ -50,7 +50,7 @@
                 const response = await fetch('http://localhost:8002/health');
                 const data = await response.json();
                 
-                if (data.status === 'ok' && data.service === 'rag_pipeline') {
+                if (data.status === 'ok' && data.service === 'rag-service') {
                     resultsDiv.innerHTML = `
                         <div class="test-result success">
                             ✅ 连接成功！<br>
@@ -73,7 +73,7 @@
                         错误: ${error.message}<br>
                         <br>
                         可能的原因：<br>
-                        1. RAG Pipeline 服务未运行<br>
+                        1. RAG 服务未运行<br>
                         2. CORS 配置问题<br>
                         3. 端口被占用<br>
                         <br>
@@ -186,4 +186,3 @@
     </script>
 </body>
 </html>
-

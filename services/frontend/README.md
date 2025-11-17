@@ -49,7 +49,7 @@ frontend/
 
 ## API Integration
 
-The AI Coach page integrates with the RAG pipeline service at `http://localhost:8002/chat` endpoint.
+The AI Coach page integrates with the RAG service at `http://localhost:8002/chat` endpoint.
 
 ## Docker
 

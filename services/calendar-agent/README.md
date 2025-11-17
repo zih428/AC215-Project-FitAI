@@ -1,19 +1,19 @@
-# Agent Pipeline — Local Test Guide
+# Calendar Agent — Local Test Guide
 
-This README explains how to test the hard-coded Planner API running inside the `agent_pipeline` Docker service.
+This README explains how to test the hard-coded Planner API running inside the `calendar-agent` Docker service.
 
 ---
 
-## 1. Start the Agent Pipeline Service
+## 1. Start the Calendar Agent Service
 
 From the project root (where `docker-compose.yml` resides):
 
 ```bash
 # foreground
-docker-compose up agent_pipeline
+docker compose up calendar-agent
 
 # background
-docker-compose up -d agent_pipeline
+docker compose up -d calendar-agent
 ```
 
 When the service is ready, you should see logs like:
@@ -39,7 +39,7 @@ Expected response:
 {"status":"ok"}
 ```
 
-If this returns `{"status":"ok"}` → Agent Pipeline is running.
+If this returns `{"status":"ok"}` → Calendar Agent is running.
 
 ---
 
@@ -48,7 +48,7 @@ If this returns `{"status":"ok"}` → Agent Pipeline is running.
 There is a test image at:
 
 ```
-agent_pipeline/calendar_image/calendar.png
+calendar-agent/calendar_image/calendar.png
 ```
 
 Or use any path — adjust the curl command accordingly.
@@ -69,10 +69,10 @@ If the file is elsewhere, use an absolute path:
 ```bash
 curl -X POST "http://localhost:8004/planner" \
     -F "user_id=12345" \
-    -F "file=@/Users/cefayefang/Projects/AC215-Project-FitAI/services/agent_pipeline/calendar_image/calendar.png"
+    -F "file=@/Users/cefayefang/Projects/AC215-Project-FitAI/services/calendar-agent/calendar_image/calendar.png"
 ```
 
-Or you can use relative path if you working directory is at agent_pipeline:
+Or you can use relative path if your working directory is at `calendar-agent`:
 
 ```bash
 curl -X POST "http://localhost:8004/planner" \
@@ -173,13 +173,13 @@ docker ps
 You should see a container mapping like: `0.0.0.0:8004->8004/tcp`. If not, start:
 
 ```bash
-docker-compose up agent_pipeline
+docker compose up calendar-agent
 ```
 
 3) View service logs:
 
 ```bash
-docker-compose logs -f agent_pipeline
+docker compose logs -f calendar-agent
 ```
 
 ---

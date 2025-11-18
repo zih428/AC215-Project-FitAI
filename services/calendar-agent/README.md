@@ -1,6 +1,11 @@
 # Calendar Agent — Local Test Guide
 
-This README explains how to test the hard-coded Planner API running inside the `calendar-agent` Docker service.
+This README explains how to test the Calendar Agent running inside the
+`calendar-agent` Docker service. The service powers two flows:
+
+1. `/process_calendar` — uses GPT-4o Vision to OCR a calendar screenshot.
+2. `/planner` — reads a user's profile from Postgres and asks OpenAI to craft
+   a training plan that aligns with the detected availability.
 
 ---
 
@@ -48,7 +53,7 @@ If this returns `{"status":"ok"}` → Calendar Agent is running.
 There is a test image at:
 
 ```
-calendar-agent/calendar_image/calendar.png
+services/calendar-agent/calendar_image/calendar.png
 ```
 
 Or use any path — adjust the curl command accordingly.
@@ -60,28 +65,90 @@ ls -al calendar_image
 ```
 
 ---
+## 4.1. Test the Process Calendar (read calendar image) API
+Test code
+```bash
+curl -X POST "http://localhost:8004/process_calendar" \
+    -F "file=@services/calendar-agent/calendar_image/calendar.png" 
+    #replace with the correct path if you are not in root repo
+```
+Expected output:
 
-## 4. Test the Hard-Coded Planner API
+```
+{
+  "parsed_calendar": {
+    "events": [
+      {
+        "title": "Adv Practical Data Science",
+        "date": "2025-11-11",
+        "start": "11:15",
+        "end": "14:15",
+        "location": "SEC 1.321 Lecture",
+        "notes": null,
+        "raw_text": "Adv Practical Data Science\nSEC 1.321 Lecture\n11:15AM (2:15PM)"
+      },
 
+    ],
+    "metadata": {
+      "source_type": "calendar_screenshot",
+      "confidence": 0.95,
+      "missing_fields_filled": [
+        "date",
+        "start",
+        "end"
+      ]
+    }
+  }
+}
+```
+
+
+## 4.2. Test the Planner API
+
+The planner endpoint expects:
+
+- `user_id`: must exist in Postgres (`users` table). Create/update one via the
+  `core-etl-api` service or insert manually.
+- `file` *(optional)*: a PNG/JPG calendar screenshot. If omitted, the service
+  generates a generic weekly split labeled Day 1, Day 2, etc., without concrete
+  timestamps.
+- `save_to_db` *(optional, default `false`)*: set to `true` to persist the generated
+  plan into the `ml_generated_plans` table.
 
 If the file is elsewhere, use an absolute path:
 
 ```bash
 curl -X POST "http://localhost:8004/planner" \
-    -F "user_id=12345" \
+    -F "user_id=1" \
     -F "file=@/Users/cefayefang/Projects/AC215-Project-FitAI/services/calendar-agent/calendar_image/calendar.png"
+    -F "save_to_db=true" #optional
 ```
 
 Or you can use relative path if your working directory is at `calendar-agent`:
 
 ```bash
 curl -X POST "http://localhost:8004/planner" \
-    -F "user_id=12345" \
+    -F "user_id=1" \
     -F "file=@calendar_image/calendar.png"
 ```
 
+Or omit the file entirely for a template-style plan:
 
-## 4.1 Frontend Integration (No Local Path Required)
+```bash
+curl -X POST "http://localhost:8004/planner" \
+    -F "user_id=1"
+```
+
+To also persist the plan:
+
+```bash
+curl -X POST "http://localhost:8004/planner" \
+    -F "user_id=1" \
+    -F "save_to_db=true"
+```
+
+
+## 5.1 Frontend Integration (No Local Path Required)
 
 When a real frontend uploads a calendar screenshot, it does NOT send a file path.
 Browsers do not expose a user’s file system path for security reasons.
@@ -112,43 +179,50 @@ Usage in a component:
     type="file"
     onChange={(e) => {
         const file = e.target.files?.[0];
-        if (file) uploadCalendar(file, "12345").then(data => console.log("Planner result:", data));
+        if (file) uploadCalendar(file, "1").then(data => console.log("Planner result:", data));
     }}
 />
 ```
 
 ----
-## 5. Expected Response (Hard-Coded JSON)
+## 6. Expected Response (Abbreviated)
 
 ```json
 {
-    "user_id": "12345",
-    "events": [
-        {
-            "title": "Workout Session",
-            "date": "2025-11-14",
-            "start": "08:00",
-            "end": "09:00",
-            "location": "Gym",
-            "notes": "Leg day"
-        },
-        {
-            "title": "Team Meeting",
-            "date": "2025-11-14",
-            "start": "14:00",
-            "end": "15:00",
-            "location": "Office",
-            "notes": null
-        }
-    ]
+  "user": {
+    "id": 1,
+    "full_name": "Fit Tester",
+    "height_cm": 180,
+    "weight_kg": 78,
+    "body_type": "mesomorphic",
+    "gender": "male",
+    "age_years": 31,
+    "training_goal": "increase strength"
+  },
+  "calendar": { "events": ["...vision output..."] },
+  "fitness_plan": {
+    "plan_summary": "3 focused strength sessions built around morning gaps.",
+    "training_days": [
+      {
+        "date": "2024-11-18",
+        "day_of_week": "Monday",
+        "available_time_blocks": ["06:30-07:30"],
+        "workout_focus": "Lower body strength",
+        "movements": [
+          {"name": "Back Squat", "sets_reps": "4x6 @ RPE 8", "equipment": "Barbell", "coaching_notes": "2-1-1 tempo"}
+        ],
+        "conditioning_or_cardio": "10 min echo-bike",
+        "recovery": "90s quad stretch"
+      }
+    ],
+    "recovery_notes": "Hydrate and sleep 7+ hours",
+    "nutrition_notes": "Prioritize 30g protein w/in 60 minutes post workout"
+  }
 }
 ```
 
-This confirms:
-- upload endpoint works
-- FastAPI file handling works
-- planner API path is correct
-- Docker networking is correct
+The real output will vary with the OCR results, stored profile, and LLM
+creativity, but the structure remains consistent.
 
 ---
 
@@ -183,3 +257,348 @@ docker compose logs -f calendar-agent
 ```
 
 ---
+
+
+### Expected Output:
+#### With Calendar:
+```json
+{
+  "user": {
+    "id": 1,
+    "full_name": "Avery Chen",
+    "height_cm": 170.2,
+    "weight_kg": 68.5,
+    "body_type": "mesomorph",
+    "gender": "female",
+    "age_years": 28,
+    "training_goal": "build lean muscle"
+  },
+  "calendar": {
+    "events": [
+      {
+        "title": "Veterans Day",
+        "date": "2025-11-11",
+        "start": "00:00",
+        "end": "23:59",
+        "location": null,
+        "notes": null,
+        "raw_text": "Veterans Day"
+      },
+      {
+        "title": "Faye & Andy",
+        "date": "2025-11-11",
+        "start": "10:00",
+        "end": "11:00",
+        "location": null,
+        "notes": null,
+        "raw_text": "Faye & Andy"
+      },
+      {
+        "title": "Adv Practical Data Science",
+        "date": "2025-11-11",
+        "start": "11:15",
+        "end": "14:15",
+        "location": "SEC 1.321",
+        "notes": "Lecture",
+        "raw_text": "Adv Practical Data Science\nSEC 1.321 Lecture\n11:15AM (2:15PM)"
+      },
+      {
+        "title": "Interview with Faye",
+        "date": "2025-11-12",
+        "start": "11:00",
+        "end": "12:00",
+        "location": null,
+        "notes": null,
+        "raw_text": "Interview with Faye"
+      },
+      {
+        "title": "Adv Practical Data Science",
+        "date": "2025-11-12",
+        "start": "09:45",
+        "end": "12:45",
+        "location": "SEC 1.321",
+        "notes": "Lecture",
+        "raw_text": "Adv Practical Data Science\nSEC 1.321 Lecture\n9:45AM (12:45PM)"
+      },
+      {
+        "title": "Data Science 1",
+        "date": "2025-11-12",
+        "start": "14:00",
+        "end": "15:00",
+        "location": "SEC 2.118",
+        "notes": "Class",
+        "raw_text": "Data Science 1\nSEC 2.118 Class"
+      },
+      {
+        "title": "Intro to Linear Models",
+        "date": "2025-11-13",
+        "start": "14:00",
+        "end": "15:00",
+        "location": null,
+        "notes": null,
+        "raw_text": "Intro to Linear Models"
+      },
+      {
+        "title": "FitAI",
+        "date": "2025-11-14",
+        "start": "16:00",
+        "end": "17:00",
+        "location": "harvard.zoom.us",
+        "notes": null,
+        "raw_text": "FitAI\nharvard.zoom.us"
+      }
+    ],
+    "metadata": {
+      "source_type": "calendar_screenshot",
+      "confidence": 0.95,
+      "missing_fields_filled": []
+    }
+  },
+  "fitness_plan": {
+    "plan_summary": "This plan focuses on building lean muscle with a 3-day split...",
+    "training_days": [
+      {
+        "date": "2025-11-11",
+        "day_of_week": "Tuesday",
+        "available_time_blocks": ["00:00-10:00", "14:15-23:59"],
+        "scheduled_time_block": "14:15-15:15",
+        "schedule_reason": "Available after class; shorter session due to class schedule.",
+        "workout_focus": "Upper Body Strength",
+        "movements": [
+          {
+            "name": "Barbell Bench Press",
+            "sets_reps": "3x8 @ RPE 7",
+            "equipment": "Barbell, Bench",
+            "coaching_notes": "Focus on controlled descent..."
+          },
+          {
+            "name": "Bent-Over Row",
+            "sets_reps": "3x8 @ RPE 7",
+            "equipment": "Barbell",
+            "coaching_notes": "Maintain a flat back..."
+          },
+          {
+            "name": "Overhead Press",
+            "sets_reps": "3x8 @ RPE 7",
+            "equipment": "Barbell",
+            "coaching_notes": "Engage your core..."
+          },
+          {
+            "name": "Dumbbell Bicep Curl",
+            "sets_reps": "3x10 @ RPE 6",
+            "equipment": "Dumbbells",
+            "coaching_notes": "Control the eccentric phase..."
+          }
+        ],
+        "conditioning_or_cardio": null,
+        "recovery": "Foam roll chest, back, and shoulders for 10 minutes."
+      },
+      {
+        "date": "2025-11-13",
+        "day_of_week": "Thursday",
+        "available_time_blocks": ["00:00-14:00", "15:00-23:59"],
+        "scheduled_time_block": "15:00-16:30",
+        "schedule_reason": "Fits best after scheduled meetings.",
+        "workout_focus": "Lower Body Strength",
+        "movements": [
+          {
+            "name": "Barbell Back Squat",
+            "sets_reps": "4x8 @ RPE 8",
+            "equipment": "Barbell, Squat Rack",
+            "coaching_notes": "Maintain proper form..."
+          },
+          {
+            "name": "Romanian Deadlift",
+            "sets_reps": "3x10 @ RPE 7",
+            "equipment": "Barbell",
+            "coaching_notes": "Keep your back straight..."
+          },
+          {
+            "name": "Leg Press",
+            "sets_reps": "3x12 @ RPE 6",
+            "equipment": "Leg Press Machine",
+            "coaching_notes": "Ensure full range of motion."
+          },
+          {
+            "name": "Standing Calf Raise",
+            "sets_reps": "4x15 @ RPE 6",
+            "equipment": "Calf Raise Machine or Dumbbells",
+            "coaching_notes": "Squeeze at the top."
+          }
+        ],
+        "conditioning_or_cardio": null,
+        "recovery": "Stretch quads, hamstrings, and calves for 10 minutes."
+      },
+      {
+        "date": "2025-11-14",
+        "day_of_week": "Friday",
+        "available_time_blocks": ["00:00-16:00", "17:00-23:59"],
+        "scheduled_time_block": "17:00-18:00",
+        "schedule_reason": "Scheduled after FitAI meeting.",
+        "workout_focus": "Full Body Hypertrophy",
+        "movements": [
+          {
+            "name": "Dumbbell Walking Lunge",
+            "sets_reps": "3x10 @ RPE 7",
+            "equipment": "Dumbbells",
+            "coaching_notes": "Maintain balance..."
+          },
+          {
+            "name": "Push-Ups",
+            "sets_reps": "3xFailure @ RPE 8",
+            "equipment": "None",
+            "coaching_notes": "Maintain a straight line..."
+          },
+          {
+            "name": "Dumbbell Shoulder Press",
+            "sets_reps": "3x10 @ RPE 7",
+            "equipment": "Dumbbells",
+            "coaching_notes": "Control the eccentric phase..."
+          },
+          {
+            "name": "Dumbbell Goblet Squat",
+            "sets_reps": "3x10 @ RPE 7",
+            "equipment": "Dumbbell",
+            "coaching_notes": "Keep the dumbbell close..."
+          }
+        ],
+        "conditioning_or_cardio": null,
+        "recovery": "Full body stretching for 15 minutes."
+      }
+    ],
+    "recovery_notes": "Prioritize sleep and hydration...",
+    "nutrition_notes": "Ensure adequate protein intake..."
+  }
+}
+```
+#### Without Calendar
+```json
+{
+  "user": {
+    "id": 1,
+    "full_name": "Avery Chen",
+    "height_cm": 170.2,
+    "weight_kg": 68.5,
+    "body_type": "mesomorph",
+    "gender": "female",
+    "age_years": 28,
+    "training_goal": "build lean muscle"
+  },
+  "calendar": null,
+  "fitness_plan": {
+    "plan_summary": "This plan is designed to build lean muscle, focusing on compound movements and hypertrophy-specific rep ranges. It incorporates a 3-day split targeting major muscle groups with adequate recovery.",
+    "training_days": [
+      {
+        "day_of_week": "Monday",
+        "workout_focus": "Upper Body Strength",
+        "movements": [
+          {
+            "name": "Barbell Bench Press",
+            "sets_reps": "4x8 @ RPE 8",
+            "equipment": "Barbell, Bench",
+            "coaching_notes": "Focus on controlled descent and explosive concentric movement."
+          },
+          {
+            "name": "Bent-Over Row",
+            "sets_reps": "3x10 @ RPE 7",
+            "equipment": "Barbell",
+            "coaching_notes": "Maintain a flat back and pull the bar towards your lower chest."
+          },
+          {
+            "name": "Overhead Press",
+            "sets_reps": "3x8 @ RPE 7",
+            "equipment": "Barbell",
+            "coaching_notes": "Engage core for stability and press the bar overhead in a controlled manner."
+          },
+          {
+            "name": "Pull-ups",
+            "sets_reps": "3xAMRAP @ RPE 8",
+            "equipment": "Pull-up Bar",
+            "coaching_notes": "If unable to perform pull-ups, use an assisted pull-up machine."
+          }
+        ],
+        "conditioning_or_cardio": "20 minutes of incline walking on treadmill",
+        "recovery": "Foam roll upper back and shoulders"
+      },
+      {
+        "day_of_week": "Wednesday",
+        "workout_focus": "Lower Body Strength",
+        "movements": [
+          {
+            "name": "Barbell Back Squat",
+            "sets_reps": "4x6 @ RPE 8",
+            "equipment": "Barbell, Squat Rack",
+            "coaching_notes": "Maintain a neutral spine and control the depth of the squat."
+          },
+          {
+            "name": "Romanian Deadlift",
+            "sets_reps": "3x10 @ RPE 7",
+            "equipment": "Barbell",
+            "coaching_notes": "Keep legs straight and focus on hamstring stretch."
+          },
+          {
+            "name": "Leg Press",
+            "sets_reps": "3x12 @ RPE 7",
+            "equipment": "Leg Press Machine",
+            "coaching_notes": "Full range of motion, controlled tempo."
+          },
+          {
+            "name": "Calf Raises",
+            "sets_reps": "4x15 @ RPE 6",
+            "equipment": "Calf Raise Machine or Dumbbells",
+            "coaching_notes": "Focus on full contraction and stretch of the calf muscles."
+          }
+        ],
+        "conditioning_or_cardio": "None",
+        "recovery": "Static stretching of quads and hamstrings"
+      },
+      {
+        "day_of_week": "Friday",
+        "workout_focus": "Full Body Hypertrophy",
+        "movements": [
+          {
+            "name": "Dumbbell Bench Press",
+            "sets_reps": "3x10 @ RPE 7",
+            "equipment": "Dumbbells, Bench",
+            "coaching_notes": "Focus on controlled movement and chest activation."
+          },
+          {
+            "name": "Dumbbell Rows",
+            "sets_reps": "3x10 @ RPE 7",
+            "equipment": "Dumbbells, Bench",
+            "coaching_notes": "Support body with one arm on the bench, pull the dumbbell towards your hip."
+          },
+          {
+            "name": "Dumbbell Shoulder Press",
+            "sets_reps": "3x10 @ RPE 7",
+            "equipment": "Dumbbells",
+            "coaching_notes": "Control the dumbbells, focus on shoulder muscle activation."
+          },
+          {
+            "name": "Goblet Squat",
+            "sets_reps": "3x12 @ RPE 7",
+            "equipment": "Dumbbell or Kettlebell",
+            "coaching_notes": "Hold the weight close to your chest, squat with proper form."
+          },
+          {
+            "name": "Dumbbell Bicep Curls",
+            "sets_reps": "3x12 @ RPE 7",
+            "equipment": "Dumbbells",
+            "coaching_notes": "Control the movement, focus on bicep contraction."
+          },
+          {
+            "name": "Dumbbell Tricep Extensions",
+            "sets_reps": "3x12 @ RPE 7",
+            "equipment": "Dumbbells",
+            "coaching_notes": "Keep elbows stable, focus on tricep contraction."
+          }
+        ],
+        "conditioning_or_cardio": "20 minutes of cycling",
+        "recovery": "Light stretching and mobility exercises"
+      }
+    ],
+    "recovery_notes": "Prioritize sleep and hydration. Consider active recovery on off days.",
+    "nutrition_notes": "Focus on a balanced diet with adequate protein intake to support muscle growth. Aim for 1.6-2.2 grams of protein per kilogram of body weight."
+  }
+}
+```

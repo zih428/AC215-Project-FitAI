@@ -1,16 +1,16 @@
 # run_process_calendar.py
+import json
 from fastapi import UploadFile, File, HTTPException
 from openai import OpenAI
 import io
 from PIL import Image
 import os
 import base64
-
+from json_repair import repair_json
 
 open_ai_key = os.getenv("OPENAI_API_KEY")
 
 if not open_ai_key:
-    # 在本地开发时你会立刻看到错误，而不会默默用一个假 key
     raise RuntimeError("OPENAI_API_KEY not set. Make sure it's defined in secrets/agent.env")
 
 client = OpenAI(api_key=open_ai_key)
@@ -45,30 +45,21 @@ Return ONLY a JSON object with this exact structure:
     "missing_fields_filled": ["date", "start", "end"]
   }
 }
-
-Rules:
-- Do NOT include explanations.
-- Do NOT include markdown.
-- Times MUST be in 24-hour format.
-- If date is missing but screenshot shows a weekly grid, deduce the date.
-- If duration is shown instead of start/end, calculate end time.
-- If information is ambiguous, leave field null and include a note in "notes".
 """
 
 
 async def process_calendar(file: UploadFile = File(...)):
     """Upload screenshot → GPT-4o Vision → return structured JSON."""
 
-    # Validate upload type
     if file.content_type not in ["image/png", "image/jpeg"]:
         raise HTTPException(status_code=400, detail="Only PNG or JPG allowed.")
 
-    # Read bytes
     content = await file.read()
+
     if len(content) > 10 * 1024 * 1024:
         raise HTTPException(status_code=400, detail="File too large (>10MB).")
 
-    # Convert to PIL (validates image)
+    # Validate image
     try:
         image = Image.open(io.BytesIO(content))
     except Exception:
@@ -80,35 +71,43 @@ async def process_calendar(file: UploadFile = File(...)):
     buf.seek(0)
     png_bytes = buf.getvalue()
 
-    # Encode to base64 for OpenAI Vision
+    # Encode to base64
     base64_image = base64.b64encode(png_bytes).decode("utf-8")
 
-    # Call GPT Vision
+    # GPT-4o Vision call (correct format)
     response = client.chat.completions.create(
-        model="gpt-4o",  # or gpt-4o-mini for speed
+        model="gpt-4o",
         messages=[
             {"role": "system", "content": VISION_PROMPT},
             {
                 "role": "user",
                 "content": [
                     {
-                        "type": "input_text", 
-                        "text": "Extract structured calendar JSON."
+                        "type": "text",
+                        "text": "Extract structured JSON from this calendar image."
                     },
                     {
-                        "type": "input_image",
-                        "image_url": f"data:image/png;base64,{base64_image}"
+                        "type": "image_url",
+                        "image_url": {
+                            "url": f"data:image/png;base64,{base64_image}"
+                        }
                     }
                 ]
             }
         ],
-        max_tokens=1500
+        max_tokens=2000
     )
 
-    # Get LLM output
+    raw_output = response.choices[0].message.content
+
     try:
-        calendar_json = response.choices[0].message["content"]
-    except:
-        raise HTTPException(status_code=500, detail="Invalid response from GPT VisionAgent.")
+        fixed_output = repair_json(raw_output)
+        calendar_json = json.loads(fixed_output)
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Invalid JSON output from GPT (json-repair failed). Raw output: {raw_output}"
+        )
 
     return {"parsed_calendar": calendar_json}

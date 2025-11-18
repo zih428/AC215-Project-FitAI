@@ -1,6 +1,12 @@
+import json
+from typing import Optional
+
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import Response
+
+from planner import fetch_user_profile, generate_fitness_plan, save_plan_record
 from run_process_calendar import process_calendar
+from ics_generator import generate_ics_calendar
 
 app = FastAPI()
 
@@ -12,41 +18,59 @@ def health():
 # One-step calendar pipeline
 app.post("/process_calendar")(process_calendar)
 
-
-
 @app.post("/planner")
 async def planner_api(
-    user_id: str = Form(...),
-    file: UploadFile = File(...)
+    user_id: int = Form(...),
+    file: Optional[UploadFile] = File(None),
+    save_to_db: bool = Form(False)
 ):
-    """
-    Hard-coded planner API for testing.
-    """
+    """Use OCR + planner LLM to craft a personalized training plan."""
 
-    # You can print debug info
-    print(f"Received user_id={user_id}, file={file.filename}, size={len(await file.read())} bytes")
+    calendar_payload = None
+    if file is not None:
+        calendar_response = await process_calendar(file=file)
+        parsed_calendar = calendar_response.get("parsed_calendar")
+        if not parsed_calendar:
+            raise HTTPException(status_code=502, detail="Calendar processing failed")
 
-    # Hard-coded output
-    hardcoded_calendar = {
-        "user_id": user_id,
-        "events": [
-            {
-                "title": "Workout Session",
-                "date": "2025-11-14",
-                "start": "08:00",
-                "end": "09:00",
-                "location": "Gym",
-                "notes": "Leg day"
-            },
-            {
-                "title": "Team Meeting",
-                "date": "2025-11-14",
-                "start": "14:00",
-                "end": "15:00",
-                "location": "Office",
-                "notes": None
-            }
-        ]
+    if isinstance(parsed_calendar, dict):
+        calendar_payload = parsed_calendar
+    else:
+        try:
+            calendar_payload = json.loads(parsed_calendar) if parsed_calendar else None
+        except json.JSONDecodeError:
+            raise HTTPException(status_code=400, detail="Calendar JSON invalid")
+
+    user_profile = fetch_user_profile(user_id)
+    fitness_plan = generate_fitness_plan(user_profile, calendar_payload)
+    plan_record = None
+    if save_to_db:
+        plan_record = save_plan_record(user_id, fitness_plan)
+
+    return {
+        "user": user_profile,
+        "calendar": calendar_payload,
+        "fitness_plan": fitness_plan,
+        "plan_record": plan_record,
     }
 
-    return hardcoded_calendar
+@app.post("/planner/ics")
+async def planner_ics(user_id: int, plan: dict):
+    """
+    Generate .ics calendar file for the user's fitness plan.
+    """
+
+    if "training_days" not in plan:
+        raise HTTPException(502, "Training plan missing training_days")
+
+    ics_text = generate_ics_calendar(plan, user_id)
+
+    filename = f"fitai_plan_{user_id}.ics"
+
+    return Response(
+        content=ics_text,
+        media_type="text/calendar",
+        headers={
+            "Content-Disposition": f"attachment; filename={filename}"
+        }
+    )

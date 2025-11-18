@@ -87,7 +87,7 @@ Expected output:
         "notes": null,
         "raw_text": "Adv Practical Data Science\nSEC 1.321 Lecture\n11:15AM (2:15PM)"
       },
-
+      ...
     ],
     "metadata": {
       "source_type": "calendar_screenshot",
@@ -146,7 +146,24 @@ curl -X POST "http://localhost:8004/planner" \
     -F "user_id=1" \
     -F "save_to_db=true"
 ```
+## 4.3. Response Format
 
+The endpoint returns a dictionary with the following shape:
+
+```json
+{
+  "user": { /* user record from Sql db  (dict) */ },
+  "calendar": { /* parsed calendar dict */ } | null,
+  "fitness_plan": { /* generated fitness plan dict */ },
+  "plan_record": { /* persisted plan DB record */ } | null
+}
+```
+
+Fields:
+- user: user object fetched from Postgres (id, name, metrics, goals, etc.).  
+- calendar: parsed calendar data when a file is provided; null if no calendar was parsed.  
+- fitness_plan: the generated plan object (summary, training_days, notes).  
+- plan_record: the DB record created when save_to_db=true; null if not saved.
 
 ## 5.1 Frontend Integration (No Local Path Required)
 
@@ -182,78 +199,6 @@ Usage in a component:
         if (file) uploadCalendar(file, "1").then(data => console.log("Planner result:", data));
     }}
 />
-```
-
-----
-## 6. Expected Response (Abbreviated)
-
-```json
-{
-  "user": {
-    "id": 1,
-    "full_name": "Fit Tester",
-    "height_cm": 180,
-    "weight_kg": 78,
-    "body_type": "mesomorphic",
-    "gender": "male",
-    "age_years": 31,
-    "training_goal": "increase strength"
-  },
-  "calendar": { "events": ["...vision output..."] },
-  "fitness_plan": {
-    "plan_summary": "3 focused strength sessions built around morning gaps.",
-    "training_days": [
-      {
-        "date": "2024-11-18",
-        "day_of_week": "Monday",
-        "available_time_blocks": ["06:30-07:30"],
-        "workout_focus": "Lower body strength",
-        "movements": [
-          {"name": "Back Squat", "sets_reps": "4x6 @ RPE 8", "equipment": "Barbell", "coaching_notes": "2-1-1 tempo"}
-        ],
-        "conditioning_or_cardio": "10 min echo-bike",
-        "recovery": "90s quad stretch"
-      }
-    ],
-    "recovery_notes": "Hydrate and sleep 7+ hours",
-    "nutrition_notes": "Prioritize 30g protein w/in 60 minutes post workout"
-  }
-}
-```
-
-The real output will vary with the OCR results, stored profile, and LLM
-creativity, but the structure remains consistent.
-
----
-
-## Troubleshooting
-
-1) curl: (26) Failed to open/read local data  
-- File path is likely wrong. Check:
-
-```bash
-ls -al calendar_image
-```
-
-Or use the absolute path.
-
-2) curl: (7) Failed to connect  
-- Service not running. Verify with:
-
-```bash
-docker ps
-```
-
-You should see a container mapping like: `0.0.0.0:8004->8004/tcp`. If not, start:
-
-```bash
-docker compose up calendar-agent
-```
-
-3) View service logs:
-
-```bash
-docker compose logs -f calendar-agent
 ```
 
 ---
@@ -601,4 +546,36 @@ docker compose logs -f calendar-agent
     "nutrition_notes": "Focus on a balanced diet with adequate protein intake to support muscle growth. Aim for 1.6-2.2 grams of protein per kilogram of body weight."
   }
 }
+```
+
+---
+
+## Troubleshooting
+
+1) curl: (26) Failed to open/read local data  
+- File path is likely wrong. Check:
+
+```bash
+ls -al calendar_image
+```
+
+Or use the absolute path.
+
+2) curl: (7) Failed to connect  
+- Service not running. Verify with:
+
+```bash
+docker ps
+```
+
+You should see a container mapping like: `0.0.0.0:8004->8004/tcp`. If not, start:
+
+```bash
+docker compose up calendar-agent
+```
+
+3) View service logs:
+
+```bash
+docker compose logs -f calendar-agent
 ```

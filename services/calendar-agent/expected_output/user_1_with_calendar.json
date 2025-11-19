@@ -1,0 +1,221 @@
+{
+  "user": {
+    "id": 1,
+    "full_name": "Avery Chen",
+    "height_cm": 170.2,
+    "weight_kg": 68.5,
+    "body_type": "mesomorph",
+    "gender": "female",
+    "age_years": 28,
+    "training_goal": "build lean muscle"
+  },
+  "calendar": {
+    "events": [
+      {
+        "title": "Veterans Day",
+        "date": "2025-11-11",
+        "start": "00:00",
+        "end": "23:59",
+        "location": null,
+        "notes": null,
+        "raw_text": "Veterans Day"
+      },
+      {
+        "title": "Faye & Andy",
+        "date": "2025-11-11",
+        "start": "10:00",
+        "end": "11:00",
+        "location": null,
+        "notes": null,
+        "raw_text": "Faye & Andy"
+      },
+      {
+        "title": "Adv Practical Data Science",
+        "date": "2025-11-11",
+        "start": "11:15",
+        "end": "14:15",
+        "location": "SEC 1.321 Lecture Hall",
+        "notes": null,
+        "raw_text": "Adv Practical Data Science\nSEC 1.321 Lecture Hall\n11:15AM (2:15PM)"
+      },
+      {
+        "title": "Adv Practical Data Science",
+        "date": "2025-11-12",
+        "start": "09:45",
+        "end": "12:45",
+        "location": "SEC 1.321 Lecture Hall",
+        "notes": null,
+        "raw_text": "Adv Practical Data Science\nSEC 1.321 Lecture Hall\n9:45AM (12:45PM)"
+      },
+      {
+        "title": "Interview with Faye",
+        "date": "2025-11-12",
+        "start": "11:00",
+        "end": "12:00",
+        "location": null,
+        "notes": null,
+        "raw_text": "Interview with Faye"
+      },
+      {
+        "title": "Data Science 1",
+        "date": "2025-11-12",
+        "start": "13:00",
+        "end": "14:00",
+        "location": "SEC 2.118 Classroom",
+        "notes": null,
+        "raw_text": "Data Science 1\nSEC 2.118 Classroom"
+      },
+      {
+        "title": "Intro to Linear Models",
+        "date": "2025-11-13",
+        "start": "11:00",
+        "end": "12:00",
+        "location": null,
+        "notes": null,
+        "raw_text": "Intro to Linear Models"
+      },
+      {
+        "title": "FitAI",
+        "date": "2025-11-14",
+        "start": "09:00",
+        "end": "10:00",
+        "location": "harvard.zoom.us",
+        "notes": null,
+        "raw_text": "FitAI\nharvard.zoom.us"
+      }
+    ],
+    "metadata": {
+      "source_type": "calendar_screenshot",
+      "confidence": 0.95,
+      "missing_fields_filled": [
+        "date",
+        "start",
+        "end"
+      ]
+    }
+  },
+  "fitness_plan": {
+    "plan_summary": "This plan focuses on building lean muscle with a 3-day split, incorporating compound exercises and adequate recovery.",
+    "training_days": [
+      {
+        "date": "2025-11-11",
+        "day_of_week": "Tuesday",
+        "available_time_blocks": [
+          "00:00-10:00",
+          "14:15-23:59"
+        ],
+        "scheduled_time_block": "14:15-15:30",
+        "schedule_reason": "Afternoon availability fits well around scheduled meetings and Veterans Day.",
+        "workout_focus": "Lower Body Strength",
+        "movements": [
+          {
+            "name": "Barbell Back Squat",
+            "sets_reps": "3x8 @ RPE 7",
+            "equipment": "Barbell, Rack",
+            "coaching_notes": "Focus on depth and control."
+          },
+          {
+            "name": "Romanian Deadlift",
+            "sets_reps": "3x10 @ RPE 7",
+            "equipment": "Barbell",
+            "coaching_notes": "Maintain a straight back and feel the hamstring stretch."
+          },
+          {
+            "name": "Leg Press",
+            "sets_reps": "3x12 @ RPE 6",
+            "equipment": "Leg Press Machine",
+            "coaching_notes": "Full range of motion."
+          },
+          {
+            "name": "Calf Raises",
+            "sets_reps": "4x15 @ RPE 5",
+            "equipment": "Leg Press Machine",
+            "coaching_notes": "Squeeze at the top of the movement."
+          }
+        ],
+        "conditioning_or_cardio": "20 minutes of incline treadmill walking.",
+        "recovery": "Foam roll quads and hamstrings."
+      },
+      {
+        "date": "2025-11-13",
+        "day_of_week": "Thursday",
+        "available_time_blocks": [
+          "00:00-11:00",
+          "12:00-23:59"
+        ],
+        "scheduled_time_block": "12:00-13:15",
+        "schedule_reason": "Good availability in the early afternoon.",
+        "workout_focus": "Upper Body Push",
+        "movements": [
+          {
+            "name": "Barbell Bench Press",
+            "sets_reps": "3x8 @ RPE 7",
+            "equipment": "Barbell, Bench",
+            "coaching_notes": "Focus on controlled descent and explosive ascent."
+          },
+          {
+            "name": "Overhead Press",
+            "sets_reps": "3x8 @ RPE 7",
+            "equipment": "Barbell",
+            "coaching_notes": "Engage core and maintain a stable base."
+          },
+          {
+            "name": "Incline Dumbbell Press",
+            "sets_reps": "3x10 @ RPE 6",
+            "equipment": "Dumbbells, Incline Bench",
+            "coaching_notes": "Squeeze the chest at the top."
+          },
+          {
+            "name": "Triceps Pushdowns",
+            "sets_reps": "4x12 @ RPE 6",
+            "equipment": "Cable Machine",
+            "coaching_notes": "Keep elbows close to the body."
+          }
+        ],
+        "conditioning_or_cardio": "None",
+        "recovery": "Stretch chest and shoulders."
+      },
+      {
+        "date": "2025-11-15",
+        "day_of_week": "Saturday",
+        "available_time_blocks": [
+          "00:00-23:59"
+        ],
+        "scheduled_time_block": "10:00-11:15",
+        "schedule_reason": "Open Saturday morning slot.",
+        "workout_focus": "Upper Body Pull",
+        "movements": [
+          {
+            "name": "Pull-ups",
+            "sets_reps": "3xAMRAP @ RPE 8",
+            "equipment": "Pull-up Bar",
+            "coaching_notes": "Use assistance if needed to maintain good form."
+          },
+          {
+            "name": "Bent-Over Row",
+            "sets_reps": "3x8 @ RPE 7",
+            "equipment": "Barbell",
+            "coaching_notes": "Maintain a flat back and pull with your elbows."
+          },
+          {
+            "name": "Lat Pulldowns",
+            "sets_reps": "3x10 @ RPE 6",
+            "equipment": "Lat Pulldown Machine",
+            "coaching_notes": "Focus on squeezing the shoulder blades together."
+          },
+          {
+            "name": "Bicep Curls",
+            "sets_reps": "4x12 @ RPE 6",
+            "equipment": "Dumbbells",
+            "coaching_notes": "Control the weight throughout the movement."
+          }
+        ],
+        "conditioning_or_cardio": "None",
+        "recovery": "Stretch back and biceps."
+      }
+    ],
+    "recovery_notes": "Prioritize sleep and hydration to aid muscle recovery. Consider active recovery like light walking or yoga on off days.",
+    "nutrition_notes": "Ensure adequate protein intake (around 1.6-2.2g per kg of body weight) to support muscle growth. Consume a balanced diet with sufficient carbohydrates for energy and healthy fats for overall health."
+  },
+  "plan_record": null
+}

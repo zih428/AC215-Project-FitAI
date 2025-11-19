@@ -1,0 +1,117 @@
+{
+  "user": {
+    "id": 1,
+    "full_name": "Avery Chen",
+    "height_cm": 170.2,
+    "weight_kg": 68.5,
+    "body_type": "mesomorph",
+    "gender": "female",
+    "age_years": 28,
+    "training_goal": "build lean muscle"
+  },
+  "calendar": null,
+  "fitness_plan": {
+    "plan_summary": "This training plan focuses on building lean muscle through a combination of compound exercises and targeted accessory work. It incorporates a 3-day split, prioritizing major muscle groups each session with moderate volume and intensity to stimulate hypertrophy. Recovery is emphasized through active recovery and nutrition.",
+    "training_days": [
+      {
+        "day_of_week": "Monday",
+        "workout_focus": "Upper Body Push",
+        "movements": [
+          {
+            "name": "Barbell Bench Press",
+            "sets_reps": "3x8 @ RPE 7",
+            "equipment": "Barbell, Bench",
+            "coaching_notes": "Focus on controlled descent and explosive press."
+          },
+          {
+            "name": "Overhead Press",
+            "sets_reps": "3x8 @ RPE 7",
+            "equipment": "Barbell",
+            "coaching_notes": "Maintain a stable core and controlled movement."
+          },
+          {
+            "name": "Incline Dumbbell Press",
+            "sets_reps": "3x10 @ RPE 6",
+            "equipment": "Dumbbells, Incline Bench",
+            "coaching_notes": "Squeeze your chest at the top of the movement."
+          },
+          {
+            "name": "Lateral Raises",
+            "sets_reps": "3x12 @ RPE 6",
+            "equipment": "Dumbbells",
+            "coaching_notes": "Focus on feeling the deltoids working."
+          }
+        ],
+        "conditioning_or_cardio": "20 minutes of incline walking at a moderate pace.",
+        "recovery": "Light stretching and foam rolling of upper body."
+      },
+      {
+        "day_of_week": "Wednesday",
+        "workout_focus": "Lower Body",
+        "movements": [
+          {
+            "name": "Barbell Back Squat",
+            "sets_reps": "3x8 @ RPE 7",
+            "equipment": "Barbell, Squat Rack",
+            "coaching_notes": "Maintain proper form and depth."
+          },
+          {
+            "name": "Romanian Deadlift",
+            "sets_reps": "3x10 @ RPE 7",
+            "equipment": "Barbell",
+            "coaching_notes": "Focus on hamstring engagement."
+          },
+          {
+            "name": "Leg Press",
+            "sets_reps": "3x10 @ RPE 6",
+            "equipment": "Leg Press Machine",
+            "coaching_notes": "Ensure full range of motion."
+          },
+          {
+            "name": "Calf Raises",
+            "sets_reps": "4x15 @ RPE 6",
+            "equipment": "Leg Press Machine",
+            "coaching_notes": "Squeeze the calves at the top."
+          }
+        ],
+        "conditioning_or_cardio": "None",
+        "recovery": "Active recovery: light walk and lower body stretching."
+      },
+      {
+        "day_of_week": "Friday",
+        "workout_focus": "Upper Body Pull",
+        "movements": [
+          {
+            "name": "Pull-Ups",
+            "sets_reps": "3xAMRAP @ RPE 8",
+            "equipment": "Pull-Up Bar",
+            "coaching_notes": "Use assisted pull-up machine if needed."
+          },
+          {
+            "name": "Bent-Over Row",
+            "sets_reps": "3x8 @ RPE 7",
+            "equipment": "Barbell",
+            "coaching_notes": "Maintain a flat back and controlled movement."
+          },
+          {
+            "name": "Lat Pulldowns",
+            "sets_reps": "3x10 @ RPE 6",
+            "equipment": "Lat Pulldown Machine",
+            "coaching_notes": "Focus on squeezing the shoulder blades together."
+          },
+          {
+            "name": "Dumbbell Bicep Curls",
+            "sets_reps": "3x12 @ RPE 6",
+            "equipment": "Dumbbells",
+            "coaching_notes": "Control the eccentric phase of the movement."
+          }
+        ],
+        "conditioning_or_cardio": "20 minutes of moderate intensity cycling.",
+        "recovery": "Foam rolling and upper body stretching."
+      }
+    ],
+    "recovery_notes": "Prioritize sleep, aim for 7-9 hours per night. Incorporate active recovery such as light stretching and walking on off days to promote blood flow and reduce muscle soreness.",
+    "nutrition_notes": "Consume a balanced diet with adequate protein intake (around 1.6-2.2g per kg of body weight) to support muscle growth. Focus on whole foods and stay hydrated throughout the day."
+  },
+  "plan_record": null
+}

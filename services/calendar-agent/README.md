@@ -72,36 +72,6 @@ curl -X POST "http://localhost:8004/process_calendar" \
     -F "file=@services/calendar-agent/calendar_image/calendar.png" 
     #replace with the correct path if you are not in root repo
 ```
-Expected output:
-
-```
-{
-  "parsed_calendar": {
-    "events": [
-      {
-        "title": "Adv Practical Data Science",
-        "date": "2025-11-11",
-        "start": "11:15",
-        "end": "14:15",
-        "location": "SEC 1.321 Lecture",
-        "notes": null,
-        "raw_text": "Adv Practical Data Science\nSEC 1.321 Lecture\n11:15AM (2:15PM)"
-      },
-      ...
-    ],
-    "metadata": {
-      "source_type": "calendar_screenshot",
-      "confidence": 0.95,
-      "missing_fields_filled": [
-        "date",
-        "start",
-        "end"
-      ]
-    }
-  }
-}
-```
-
 
 ## 4.2. Test the Planner API
 
@@ -121,8 +91,9 @@ If the file is elsewhere, use an absolute path:
 curl -X POST "http://localhost:8004/planner" \
     -F "user_id=1" \
     -F "file=@/Users/cefayefang/Projects/AC215-Project-FitAI/services/calendar-agent/calendar_image/calendar.png"
-    -F "save_to_db=true" #optional
+    #-F "save_to_db=true" optional, default is false
 ```
+[Expected output(with_calendar_input)](sexpected_output/user_1_with_calendar.json)
 
 Or you can use relative path if your working directory is at `calendar-agent`:
 
@@ -137,15 +108,10 @@ Or omit the file entirely for a template-style plan:
 ```bash
 curl -X POST "http://localhost:8004/planner" \
     -F "user_id=1"
+    # -F "save_to_db=true"
 ```
+[Expected output_no_calendar_input](expected_output/user_1_with_calendar.json)
 
-To also persist the plan:
-
-```bash
-curl -X POST "http://localhost:8004/planner" \
-    -F "user_id=1" \
-    -F "save_to_db=true"
-```
 ## 4.3. Response Format
 
 The endpoint returns a dictionary with the following shape:

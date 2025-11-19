@@ -27,6 +27,8 @@ async def planner_api(
     """Use OCR + planner LLM to craft a personalized training plan."""
 
     calendar_payload = None
+    parsed_calendar = None 
+    
     if file is not None:
         calendar_response = await process_calendar(file=file)
         parsed_calendar = calendar_response.get("parsed_calendar")

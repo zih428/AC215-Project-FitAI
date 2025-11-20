@@ -263,6 +263,14 @@ export default function TrainingPlan() {
     }
   }
 
+  const handleDiscardPlan = () => {
+    if (!planResponse) return
+    setPlanResponse(null)
+    setSelectedPlanId(null)
+    setStatusMessage('Plan discarded.')
+    setError(null)
+  }
+
   const renderTrainingDay = (day: Record<string, any>, idx: number) => {
     const title = day.date
       ? `${day.day_of_week || 'Training Day'} (${day.date})`
@@ -430,6 +438,17 @@ export default function TrainingPlan() {
                     }`}
                   >
                     {isSaving ? 'Saving...' : 'Save This Plan'}
+                  </button>
+                  <button
+                    onClick={handleDiscardPlan}
+                    disabled={!planResponse || isSaving || isSubmitting}
+                    className={`inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium border ${
+                      !planResponse || isSaving || isSubmitting
+                        ? 'text-gray-400 bg-gray-100 border-gray-200 cursor-not-allowed'
+                        : 'text-gray-700 bg-white border-gray-300 hover:bg-gray-50'
+                    }`}
+                  >
+                    Discard Plan
                   </button>
                 </div>
                 {planHistory.length > 0 && (

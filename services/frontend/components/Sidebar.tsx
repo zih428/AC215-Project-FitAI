@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import Image from 'next/image'
 import { 
   MessageCircle, 
   Dumbbell, 
@@ -54,11 +55,17 @@ export default function Sidebar() {
     <div className="w-64 bg-white border-r border-gray-200 flex flex-col h-full">
       {/* Logo Section */}
       <div className="p-6 border-b border-gray-200">
-        <div className="flex items-center space-x-2 mb-2">
-          <div className="w-8 h-8 bg-primary-500 rounded flex items-center justify-center">
-            <Dumbbell className="w-5 h-5 text-white rotate-45" />
+        <div className="flex items-center space-x-3 mb-2">
+          <div className="w-14 h-14 rounded-lg overflow-hidden bg-white">
+            <Image
+              src="/logo-fitai.png"
+              alt="FitAI logo"
+              width={72}
+              height={72}
+              priority
+            />
           </div>
-          <span className="text-xl font-bold text-gray-900">FitAI</span>
+          <span className="text-2xl font-bold text-gray-900 leading-tight">FitAI</span>
         </div>
         <p className="text-xs text-gray-500">Smart Fitness Platform</p>
       </div>

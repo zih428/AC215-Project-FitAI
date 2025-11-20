@@ -43,6 +43,7 @@ export default function TrainingPlan() {
   const [statusMessage, setStatusMessage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [planResponse, setPlanResponse] = useState<PlannerResponse | null>(null)
+  const [showCalendarParsed, setShowCalendarParsed] = useState(false)
 
   const loadProfile = useCallback(() => {
     if (typeof window === 'undefined') return
@@ -219,7 +220,7 @@ export default function TrainingPlan() {
       </div>
 
       <div className="p-8 bg-gray-50 flex-1 overflow-y-auto">
-        <div className="max-w-5xl mx-auto space-y-6">
+        <div className="max-w-6xl mx-auto space-y-6">
           <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
             <div className="flex items-start justify-between gap-4 mb-4">
               <div className="flex items-center gap-3">
@@ -337,7 +338,7 @@ export default function TrainingPlan() {
               {trainingDays.length > 0 && (
                 <div className="space-y-3">
                   <h4 className="text-lg font-semibold text-gray-900">Training Days</h4>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
                     {trainingDays.map((day, idx) => renderTrainingDay(day, idx))}
                   </div>
                 </div>
@@ -361,11 +362,20 @@ export default function TrainingPlan() {
               )}
 
               {planResponse.calendar && (
-                <div className="border border-gray-200 rounded-lg p-4">
-                  <p className="text-sm font-semibold text-gray-900 mb-2">Calendar parsed</p>
-                  <pre className="text-xs bg-gray-50 border border-gray-100 rounded-lg p-3 overflow-x-auto">
-                    {JSON.stringify(planResponse.calendar, null, 2)}
-                  </pre>
+                <div className="border border-gray-200 rounded-lg">
+                  <button
+                    type="button"
+                    onClick={() => setShowCalendarParsed((prev) => !prev)}
+                    className="w-full flex items-center justify-between px-4 py-3 text-left text-sm font-semibold text-gray-900"
+                  >
+                    <span>Calendar parsed</span>
+                    <span className="text-xs text-gray-500">{showCalendarParsed ? 'Hide' : 'Show'}</span>
+                  </button>
+                  {showCalendarParsed && (
+                    <pre className="text-xs bg-gray-50 border-t border-gray-100 rounded-b-lg p-3 overflow-x-auto">
+                      {JSON.stringify(planResponse.calendar, null, 2)}
+                    </pre>
+                  )}
                 </div>
               )}
             </div>

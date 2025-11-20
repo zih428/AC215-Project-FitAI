@@ -6,12 +6,14 @@ import { usePathname } from 'next/navigation'
 import { 
   MessageCircle, 
   Dumbbell, 
-  User
+  User,
+  CalendarClock
 } from 'lucide-react'
 
 const navigation = [
   { name: 'Profile', href: '/profile', icon: User },
   { name: 'AI Coach', href: '/ai-coach', icon: MessageCircle },
+  { name: 'Training Plan', href: '/training-plan', icon: CalendarClock },
   { name: 'Workouts', href: '/workouts', icon: Dumbbell },
 ]
 

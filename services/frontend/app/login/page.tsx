@@ -11,6 +11,8 @@ const PIPELINE_BASE_URL =
 const AUTH_TOKEN_KEY = 'fitai-auth-token'
 const PROFILE_STORAGE_KEY = 'fitai-profile-user-id'
 const PROFILE_CACHE_KEY = 'fitai-profile-data'
+const CHAT_HISTORY_KEY = 'fitai-ai-coach-messages'
+const PLAN_CACHE_KEY = 'fitai-training-plan-cache'
 const PROFILE_UPDATED_EVENT = 'fitai-profile-updated'
 
 type Mode = 'login' | 'register'
@@ -56,6 +58,9 @@ export default function LoginPage() {
 
   const persistSession = (token: string, user: { id: number } & Record<string, any>) => {
     if (typeof window === 'undefined') return
+    // Clear cached data from previous sessions so users don't see each other's history
+    window.localStorage.removeItem(CHAT_HISTORY_KEY)
+    window.localStorage.removeItem(PLAN_CACHE_KEY)
     window.localStorage.setItem(AUTH_TOKEN_KEY, token)
     window.localStorage.setItem(PROFILE_STORAGE_KEY, user.id.toString())
     window.localStorage.setItem(PROFILE_CACHE_KEY, JSON.stringify(user))
@@ -70,6 +75,8 @@ export default function LoginPage() {
     window.localStorage.removeItem(AUTH_TOKEN_KEY)
     window.localStorage.removeItem(PROFILE_STORAGE_KEY)
     window.localStorage.removeItem(PROFILE_CACHE_KEY)
+    window.localStorage.removeItem(CHAT_HISTORY_KEY)
+    window.localStorage.removeItem(PLAN_CACHE_KEY)
     document.cookie = 'access_token=; Max-Age=0; path=/; SameSite=Lax'
     window.dispatchEvent(new Event(PROFILE_UPDATED_EVENT))
     setSession(null)

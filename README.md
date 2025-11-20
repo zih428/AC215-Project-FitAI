@@ -44,21 +44,24 @@ All raw and processed exercise physiology literature, along with relevant traini
 We use DVC to version-control all literature data stored in our GCS bucket (gs://fitai-data-bucket).
 
 Setup
-
+```bash
 dvc import-url gs://fitai-data-bucket fitai_data_bucket
 git add fitai_data_bucket.dvc
 git commit -m "Track GCS literature dataset with DVC"
+```
 
 Update dataset version
-
+```bash
 dvc update fitai_data_bucket.dvc
 git add fitai_data_bucket.dvc
 git commit -m "Update literature dataset version"
+```
 
 Reproduce a dataset version
-
+```bash
 git checkout <commit>
 dvc update fitai_data_bucket.dvc
+```
 
 All actual data remains in GCS; only DVC pointers are stored in Git. 
 

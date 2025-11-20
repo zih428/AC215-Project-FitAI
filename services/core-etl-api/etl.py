@@ -88,12 +88,7 @@ def load_csv_to_table(blob_name, table_name):
 
 
 def seed_users():
-    """Insert a few demo users if table is empty; don't wipe existing accounts."""
-    with engine.connect() as conn:
-        existing_count = conn.execute(text("SELECT COUNT(*) FROM users")).scalar() or 0
-        if existing_count > 0:
-            print(f"Users table already has {existing_count} rows; skipping demo seed.")
-            return
+    """Insert demo users idempotently; skip any already-present emails."""
 
     demo_password = "88888888"
     demo_password_hash = pwd_context.hash(demo_password)
@@ -131,17 +126,40 @@ def seed_users():
             "age_years": 41,
             "training_goal": "improve metabolic health",
         },
+        {
+            "full_name": "Xuan Zai",
+            "email": "steven_ge@fas.harvard.edu",
+            "password_hash": demo_password_hash,
+            "height_cm": 179.0,
+            "weight_kg": 66,
+            "body_type": "ectomorphic",
+            "gender": "male",
+            "age_years": 25,
+            "training_goal": "increase strength",
+        },
+        {
+            "full_name": "Leo Cheng",
+            "email": "leocheng@g.harvard.edu",
+            "password_hash": demo_password_hash,
+            "height_cm": 177.0,
+            "weight_kg": 67,
+            "body_type": "mesomorphic",
+            "gender": "male",
+            "age_years": 24,
+            "training_goal": "increase strength",
+        },
     ]
 
     insert_stmt = text(
         "INSERT INTO users (full_name, email, password_hash, height_cm, weight_kg, body_type, gender, age_years, training_goal) "
-        "VALUES (:full_name, :email, :password_hash, :height_cm, :weight_kg, :body_type, :gender, :age_years, :training_goal)"
+        "VALUES (:full_name, :email, :password_hash, :height_cm, :weight_kg, :body_type, :gender, :age_years, :training_goal) "
+        "ON CONFLICT (email) DO NOTHING"
     )
 
     with engine.begin() as conn:
         conn.execute(insert_stmt, demo_users)
 
-    print(f"Seeded {len(demo_users)} demo rows into users")
+    print(f"Seeded up to {len(demo_users)} demo rows into users (skips existing emails)")
 
 
 def run_etl():

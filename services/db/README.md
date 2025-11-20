@@ -3,7 +3,7 @@
 #### Schema overview (`init.sql`)
 `services/db/init.sql` recreates the schema whenever Postgres starts fresh. It provisions:
 - `gym_recommendation`, `exercise_catalog`, `exercise_tracking`: populated by the ETL job from CSVs.
-- `users`: intended for real user profiles; while the system is in development the ETL seeds a few demo rows so downstream components can exercise the schema.
+- `users`: intended for real user profiles; while the system is in development the ETL seeds a few demo rows so downstream components can exercise the schema. Demo seed accounts (password `88888888`): Avery Chen `averychen@fas.harvard.edu`, Jordan Patel `jordanpatel@fas.harvard.edu`, Maya Lopez `mayalopez@fas.harvard.edu`.
 - `ml_generated_plans`: stores training plans produced by the ML/RAG stack (this table is not filled by the CSV ingestion flow).
 
 The script keeps all tables and seed data consistent across container rebuilds.
@@ -19,11 +19,11 @@ This ingests CSV data from GCS into `exercise_catalog`, `exercise_tracking`, and
 docker compose exec db psql -U fitai -d fitai_app
 select * from users;
 ```
-| id | full_name    | height_cm | weight_kg | body_type | age_years | training_goal             | created_at              |
-|----|--------------|-----------|-----------|-----------|-----------|---------------------------|-------------------------|
-| 1  | Avery Chen   | 170.20    | 68.50     | mesomorph | 28        | build lean muscle        | 2025-11-07 03:39:56.686474 |
-| 2  | Jordan Patel | 182.90    | 82.10     | ectomorph | 34        | increase strength        | 2025-11-07 03:39:56.686474 |
-| 3  | Maya Lopez   | 160.00    | 60.30     | endomorph | 41        | improve metabolic health | 2025-11-07 03:39:56.686474 |
+| id | full_name    | email                          | password  | height_cm | weight_kg | body_type | age_years | training_goal             | created_at              |
+|----|--------------|--------------------------------|-----------|-----------|-----------|-----------|-----------|---------------------------|-------------------------|
+| 1  | Avery Chen   | averychen@fas.harvard.edu      | 88888888  | 170.20    | 68.50     | mesomorph | 28        | build lean muscle        | 2025-11-07 03:39:56.686474 |
+| 2  | Jordan Patel | jordanpatel@fas.harvard.edu    | 88888888  | 182.90    | 82.10     | ectomorph | 34        | increase strength        | 2025-11-07 03:39:56.686474 |
+| 3  | Maya Lopez   | mayalopez@fas.harvard.edu      | 88888888  | 160.00    | 60.30     | endomorph | 41        | improve metabolic health | 2025-11-07 03:39:56.686474 |
 
 #### Read a table into pandas
 ```python

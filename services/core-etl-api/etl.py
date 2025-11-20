@@ -1,6 +1,8 @@
-import os, re, io
+import os, re, io, time
 import pandas as pd
 from sqlalchemy import text
+from sqlalchemy.exc import OperationalError
+from passlib.context import CryptContext
 from google.cloud import storage
 from google.oauth2 import service_account
 from db import engine
@@ -16,9 +18,37 @@ KEY_PATH = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 credentials = service_account.Credentials.from_service_account_file(KEY_PATH)
 storage_client = storage.Client(project=PROJECT_ID, credentials=credentials)
 bucket = storage_client.bucket(BUCKET_NAME)
+pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
+
+
+def wait_for_db(max_attempts: int = 10, delay_seconds: int = 3):
+    """Block until the database is reachable or attempts are exhausted."""
+    for attempt in range(1, max_attempts + 1):
+        try:
+            with engine.connect() as conn:
+                conn.execute(text("SELECT 1"))
+            print(f"Database is up (attempt {attempt}/{max_attempts}).")
+            return
+        except OperationalError:
+            if attempt == max_attempts:
+                raise
+            print(f"Database not ready (attempt {attempt}/{max_attempts}), retrying in {delay_seconds}s...")
+            time.sleep(delay_seconds)
+
+
+def table_has_rows(table_name: str) -> bool:
+    """Return True if the given table already has at least one row."""
+    with engine.connect() as conn:
+        count = conn.execute(text(f"SELECT COUNT(*) FROM {table_name}")).scalar() or 0
+        return count > 0
 
 
 def load_csv_to_table(blob_name, table_name):
+    # Avoid duplicate ingestion when tables already have data
+    if table_has_rows(table_name):
+        print(f"Skipping load for {table_name}: table already has data.")
+        return
+
     print(f"Loading gs://{BUCKET_NAME}/{blob_name} into {table_name}...")
 
     # Read file directly from GCS into memory
@@ -65,9 +95,13 @@ def seed_users():
             print(f"Users table already has {existing_count} rows; skipping demo seed.")
             return
 
+    demo_password = "88888888"
+    demo_password_hash = pwd_context.hash(demo_password)
     demo_users = [
         {
             "full_name": "Avery Chen",
+            "email": "averychen@fas.harvard.edu",
+            "password_hash": demo_password_hash,
             "height_cm": 170.2,
             "weight_kg": 68.5,
             "body_type": "mesomorph",
@@ -77,6 +111,8 @@ def seed_users():
         },
         {
             "full_name": "Jordan Patel",
+            "email": "jordanpatel@fas.harvard.edu",
+            "password_hash": demo_password_hash,
             "height_cm": 182.9,
             "weight_kg": 82.1,
             "body_type": "ectomorph",
@@ -86,6 +122,8 @@ def seed_users():
         },
         {
             "full_name": "Maya Lopez",
+            "email": "mayalopez@fas.harvard.edu",
+            "password_hash": demo_password_hash,
             "height_cm": 160.0,
             "weight_kg": 60.3,
             "body_type": "endomorph",
@@ -96,8 +134,8 @@ def seed_users():
     ]
 
     insert_stmt = text(
-        "INSERT INTO users (full_name, height_cm, weight_kg, body_type, gender, age_years, training_goal) "
-        "VALUES (:full_name, :height_cm, :weight_kg, :body_type, :gender, :age_years, :training_goal)"
+        "INSERT INTO users (full_name, email, password_hash, height_cm, weight_kg, body_type, gender, age_years, training_goal) "
+        "VALUES (:full_name, :email, :password_hash, :height_cm, :weight_kg, :body_type, :gender, :age_years, :training_goal)"
     )
 
     with engine.begin() as conn:
@@ -107,6 +145,7 @@ def seed_users():
 
 
 def run_etl():
+    wait_for_db()
     load_csv_to_table("raw-data/gym_recommendation.csv", "gym_recommendation")
     load_csv_to_table("raw-data/gym_members_exercise_tracking.csv", "exercise_tracking")
     load_csv_to_table("raw-data/exercise_catalog.csv", "exercise_catalog")

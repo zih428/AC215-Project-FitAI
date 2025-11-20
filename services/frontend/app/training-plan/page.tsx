@@ -240,6 +240,10 @@ export default function TrainingPlan() {
   }
 
   const handleSelectSavedPlan = (value: string) => {
+    if (hasUnsavedPlan) {
+      setStatusMessage('Save or discard the current plan before switching.')
+      return
+    }
     const parsedId = Number(value)
     if (!Number.isFinite(parsedId)) {
       setSelectedPlanId(null)
@@ -333,6 +337,8 @@ export default function TrainingPlan() {
 
   const plan = planResponse?.fitness_plan
   const trainingDays = Array.isArray(plan?.training_days) ? plan?.training_days : []
+  const hasUnsavedPlan = Boolean(planResponse && !planResponse.plan_record)
+  const isPlanSwitchingDisabled = isSubmitting || isSaving || hasUnsavedPlan
 
   return (
     <div className="flex flex-col h-full">
@@ -416,9 +422,9 @@ export default function TrainingPlan() {
                   </button>
                   <button
                     onClick={handleSavePlan}
-                    disabled={isSaving || !planResponse || !profileId}
+                    disabled={isSaving || !hasUnsavedPlan || !profileId}
                     className={`inline-flex items-center justify-center px-4 py-2 rounded-lg text-white font-medium ${
-                      isSaving || !planResponse || !profileId
+                      isSaving || !hasUnsavedPlan || !profileId
                         ? 'bg-gray-200 cursor-not-allowed'
                         : 'bg-gray-800 hover:bg-gray-900'
                     }`}
@@ -433,7 +439,7 @@ export default function TrainingPlan() {
                       value={selectedPlanId ?? ''}
                       onChange={(e) => handleSelectSavedPlan(e.target.value)}
                       className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
-                      disabled={isSubmitting || isSaving}
+                      disabled={isPlanSwitchingDisabled}
                     >
                       <option value="">Select a saved plan</option>
                       {planHistory.map((item) => {
@@ -449,6 +455,11 @@ export default function TrainingPlan() {
                         )
                       })}
                     </select>
+                    {hasUnsavedPlan && (
+                      <p className="text-xs text-amber-700">
+                        Save or discard the current plan to switch to another saved plan.
+                      </p>
+                    )}
                   </div>
                 )}
                 {statusMessage && (

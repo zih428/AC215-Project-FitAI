@@ -16,3 +16,4 @@ docker-volumes/
 # Secrets folder: ignore everything inside except .gitkeep
 /secrets/*
 !/secrets/.gitkeep
+/fitai_data_bucket

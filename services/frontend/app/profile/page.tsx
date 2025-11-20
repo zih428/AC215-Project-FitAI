@@ -5,6 +5,7 @@ import { User } from 'lucide-react'
 
 const PROFILE_STORAGE_KEY = 'fitai-profile-user-id'
 const PROFILE_CACHE_KEY = 'fitai-profile-data'
+const AUTH_TOKEN_KEY = 'fitai-auth-token'
 const PROFILE_UPDATED_EVENT = 'fitai-profile-updated'
 const PIPELINE_BASE_URL =
   process.env.NEXT_PUBLIC_PIPELINE_URL ?? 'http://localhost:8001'
@@ -54,12 +55,14 @@ interface ProfileResponse {
 
 const persistProfileToStorage = (data: ProfileResponse) => {
   if (typeof window === 'undefined') return
+  window.localStorage.setItem(PROFILE_STORAGE_KEY, data.id.toString())
   window.localStorage.setItem(PROFILE_CACHE_KEY, JSON.stringify(data))
   window.dispatchEvent(new Event(PROFILE_UPDATED_EVENT))
 }
 
 const clearProfileFromStorage = () => {
   if (typeof window === 'undefined') return
+  window.localStorage.removeItem(PROFILE_STORAGE_KEY)
   window.localStorage.removeItem(PROFILE_CACHE_KEY)
   window.dispatchEvent(new Event(PROFILE_UPDATED_EVENT))
 }
@@ -78,6 +81,7 @@ export default function Profile() {
   const [formData, setFormData] = useState<ProfileFormState>(defaultFormState)
   const [errors, setErrors] = useState<ProfileErrors>({})
   const [profileId, setProfileId] = useState<number | null>(null)
+  const [authToken, setAuthToken] = useState<string | null>(null)
   const [isLocked, setIsLocked] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
@@ -86,26 +90,48 @@ export default function Profile() {
   useEffect(() => {
     if (typeof window === 'undefined') return
 
-    const storedId = window.localStorage.getItem(PROFILE_STORAGE_KEY)
-    if (!storedId) return
+    const token = window.localStorage.getItem(AUTH_TOKEN_KEY)
+    setAuthToken(token)
 
-    const parsedId = Number(storedId)
-    if (!Number.isFinite(parsedId)) {
-      window.localStorage.removeItem(PROFILE_STORAGE_KEY)
+    // Preload cached profile for immediate UI
+    const cached = window.localStorage.getItem(PROFILE_CACHE_KEY)
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached) as ProfileResponse
+        populateForm(parsed)
+        setProfileId(parsed.id)
+        setIsLocked(true)
+        setHasSavedOnce(true)
+      } catch (error) {
+        console.error('Failed to load cached profile:', error)
+        clearProfileFromStorage()
+      }
+    }
+
+    if (!token) {
       clearProfileFromStorage()
+      setStatusMessage({
+        type: 'error',
+        message: 'Please log in to load and save your profile.',
+      })
       return
     }
 
-    setProfileId(parsedId)
     const fetchProfile = async () => {
       setIsLoading(true)
       try {
-        const response = await fetch(`${PIPELINE_BASE_URL}/users/${parsedId}`)
+        const response = await fetch(`${PIPELINE_BASE_URL}/users/me`, {
+          credentials: 'include',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         if (!response.ok) {
           throw new Error('Unable to load saved profile.')
         }
         const data: ProfileResponse = await response.json()
         populateForm(data)
+        setProfileId(data.id)
         setIsLocked(true)
         setHasSavedOnce(true)
         persistProfileToStorage(data)
@@ -113,12 +139,9 @@ export default function Profile() {
         console.error(error)
         setStatusMessage({
           type: 'error',
-          message: 'We could not load your saved profile. Please re-enter your information.',
+          message: 'We could not load your saved profile. Please log in again.',
         })
-        window.localStorage.removeItem(PROFILE_STORAGE_KEY)
-        clearProfileFromStorage()
-        setProfileId(null)
-        setIsLocked(false)
+        // Keep cached data so the name doesn't disappear; let the user retry login
       } finally {
         setIsLoading(false)
       }
@@ -211,6 +234,17 @@ export default function Profile() {
 
   const handleSave = async () => {
     if (isLocked || isLoading) return
+    const token =
+      typeof window !== 'undefined'
+        ? window.localStorage.getItem(AUTH_TOKEN_KEY)
+        : authToken
+    if (!token) {
+      setStatusMessage({
+        type: 'error',
+        message: 'Please log in to save your profile.',
+      })
+      return
+    }
 
     const { isValid, payload } = validateForm()
     if (!isValid || !payload) return
@@ -219,13 +253,13 @@ export default function Profile() {
     setStatusMessage(null)
 
     try {
-      const method = profileId ? 'PUT' : 'POST'
-      const endpoint = profileId
-        ? `${PIPELINE_BASE_URL}/users/${profileId}`
-        : `${PIPELINE_BASE_URL}/users`
-      const response = await fetch(endpoint, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch(`${PIPELINE_BASE_URL}/users/me`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify(payload),
       })
 
@@ -258,6 +292,7 @@ export default function Profile() {
     setIsLocked(false)
     setHasSavedOnce(false)
     setStatusMessage(null)
+    setAuthToken(typeof window !== 'undefined' ? window.localStorage.getItem(AUTH_TOKEN_KEY) : null)
   }
 
   const fieldDisabled = isLocked || isLoading

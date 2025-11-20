@@ -7,10 +7,12 @@ import {
   MessageCircle, 
   Dumbbell, 
   User,
-  CalendarClock
+  CalendarClock,
+  LogIn
 } from 'lucide-react'
 
 const navigation = [
+  { name: 'Login', href: '/login', icon: LogIn },
   { name: 'Profile', href: '/profile', icon: User },
   { name: 'AI Coach', href: '/ai-coach', icon: MessageCircle },
   { name: 'Training Plan', href: '/training-plan', icon: CalendarClock },

@@ -18,6 +18,8 @@ DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE users (
     id              SERIAL PRIMARY KEY,
     full_name       VARCHAR(255) NOT NULL,
+    email           VARCHAR(255) UNIQUE,
+    password_hash   VARCHAR(255),
     height_cm       NUMERIC(5,2),
     weight_kg       NUMERIC(6,2),
     body_type       VARCHAR(50),
@@ -130,3 +132,4 @@ CREATE TABLE ml_generated_plans (
 -- Indexes (optional performance helpers)
 -- ====================================================
 CREATE INDEX idx_exercises_name ON exercise_catalog(exercise);
+CREATE UNIQUE INDEX idx_users_email ON users(email) WHERE email IS NOT NULL;

@@ -34,6 +34,8 @@ interface ProfileResponse {
 
 const STORAGE_KEY = 'fitai-ai-coach-messages'
 const PROFILE_STORAGE_KEY = 'fitai-profile-user-id'
+const PROFILE_CACHE_KEY = 'fitai-profile-data'
+const AUTH_TOKEN_KEY = 'fitai-auth-token'
 const PROFILE_UPDATED_EVENT = 'fitai-profile-updated'
 const PIPELINE_BASE_URL =
   process.env.NEXT_PUBLIC_PIPELINE_URL ?? 'http://localhost:8001'
@@ -88,56 +90,89 @@ export default function AICoach() {
     }
   }, [])
 
-  const fetchProfile = useCallback(async (id: number) => {
-    try {
-      const response = await fetch(`${PIPELINE_BASE_URL}/users/${id}`)
-      if (!response.ok) {
-        throw new Error('Unable to load saved profile.')
+  const fetchProfile = useCallback(
+    async ({ userId, token }: { userId?: number | null; token?: string | null }) => {
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+      let url: string | null = null
+
+      if (token) {
+        url = `${PIPELINE_BASE_URL}/users/me`
+        headers.Authorization = `Bearer ${token}`
+      } else if (userId) {
+        url = `${PIPELINE_BASE_URL}/users/${userId}`
       }
-      const data: ProfileResponse = await response.json()
-      setProfile(data)
-      setProfileError(null)
-    } catch (error) {
-      console.error('Failed to load profile for AI Coach:', error)
-      setProfile(null)
-      setProfileError('Profile unavailable. Save your profile to personalize responses.')
-    }
-  }, [])
 
-  useEffect(() => {
-    if (profileId == null) return
-    fetchProfile(profileId)
-  }, [profileId, fetchProfile])
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return
-
-    const loadProfileId = () => {
-      const storedId = window.localStorage.getItem(PROFILE_STORAGE_KEY)
-      if (!storedId) {
-        setProfileId(null)
+      if (!url) {
         setProfile(null)
         setProfileError('Profile unavailable. Save your profile to personalize responses.')
         return
       }
 
-      const parsedId = Number(storedId)
-      if (!Number.isFinite(parsedId)) {
-        window.localStorage.removeItem(PROFILE_STORAGE_KEY)
-        setProfileId(null)
+      try {
+        const response = await fetch(url, { headers })
+        if (!response.ok) {
+          throw new Error('Unable to load profile.')
+        }
+        const data: ProfileResponse = await response.json()
+        setProfile(data)
+        setProfileId(data.id)
+        setProfileError(null)
+        if (typeof window !== 'undefined') {
+          window.localStorage.setItem(PROFILE_STORAGE_KEY, data.id.toString())
+          window.localStorage.setItem(PROFILE_CACHE_KEY, JSON.stringify(data))
+          window.dispatchEvent(new Event(PROFILE_UPDATED_EVENT))
+        }
+      } catch (error) {
+        console.error('Failed to load profile for AI Coach:', error)
+        setProfile(null)
+        setProfileError('Profile unavailable. Save your profile to personalize responses.')
+      }
+    },
+    []
+  )
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const refreshProfile = () => {
+      const token = window.localStorage.getItem(AUTH_TOKEN_KEY)
+      const cached = window.localStorage.getItem(PROFILE_CACHE_KEY)
+      const storedId = window.localStorage.getItem(PROFILE_STORAGE_KEY)
+      const parsedId = storedId ? Number(storedId) : null
+      const nextProfileId = Number.isFinite(parsedId) ? parsedId : null
+
+      if (cached) {
+        try {
+          const parsed = JSON.parse(cached) as ProfileResponse
+          setProfile(parsed)
+          setProfileId(parsed.id ?? nextProfileId)
+          setProfileError(null)
+        } catch (error) {
+          console.error('Failed to restore cached profile:', error)
+          setProfile(null)
+        }
+      } else {
+        setProfileId(nextProfileId)
+      }
+
+      if (token) {
+        void fetchProfile({ token })
         return
       }
 
-      if (profileId !== parsedId) {
-        setProfileId(parsedId)
+      if (nextProfileId) {
+        void fetchProfile({ userId: nextProfileId })
+        return
       }
+
+      setProfile(null)
+      setProfileError('Profile unavailable. Save your profile to personalize responses.')
     }
 
-    loadProfileId()
-
-    window.addEventListener(PROFILE_UPDATED_EVENT, loadProfileId)
-    return () => window.removeEventListener(PROFILE_UPDATED_EVENT, loadProfileId)
-  }, [profileId])
+    refreshProfile()
+    window.addEventListener(PROFILE_UPDATED_EVENT, refreshProfile)
+    return () => window.removeEventListener(PROFILE_UPDATED_EVENT, refreshProfile)
+  }, [fetchProfile])
 
   // Persist chat history whenever it changes
   useEffect(() => {

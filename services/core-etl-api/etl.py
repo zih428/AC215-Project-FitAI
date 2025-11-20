@@ -58,7 +58,13 @@ def load_csv_to_table(blob_name, table_name):
 
 
 def seed_users():
-    """Insert a few demo users so the USER table always has baseline data."""
+    """Insert a few demo users if table is empty; don't wipe existing accounts."""
+    with engine.connect() as conn:
+        existing_count = conn.execute(text("SELECT COUNT(*) FROM users")).scalar() or 0
+        if existing_count > 0:
+            print(f"Users table already has {existing_count} rows; skipping demo seed.")
+            return
+
     demo_users = [
         {
             "full_name": "Avery Chen",
@@ -95,7 +101,6 @@ def seed_users():
     )
 
     with engine.begin() as conn:
-        conn.execute(text("TRUNCATE TABLE users RESTART IDENTITY CASCADE"))
         conn.execute(insert_stmt, demo_users)
 
     print(f"Seeded {len(demo_users)} demo rows into users")

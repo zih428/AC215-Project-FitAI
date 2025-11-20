@@ -1,0 +1,4 @@
+[core]
+    remote = literature-remote
+['remote "literature-remote"']
+    url = gs://fitai-data-bucket

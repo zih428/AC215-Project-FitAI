@@ -4,8 +4,9 @@ from typing import Optional
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
+from fastapi import Body
 
-from planner import fetch_user_profile, generate_fitness_plan, save_plan_record
+from planner import fetch_user_profile, generate_fitness_plan, save_plan_record, fetch_plan_history
 from run_process_calendar import process_calendar
 from ics_generator import generate_ics_calendar
 
@@ -65,6 +66,36 @@ async def planner_api(
         "fitness_plan": fitness_plan,
         "plan_record": plan_record,
     }
+
+
+@app.post("/planner/save")
+async def planner_save(payload: dict = Body(...)):
+    """
+    Persist a previously generated plan.
+    Expected payload: { "user_id": int, "plan": {..} , "citations": {..} (optional) }
+    """
+    user_id = payload.get("user_id")
+    plan = payload.get("plan") or payload.get("fitness_plan")
+    citations = payload.get("citations")
+
+    if not isinstance(user_id, int):
+        raise HTTPException(status_code=400, detail="user_id is required and must be an integer")
+    if not isinstance(plan, dict):
+        raise HTTPException(status_code=400, detail="plan is required and must be an object")
+
+    record = save_plan_record(user_id, plan, citations)
+    return {"plan_record": record}
+
+
+@app.get("/planner/history")
+def planner_history(user_id: int):
+    """
+    Return saved plans for a user, newest first.
+    """
+    if not isinstance(user_id, int):
+        raise HTTPException(status_code=400, detail="user_id is required")
+    plans = fetch_plan_history(user_id)
+    return {"plans": plans}
 
 @app.post("/planner/ics")
 async def planner_ics(user_id: int, plan: dict):

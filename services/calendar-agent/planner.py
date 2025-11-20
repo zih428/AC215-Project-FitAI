@@ -268,4 +268,32 @@ def save_plan_record(
     }
 
 
-__all__ = ["fetch_user_profile", "generate_fitness_plan", "save_plan_record"]
+def fetch_plan_history(user_id: int) -> list[Dict[str, Any]]:
+    """
+    Retrieve saved plans for a user, newest first.
+    """
+    query = """
+        SELECT id, plan_json, citations, created_at
+        FROM ml_generated_plans
+        WHERE user_id = %s
+        ORDER BY created_at DESC, id DESC
+    """
+    with psycopg.connect(conninfo=DB_CONNINFO, row_factory=dict_row) as conn:
+        with conn.cursor() as cur:
+            cur.execute(query, (user_id,))
+            rows = cur.fetchall()
+
+    history: list[Dict[str, Any]] = []
+    for row in rows:
+        history.append(
+            {
+                "id": row["id"],
+                "plan_json": row["plan_json"],
+                "citations": row["citations"],
+                "created_at": row["created_at"].isoformat() if row["created_at"] else None,
+            }
+        )
+    return history
+
+
+__all__ = ["fetch_user_profile", "generate_fitness_plan", "save_plan_record", "fetch_plan_history"]

@@ -23,11 +23,19 @@ interface PlannerResponse {
   plan_record?: { id: number; created_at: string | null } | null
 }
 
+interface PlanHistoryItem {
+  id: number
+  created_at: string | null
+  plan_json: PlannerPlan
+  citations?: Record<string, any> | null
+}
+
 const PROFILE_STORAGE_KEY = 'fitai-profile-user-id'
 const PROFILE_CACHE_KEY = 'fitai-profile-data'
 const PROFILE_UPDATED_EVENT = 'fitai-profile-updated'
 const CALENDAR_AGENT_URL =
   process.env.NEXT_PUBLIC_CALENDAR_AGENT_URL ?? 'http://localhost:8004'
+const PLAN_CACHE_KEY = 'fitai-training-plan-cache'
 
 export default function TrainingPlan() {
   const [profileId, setProfileId] = useState<number | null>(null)
@@ -37,13 +45,15 @@ export default function TrainingPlan() {
 
   const [calendarFile, setCalendarFile] = useState<File | null>(null)
   const [calendarError, setCalendarError] = useState<string | null>(null)
-  const [saveToDb, setSaveToDb] = useState(false)
 
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
   const [statusMessage, setStatusMessage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [planResponse, setPlanResponse] = useState<PlannerResponse | null>(null)
   const [showCalendarParsed, setShowCalendarParsed] = useState(false)
+  const [planHistory, setPlanHistory] = useState<PlanHistoryItem[]>([])
+  const [selectedPlanId, setSelectedPlanId] = useState<number | null>(null)
 
   const loadProfile = useCallback(() => {
     if (typeof window === 'undefined') return
@@ -76,6 +86,66 @@ export default function TrainingPlan() {
     window.addEventListener(PROFILE_UPDATED_EVENT, loadProfile)
     return () => window.removeEventListener(PROFILE_UPDATED_EVENT, loadProfile)
   }, [loadProfile])
+
+  const fetchPlanHistory = useCallback(
+    async (targetProfileId: number | null) => {
+      if (!targetProfileId) {
+        setPlanHistory([])
+        return
+      }
+      try {
+        const response = await fetch(
+          `${CALENDAR_AGENT_URL.replace(/\/$/, '')}/planner/history?user_id=${targetProfileId}`
+        )
+        if (!response.ok) {
+          throw new Error(`History fetch failed: ${response.status}`)
+        }
+        const data = (await response.json()) as { plans?: PlanHistoryItem[] }
+        setPlanHistory(data.plans || [])
+      } catch (err) {
+        console.error('Failed to load plan history:', err)
+        setPlanHistory([])
+      }
+    },
+    []
+  )
+
+  useEffect(() => {
+    fetchPlanHistory(profileId)
+  }, [profileId, fetchPlanHistory])
+
+  // Restore cached plan selection/response to avoid losing state when navigating
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    try {
+      const cached = window.localStorage.getItem(PLAN_CACHE_KEY)
+      if (!cached) return
+      const parsed = JSON.parse(cached) as {
+        planResponse?: PlannerResponse
+        selectedPlanId?: number | null
+      }
+      if (parsed.planResponse && (!profileId || parsed.planResponse.user.id === profileId)) {
+        setPlanResponse(parsed.planResponse)
+        setSelectedPlanId(parsed.selectedPlanId ?? null)
+      }
+    } catch (err) {
+      console.error('Failed to restore cached training plan:', err)
+    }
+  }, [profileId])
+
+  // Persist plan state so navigating away doesn't clear it
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    try {
+      const payload = JSON.stringify({
+        planResponse,
+        selectedPlanId,
+      })
+      window.localStorage.setItem(PLAN_CACHE_KEY, payload)
+    } catch (err) {
+      console.error('Failed to cache training plan:', err)
+    }
+  }, [planResponse, selectedPlanId])
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -111,7 +181,6 @@ export default function TrainingPlan() {
     const formData = new FormData()
     formData.append('user_id', profileId.toString())
     if (calendarFile) formData.append('file', calendarFile)
-    if (saveToDb) formData.append('save_to_db', 'true')
 
     try {
       const response = await fetch(`${CALENDAR_AGENT_URL.replace(/\/$/, '')}/planner`, {
@@ -125,13 +194,68 @@ export default function TrainingPlan() {
       }
 
       const data = (await response.json()) as PlannerResponse
-      setPlanResponse(data)
-      setStatusMessage(saveToDb ? 'Plan generated and saved.' : 'Plan generated.')
+      setPlanResponse({ ...data, plan_record: null })
+      setStatusMessage('Plan generated. Save it if you like it.')
     } catch (err) {
       console.error('Planner request failed:', err)
       setError(err instanceof Error ? err.message : 'Unable to generate plan.')
     } finally {
       setIsSubmitting(false)
+    }
+  }
+
+  const handleSavePlan = async () => {
+    if (!planResponse || !profileId) {
+      setError('Generate a plan first, and ensure your profile is saved.')
+      return
+    }
+    setIsSaving(true)
+    setError(null)
+    setStatusMessage('Saving plan...')
+    try {
+      const response = await fetch(`${CALENDAR_AGENT_URL.replace(/\/$/, '')}/planner/save`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: profileId,
+          plan: planResponse.fitness_plan,
+        }),
+      })
+      if (!response.ok) {
+        const text = await response.text()
+        throw new Error(text || 'Failed to save plan.')
+      }
+      const data = (await response.json()) as { plan_record?: { id: number; created_at: string | null } }
+      setPlanResponse((prev) =>
+        prev ? { ...prev, plan_record: data.plan_record ?? null } : prev
+      )
+      setStatusMessage('Plan saved.')
+      fetchPlanHistory(profileId)
+    } catch (err) {
+      console.error('Save plan failed:', err)
+      setError(err instanceof Error ? err.message : 'Unable to save plan.')
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  const handleSelectSavedPlan = (value: string) => {
+    const parsedId = Number(value)
+    if (!Number.isFinite(parsedId)) {
+      setSelectedPlanId(null)
+      return
+    }
+    setSelectedPlanId(parsedId)
+    const chosen = planHistory.find((p) => p.id === parsedId)
+    if (chosen && profileId) {
+      setPlanResponse({
+        user: { id: profileId, full_name: profileName },
+        calendar: null,
+        fitness_plan: chosen.plan_json,
+        plan_record: { id: chosen.id, created_at: chosen.created_at },
+      })
+      setStatusMessage(`Loaded saved plan #${chosen.id}`)
+      setError(null)
     }
   }
 
@@ -277,31 +401,56 @@ export default function TrainingPlan() {
               </div>
 
               <div className="space-y-3">
-                <label className="block text-sm font-medium text-gray-700">Options</label>
-                <div className="flex items-center space-x-3">
-                  <input
-                    id="save-to-db"
-                    type="checkbox"
-                    checked={saveToDb}
-                    onChange={(e) => setSaveToDb(e.target.checked)}
-                    className="w-4 h-4 text-primary-600 border-gray-300 rounded"
-                    disabled={isSubmitting}
-                  />
-                  <label htmlFor="save-to-db" className="text-sm text-gray-700">
-                    Save generated plan to history
-                  </label>
+                <label className="block text-sm font-medium text-gray-700">Actions</label>
+                <div className="flex flex-wrap gap-3">
+                  <button
+                    onClick={handleGeneratePlan}
+                    disabled={isSubmitting || !profileId}
+                    className={`inline-flex items-center justify-center px-4 py-2 rounded-lg text-white font-medium ${
+                      isSubmitting || !profileId
+                        ? 'bg-primary-200 cursor-not-allowed'
+                        : 'bg-primary-500 hover:bg-primary-600'
+                    }`}
+                  >
+                    {isSubmitting ? 'Generating...' : 'Generate Training Plan'}
+                  </button>
+                  <button
+                    onClick={handleSavePlan}
+                    disabled={isSaving || !planResponse || !profileId}
+                    className={`inline-flex items-center justify-center px-4 py-2 rounded-lg text-white font-medium ${
+                      isSaving || !planResponse || !profileId
+                        ? 'bg-gray-200 cursor-not-allowed'
+                        : 'bg-gray-800 hover:bg-gray-900'
+                    }`}
+                  >
+                    {isSaving ? 'Saving...' : 'Save This Plan'}
+                  </button>
                 </div>
-                <button
-                  onClick={handleGeneratePlan}
-                  disabled={isSubmitting || !profileId}
-                  className={`inline-flex items-center justify-center px-4 py-2 rounded-lg text-white font-medium ${
-                    isSubmitting || !profileId
-                      ? 'bg-primary-200 cursor-not-allowed'
-                      : 'bg-primary-500 hover:bg-primary-600'
-                  }`}
-                >
-                  {isSubmitting ? 'Generating...' : 'Generate Training Plan'}
-                </button>
+                {planHistory.length > 0 && (
+                  <div className="space-y-2">
+                    <label className="block text-sm font-medium text-gray-700">Saved plans</label>
+                    <select
+                      value={selectedPlanId ?? ''}
+                      onChange={(e) => handleSelectSavedPlan(e.target.value)}
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                      disabled={isSubmitting || isSaving}
+                    >
+                      <option value="">Select a saved plan</option>
+                      {planHistory.map((item) => {
+                        const timestamp = item.created_at
+                          ? new Date(item.created_at).toLocaleString()
+                          : 'Unknown time'
+                        const summary = item.plan_json?.plan_summary
+                        const summarySnippet = summary ? ` — ${summary.slice(0, 80)}${summary.length > 80 ? '…' : ''}` : ''
+                        return (
+                          <option key={item.id} value={item.id}>
+                            {`Plan #${item.id} — ${timestamp}${summarySnippet}`}
+                          </option>
+                        )
+                      })}
+                    </select>
+                  </div>
+                )}
                 {statusMessage && (
                   <p className="text-sm text-green-700 flex items-center">
                     <Sparkles className="w-4 h-4 mr-1" /> {statusMessage}

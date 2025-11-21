@@ -24,7 +24,7 @@ GCP_PROJECT = os.environ["GCP_PROJECT"]
 GCP_LOCATION = "us-central1"
 EMBEDDING_MODEL = "text-embedding-004"
 EMBEDDING_DIMENSION = 256
-GENERATIVE_MODEL = "gemini-2.0-flash-001"
+GENERATIVE_MODEL = "projects/767605785387/locations/us-central1/endpoints/5283592076603162624"
 CHROMADB_HOST = os.getenv("CHROMADB_HOST", "chromadb")
 CHROMADB_PORT = int(os.getenv("CHROMADB_PORT", "8000"))
 
@@ -354,10 +354,14 @@ def api_chat_with_llm(query: str, method: str = "char-split", n_results: int = 1
         {context_chunks}
         """
         
+        # 🔥 打印你正在使用的模型（SFT 或 Gemini）
+        print(">>> DEBUG - Calling model:", GENERATIVE_MODEL, flush=True)
+        
         #将prompt 传给llm 生成回答（我们用的是Gemini 2.0 Flash）
         response = llm_client.models.generate_content(
             model=GENERATIVE_MODEL, contents=input_prompt
         )
+        
         
         return {
             "status": "success",

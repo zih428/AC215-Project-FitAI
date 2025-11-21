@@ -66,15 +66,6 @@ export default function AICoach() {
   const [profileError, setProfileError] = useState<string | null>(null)
   const [collectionsStatus, setCollectionsStatus] = useState<'checking' | 'ready' | 'empty' | 'error'>('checking')
   const collectionsReady = collectionsStatus === 'ready'
-  const profileComplete =
-    !!profile &&
-    profile.full_name &&
-    profile.height_cm != null &&
-    profile.weight_kg != null &&
-    profile.body_type &&
-    profile.gender &&
-    profile.age_years != null &&
-    profile.training_goal
 
   // Restore chat history from browser storage
   useEffect(() => {
@@ -268,7 +259,7 @@ export default function AICoach() {
   }, [checkCollections])
 
   const handleSend = async () => {
-    if (!input.trim() || isLoading || !profileComplete) return
+    if (!input.trim() || isLoading) return
 
     // Double-check collections status before sending
     if (!collectionsReady) {
@@ -613,15 +604,6 @@ export default function AICoach() {
               {collectionsStatus === 'error' && 'Unable to verify knowledge base. Ensure RAG service is running and collections are available.'}
             </div>
           )}
-          {!profileComplete && (
-            <div className="mb-3 text-sm text-blue-700 bg-blue-50 border border-blue-200 rounded-lg px-3 py-2">
-              Complete your profile to enable chat responses.{' '}
-              <Link className="underline font-medium" href="/profile">
-                Go to profile
-              </Link>
-              .
-            </div>
-          )}
           <div className="flex items-end space-x-4">
             <div className="flex-1">
               <textarea
@@ -631,12 +613,12 @@ export default function AICoach() {
                 placeholder="Ask me anything about fitness, workouts, or nutrition..."
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent resize-none"
                 rows={3}
-                disabled={!collectionsReady || !profileComplete}
+                disabled={!collectionsReady}
               />
             </div>
             <button
               onClick={handleSend}
-              disabled={!input.trim() || isLoading || !collectionsReady || !profileComplete}
+              disabled={!input.trim() || isLoading || !collectionsReady}
               className="px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2 transition-colors"
             >
               <Send className="w-5 h-5" />
@@ -644,9 +626,7 @@ export default function AICoach() {
             </button>
           </div>
           <p className="text-xs text-gray-500 mt-2">
-            {profileComplete
-              ? 'Press Enter to send, Shift+Enter for new line'
-              : 'Fill out your profile to enable chatting.'}
+            Press Enter to send, Shift+Enter for new line
           </p>
         </div>
       </div>

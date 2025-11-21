@@ -1,0 +1,5 @@
+outs:
+- md5: cb80c4ead8752957198aaf7c9d3166ec
+  size: 11046
+  hash: md5
+  path: sft_v1.jsonl

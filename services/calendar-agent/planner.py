@@ -41,13 +41,32 @@ USER_COLUMNS = """
     body_type, gender, age_years, training_goal
 """
 
+RAG_SUGGESTION_PROMPT = """
+You are a fitness knowledge assistant. Given the user's profile and/or schedule,
+provide a concise set of training recommendations, exercise ideas, and guidance.
+Do NOT return structured JSON. Do NOT return schemas. Output only natural text.
+
+Focus on:
+- main movement patterns useful for this user,
+- suggested splits (push/pull/legs etc.),
+- timing considerations if calendar is provided,
+- exercise examples and rationale.
+
+Keep the response short and concise, NOT formatted.
+"""
 
 PLAN_INSTRUCTIONS_w_CALENDAR = """
 You are FitAIPlanner, a certified strength coach and nutrition consultant.
 Your role is to generate a structured weekly training plan that respects the
 user’s schedule, available energy, and training goals.
 
-Return ONLY a valid JSON object matching this schema:
+You will be provided with:
+1. The user's profile
+2. The user's calendar (if available)
+3. The raw training suggestions produced by a RAG model
+
+Your task is to transform these inputs into a complete, structured training plan.
+Return ONLY valid JSON matching the schema below:
 {
   "plan_summary": "string",
   "training_days": [
@@ -82,7 +101,6 @@ Scheduling rules:
   - choose the most suitable one (e.g., adequate duration, lower conflict likelihood),
   - and provide a concise explanation in "schedule_reason".
 - On days with many meetings or limited time, shorten the session accordingly.
-- Populate at least 3 training days if the calendar provides at least 3 free days.
 - Movements must be specific (e.g., “Barbell Back Squat”, “Bent-Over Row”).
 - When equipment availability is unclear, assume access to a commercial gym.
 - Do not include Markdown, comments, or natural-language reasoning outside the JSON.
@@ -94,8 +112,16 @@ Preference adaptation:
 """
 
 PLAN_INSTRUCTIONS_no_CALENDAR = """
-You are FitAIPlanner, a certified strength coach and nutrition consultant. Craft
 training weeks by respecting a user's information and goals.
+
+You are FitAIPlanner, a certified strength coach and nutrition consultant.
+Your role is to craft structuredtraining weeks by respecting a user's information and goals.
+
+You will be provided with:
+1. The user's profile
+2. The raw training suggestions produced by a RAG model
+
+Your task is to transform these inputs into a complete, structured training plan.
 
 Return ONLY a valid JSON object matching this schema:
 {
@@ -150,13 +176,44 @@ def fetch_user_profile(user_id: int) -> Dict[str, Any]:
         "training_goal": row["training_goal"],
     }
 
+from openai import OpenAI
+openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+def refine_with_openai(
+    rag_output_text: str,
+    user_profile: dict,
+    calendar_payload: dict | None
+) -> dict:
+    if calendar_payload:
+        schema_prompt = PLAN_INSTRUCTIONS_w_CALENDAR
+    else:
+        schema_prompt = PLAN_INSTRUCTIONS_no_CALENDAR
+    
+    schema_prompt += "\n\nEnsure the output is valid JSON matching the schema."
+    
+
+    messages = [
+        {"role": "system", "content": schema_prompt},
+        {"role": "user", "content": f"User profile:\n{json.dumps(user_profile, indent=2)}"},
+        {"role": "user", "content": f"Calendar:\n{json.dumps(calendar_payload, indent=2) if calendar_payload else 'No calendar'}"},
+        {"role": "user", "content": f"RAG model Suggestion:\n{rag_output_text}"}
+    ]
+
+    resp = openai_client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=messages,
+        max_tokens=2000
+    )
+
+    cleaned = resp.choices[0].message.content.strip()
+    return json.loads(cleaned)
 
 def generate_fitness_plan(
     user_profile: Dict[str, Any], calendar_payload: Dict[str, Any] | None
 ) -> Dict[str, Any]:
     """Call internal RAG query endpoint with the planner prompt."""
 
-    prompt = _build_prompt(user_profile, calendar_payload)
+    prompt = _build_prompt_for_rag(user_profile, calendar_payload)
     payload = {
         "query": prompt,
         "method": RAG_QUERY_METHOD,
@@ -182,25 +239,43 @@ def generate_fitness_plan(
         raise HTTPException(status_code=502, detail=str(exc)) from exc
 
     outer = response.json()
-    plan_raw = outer["response"]
-
-    try:
-        repaired_text = repair_json(plan_raw)
-        data = json.loads(repaired_text)
-    except json.JSONDecodeError as exc:
-        raise HTTPException(
-            status_code=502,
-            detail=f"Failed to parse fitness plan JSON from RAG service, raw text: {plan_raw}"
-        ) from exc
-
-    # --- Validate success flag ---
+    rag_text = outer["response"]
     if outer.get("status") != "success":
         raise HTTPException(
             status_code=502,
             detail=f"RAG service returned failure: {outer.get('status')}"
         )
 
-    return data
+
+    structured_plan = refine_with_openai(
+    rag_output_text=rag_text,
+    user_profile=user_profile,
+    calendar_payload=calendar_payload)
+
+    if type(structured_plan) is dict:
+        return structured_plan
+    else:
+        try:
+            repaired_text = repair_json(structured_plan)
+            data = json.loads(repaired_text)
+        except json.JSONDecodeError as exc:
+            raise HTTPException(
+                status_code=502,
+                detail=f"Failed to parse fitness plan JSON from RAG service, raw text: {plan_raw}"
+            ) from exc
+
+        return data
+
+def _build_prompt_for_rag(user_profile, calendar_payload):
+    prompt = RAG_SUGGESTION_PROMPT
+    prompt += "\n\nUser profile:\n" + json.dumps(user_profile, indent=2) 
+
+    if calendar_payload:
+        prompt += "\n\nCalendar:\n" + json.dumps(calendar_payload, indent=2)
+    else:
+        prompt += "\n\nNo calendar data provided."
+
+    return prompt
 
 def _build_prompt(user_profile: Dict[str, Any], calendar_payload: Dict[str, Any] | None) -> str:
     user_json = json.dumps(user_profile, indent=2)

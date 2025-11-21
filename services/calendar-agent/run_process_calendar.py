@@ -14,7 +14,7 @@ if not open_ai_key:
     raise RuntimeError("OPENAI_API_KEY not set. Make sure it's defined in secrets/agent.env")
 
 client = OpenAI(api_key=open_ai_key)
-
+current_year = os.getenv("CURRENT_YEAR", "2025")
 
 VISION_PROMPT = """
 You are VisionReaderAgent, an expert calendar OCR and structure extractor.
@@ -46,7 +46,7 @@ Return ONLY a JSON object with this exact structure:
   }
 }
 """
-
+VISION_PROMPT += f"""\n\nNote:If you could not find year information, assume the current year {current_year} """
 
 async def process_calendar(file: UploadFile = File(...)):
     """Upload screenshot → GPT-4o Vision → return structured JSON."""
@@ -73,7 +73,6 @@ async def process_calendar(file: UploadFile = File(...)):
 
     # Encode to base64
     base64_image = base64.b64encode(png_bytes).decode("utf-8")
-
     # GPT-4o Vision call (correct format)
     response = client.chat.completions.create(
         model="gpt-4o",

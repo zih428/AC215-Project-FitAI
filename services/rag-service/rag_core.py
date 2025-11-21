@@ -356,12 +356,14 @@ def api_chat_with_llm(query: str, method: str = "char-split", n_results: int = 1
         
         # 🔥 打印你正在使用的模型（SFT 或 Gemini）
         print(">>> DEBUG - Calling model:", GENERATIVE_MODEL, flush=True)
-        
+
         #将prompt 传给llm 生成回答（我们用的是Gemini 2.0 Flash）
         response = llm_client.models.generate_content(
             model=GENERATIVE_MODEL, contents=input_prompt
         )
         
+         # 🔥 打印模型实际返回的 model_version（可用于确认是否是 SFT）
+        print(">>> DEBUG - Model returned:", response.model_version, flush=True)
         
         return {
             "status": "success",

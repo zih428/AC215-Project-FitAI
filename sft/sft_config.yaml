@@ -1,0 +1,31 @@
+# =====================================
+# Standard SFT Configuration (shared)
+# =====================================
+
+project: "rich-access-471117-r0"
+location: "us-central1"
+
+model:
+  base_model: "gemini-2.0-flash-001"
+  tuning_method: "Supervised"
+  adapter_size: 4
+  encryption: "Google-managed"
+
+dataset:
+  train_dataset: "sft_v1"     # swap to "sft_v2" for next version
+  gcs_path_prefix: "gs://fitai-data-bucket/sft/"
+
+training_metadata:
+  # These values are **observed** from Vertex job (not read by script)
+  epochs: 40
+  truncated_example_count: 0
+  learning_rate_multiplier: 2
+  intermediate_checkpoints: 5
+  default_checkpoint: 6
+  number_of_predictions: 2910 
+  notes: "Vertex default hyperparameters were used."
+
+output:
+  tuned_model: ""
+  endpoint: ""
+  experiment: ""

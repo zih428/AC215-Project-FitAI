@@ -6,11 +6,11 @@ import rag_core
 
 app = FastAPI(title="FitAI RAG Service", version="1.0.0")
 
-# 添加 CORS 支持，允许前端访问
+# Enable CORS so the frontend can call this service
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:3000",  # Next.js 开发服务器
+        "http://localhost:3000",  # Next.js dev server
         "http://127.0.0.1:3000",
     ],
     allow_credentials=True,
@@ -18,11 +18,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 定义API请求的格式
+# Request schemas
 class GCSProcessRequest(BaseModel):
     bucket_name: str
     folder_path: str = ""
-    method: str = "char-split" #可以不提供，默认用char-split
+    method: str = "char-split"  # optional; defaults to char-split
 
 class QueryRequest(BaseModel):
     query: str
@@ -46,14 +46,14 @@ class ChatRequest(BaseModel):
     user_profile: Optional[UserProfile] = None
 
 
-# API 端点
+# API endpoints
 @app.get("/health")
 def health_check():
     return {"status": "ok", "service": "rag-service"}
 
 @app.post("/process-gcs")
 def process_gcs_to_chromadb(request: GCSProcessRequest):
-    """一键处理: 从GCS下载文件 -> 分块 -> 生成嵌入 -> 存储到ChromaDB"""
+    """Download from GCS, chunk, embed, and persist to ChromaDB in one call."""
     try:
         return rag_core.api_process_gcs_to_chromadb(
             request.bucket_name, 

@@ -58,7 +58,7 @@ Your goal is to provide accurate, helpful information about fitness and nutritio
 
 # GCS Helper functions
 def download_text_from_gcs(bucket_name: str, file_path: str) -> str:
-    """从GCS下载文本文件内容"""
+    """Download text file content from GCS."""
     try:
         bucket = gcs_client.bucket(bucket_name)
         blob = bucket.blob(file_path)
@@ -68,7 +68,7 @@ def download_text_from_gcs(bucket_name: str, file_path: str) -> str:
         raise Exception(f"Failed to download file from GCS: {str(e)}")
 
 def list_txt_files_from_gcs(bucket_name: str, folder_path: str = "") -> list:
-    """从GCS列出所有txt文件"""
+    """List all .txt files under the given prefix in GCS."""
     try:
         bucket = gcs_client.bucket(bucket_name)
         blobs = bucket.list_blobs(prefix=folder_path)
@@ -145,11 +145,11 @@ def load_text_embeddings(df, collection, batch_size=500):
         total_inserted += len(batch)
     return total_inserted
 
-# API功能函数
+# API helper functions
 def api_process_gcs_to_chromadb(bucket_name: str, folder_path: str = "", method: str = "char-split"):
-    """一键处理：从GCS下载文件 -> 分块 -> 生成嵌入 -> 存储到ChromaDB"""
+    """End-to-end: download from GCS -> chunk -> embed -> store in ChromaDB."""
     try:
-        # 从GCS获取txt文件列表
+        # Get txt file list from GCS
         txt_files = list_txt_files_from_gcs(bucket_name, folder_path)
         
         if not txt_files:
@@ -163,7 +163,7 @@ def api_process_gcs_to_chromadb(bucket_name: str, folder_path: str = "", method:
             filename = os.path.basename(file_path)
             source_name = os.path.splitext(filename)[0]
             
-            # 从GCS下载文件内容
+            # Download file content from GCS
             input_text = download_text_from_gcs(bucket_name, file_path)
             
             text_chunks = None
@@ -187,7 +187,7 @@ def api_process_gcs_to_chromadb(bucket_name: str, folder_path: str = "", method:
                 text_chunks = [doc.page_content for doc in text_chunks]
             
             if text_chunks is not None:
-                # 添加元数据
+                # Add metadata for storage
                 for chunk in text_chunks:
                     all_chunks.append({
                         "chunk": chunk,
@@ -204,7 +204,7 @@ def api_process_gcs_to_chromadb(bucket_name: str, folder_path: str = "", method:
                     "file_size": file_info["size"]
                 })
         
-        # 生成嵌入向量
+        # Generate embeddings
         chunks_text = [item["chunk"] for item in all_chunks]
         
         if method == "semantic-split":
@@ -212,11 +212,11 @@ def api_process_gcs_to_chromadb(bucket_name: str, folder_path: str = "", method:
         else:
             embeddings = generate_text_embeddings(chunks_text, EMBEDDING_DIMENSION, batch_size=100)
         
-        # 准备数据
+        # Prepare data frame
         data_df = pd.DataFrame(all_chunks)
         data_df["embedding"] = embeddings
         
-        # 连接ChromaDB
+        # Connect to ChromaDB
         chromadb.api.client.SharedSystemClient.clear_system_cache()
         client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
         
@@ -230,7 +230,7 @@ def api_process_gcs_to_chromadb(bucket_name: str, folder_path: str = "", method:
         collection = client.create_collection(
             name=collection_name, metadata={"hnsw:space": "cosine"})
         
-        # 加载到ChromaDB
+        # Load into ChromaDB
         total_inserted = load_text_embeddings(data_df, collection)
         
         return {
@@ -253,7 +253,7 @@ def api_process_gcs_to_chromadb(bucket_name: str, folder_path: str = "", method:
         raise Exception(str(e))
 
 def api_query_vector_db(query: str, method: str = "char-split", n_results: int = 5):
-    """API版本的查询功能"""
+    """Query function for the vector database."""
     try:
         client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
         collection_name = f"{method}-collection"
@@ -263,10 +263,10 @@ def api_query_vector_db(query: str, method: str = "char-split", n_results: int =
         except Exception:
             raise Exception(f"Collection '{collection_name}' not found. Please run /load first.")
         
-        # 将query 向量化
+        # Embed the query
         query_embedding = generate_query_embedding(query)
 
-        # 余弦相似度 (cosine similarity)
+        # Cosine similarity search
         results = collection.query(
             query_embeddings=[query_embedding],
             n_results=n_results
@@ -318,7 +318,7 @@ def format_user_profile_prompt(profile: dict) -> str:
 
 
 def api_chat_with_llm(query: str, method: str = "char-split", n_results: int = 10, user_profile: Optional[dict] = None):
-    """API版本的聊天功能"""
+    """Chat API that retrieves context and calls the LLM."""
     try:
         client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
         collection_name = f"{method}-collection"
@@ -335,7 +335,7 @@ def api_chat_with_llm(query: str, method: str = "char-split", n_results: int = 1
             n_results=n_results
         )
         
-        # 将查询结果拼接成上下文
+        # Build context from retrieved documents
         context_chunks = "\n\n---\n".join(results["documents"][0])
         
         user_profile_prompt = format_user_profile_prompt(user_profile or {})
@@ -354,15 +354,15 @@ def api_chat_with_llm(query: str, method: str = "char-split", n_results: int = 1
         {context_chunks}
         """
         
-        # 🔥 打印你正在使用的模型（SFT 或 Gemini）
+        # 🔥 Print which model (SFT or base Gemini) is being called
         print(">>> DEBUG - Calling model:", GENERATIVE_MODEL, flush=True)
 
-        #将prompt 传给llm 生成回答（我们用的是Gemini 2.0 Flash）
+        # Send the prompt to the LLM (using Gemini 2.0 Flash endpoint)
         response = llm_client.models.generate_content(
             model=GENERATIVE_MODEL, contents=input_prompt
         )
         
-         # 🔥 打印模型实际返回的 model_version（可用于确认是否是 SFT）
+         # 🔥 Print returned model_version (helps confirm SFT)
         print(">>> DEBUG - Model returned:", response.model_version, flush=True)
         
         return {
@@ -376,7 +376,7 @@ def api_chat_with_llm(query: str, method: str = "char-split", n_results: int = 1
         raise Exception(str(e))
 
 def api_list_collections():
-    """API版本的列出集合功能"""
+    """List available collections via the API."""
     try:
         client = chromadb.HttpClient(host=CHROMADB_HOST, port=CHROMADB_PORT)
         collections = client.list_collections()

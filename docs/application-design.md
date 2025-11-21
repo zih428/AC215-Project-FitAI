@@ -25,6 +25,10 @@
 - Data stores: Postgres (`services/db`) for users/plans; Chroma for vector search; GCS bucket `gs://fitai-data-bucket` for raw/processed literature and SFT datasets.
 
 ## Technical Architecture
+High-level architecture overview:
+
+![Technical architecture overview](technical-architecture.jpeg)
+
 - APIs & patterns: REST over HTTP between services; Pydantic models for validation; modular “api_*” functions in `rag_core.py` for testability; JWT-based auth in `core-etl-api`.
 - ML stack: Vertex AI text-embedding-004 for vectorization; Gemini 2.0 Flash fine-tuned via Vertex SFT as the RAG generator; optional OpenAI GPT-4o in `calendar-agent` for vision + plan generation.
 - Data processing: LangChain splitters (character/recursive) and custom semantic splitter; SHA256-based deterministic IDs for Chroma docs; exponential backoff on embedding calls.

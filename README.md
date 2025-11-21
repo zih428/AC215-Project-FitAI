@@ -16,30 +16,74 @@ By combining structured user data with knowledge from scientific sources, FitAI 
 
 ---
 
-## 🖼️ Frontend Mockups
-Explore the application's user interface design and key user flows in the [UI Mockups](docs/UI_Mockups.md) document.
+## Milestone 4 Organization
+```
+├── README.md
+├── data/                     # do not commit data; keep .gitkeep or tiny samples only
+├── docs/                     # design/training/versioning docs
+├── notebooks/                # analysis and exploration (e.g., GCS_Explorer.ipynb)
+├── reference/                # reference docx/pdfs for MS4
+├── reports/                  # presentations and summaries (e.g., midterm presentation)
+├── services/                 # app services (frontend, APIs, workers, db)
+├── sft/                      # fine-tuning configs, datasets (.dvc), scripts
+├── docker-compose.yml        # local orchestration
+└── screenshots/              # UI and bucket visuals
+```
 
 ---
 
-## 📦 Container Structure
-- `services/ocr-engine/` → OCR service that processes literatures from pdf to txt
-- `services/rag-service/` → RAG service that handles literature chunking & Chroma insertion
-- `services/chromadb/` → Chroma vector database
-- (Optional for milestone 2) `services/db/` → main Postgres database (with initialization schema `init.sql`)
-- (Optional for milestone 2) `services/core-etl-api/` → Core ETL/API service (loads raw CSVs into Postgres and exposes REST endpoints)
-- (Optional for milestone 2) `services/frontend/` → Next.js app (user interface)
+## Solution Architecture
+```
+[User]
+  |
+[Next.js Frontend]
+  |-- chat/query --> [RAG Service] --> [ChromaDB] --> context --> [Vertex AI tuned Gemini]
+  |-- auth/profile --> [Core ETL API] --> [Postgres]
+  |-- calendar upload --> [Calendar Agent] --> plans --> [Postgres]
+  |                                   |
+  |                                   +--> optional calendar outputs to GCS
+  |
+  +--> (literature status) ---------> [OCR Engine] -> processed text -> [GCS bucket]
+
+[GCS bucket] holds raw/processed literature + SFT datasets (DVC-tracked) feeding OCR/RAG/SFT.
+```
+- [ ] TODO: replace with actual diagram
+
+## Technical Architecture
+Here is our Technical Architecture:
+
+![Technical architecture overview](docs/technical-architecture.jpeg)
+
+Notes:
+- GCS stores raw/processed literature and SFT datasets; snapshots tracked via DVC.
+- Chroma collections are per chunking method (char/recursive/semantic) with cosine HNSW.
+- Postgres holds users and generated plans; calendar-agent and frontend reuse the same profiles.
+- Ports: frontend 3000, core-etl-api 8001, rag-service 8002, ocr-engine 8003, calendar-agent 8004, Chroma 8000, Postgres 5432.
+
 
 ---
 
-## 🧠 RAG Training Data Storage
-
-All raw and processed exercise physiology literature, along with relevant training-tracking and exercise catalog data, are stored in a Google Cloud Storage (GCS) bucket.
-
-![screenshot of GCS bucket](screenshots/GCS.png)
+## Container Structure
+- `services/frontend/` → Next.js 14 UI (AI Coach, profile, training-plan flows)
+- `services/rag-service/` → FastAPI RAG API (chunk, embed, query, chat) + Chroma client
+- `services/ocr-engine/` → FastAPI OCR pipeline streaming PDFs from GCS to processed text
+- `services/calendar-agent/` → FastAPI planner with GPT-4o Vision + plan persistence
+- `services/core-etl-api/` → FastAPI user/auth service with Postgres + ETL hooks
+- `services/db/` → Postgres database (schema in `services/db/init.sql`)
+- `services/chromadb/` → Chroma vector DB (persistent volume under `docker-volumes/chromadb`)
+- `docker-compose.yml` → brings up the full stack locally
 
 ---
 
-## 📂 Data Versioning (DVC)
+## Backend APIs
+- RAG Service (port 8002): `/health`, `/process-gcs` (GCS → chunks → embeddings → Chroma), `/query` (vector search), `/chat` (RAG answer with optional profile), `/collections` (list).
+- Core ETL API (port 8001): `/auth/login`, `/auth/register`, `/users/me`, `/users/{id}`, `/training-plans` (retrieve saved plans); JWT-based auth with Postgres persistence.
+- Calendar Agent (port 8004): `/health`, `/process_calendar` (OCR calendar image), `/planner` (generate plan with optional calendar upload), `/planner/save`, `/planner/history`.
+- OCR Engine (port 8003): `/health`, `/perform-ocr` (incremental or full reprocess of GCS PDFs to text).
+
+---
+
+## Data Versioning (DVC)
 
 We use DVC to version-control all literature data stored in our GCS bucket (gs://fitai-data-bucket).
 
@@ -73,153 +117,6 @@ All actual data remains in GCS; only DVC pointers are stored in Git.
 ```bash
 docker compose up --build -d
 ```
-
-![screenshot of containers running](screenshots/screenshot_of_running_instances.png)
-
----
-
-### (Optional) Exercise catalog & tracking raw data pipeline
-#### (Optional, not needed for RAG or milestone 2) Ingest raw data into the database
-```bash
-curl -X POST http://localhost:8001/run-etl
-```
-
----
-
-### OCR engine service
-
-#### Use OCR to preprocess phyisology literature from pdf to txt
-**Default mode (process only unprocessed PDFs):**
-```bash
-curl -X POST "http://localhost:8003/perform-ocr"
-# equivalent (explicit):
-# curl -X POST "http://localhost:8003/perform-ocr?full_process=false"
-```
-**Full-process mode (re-process all PDFs in raw-literature):**
-```bash
-curl -X POST "http://localhost:8003/perform-ocr?full_process=true"
-```
-You should get a quick acknowledgement while the job finished:
-```json
-{"status": "completed", "message": "OCR process finished."}
-```
-
----
-
-### RAG service
-
-#### Chunk txt files and insert into Chroma
-```bash
-curl -X POST "http://localhost:8002/process-gcs" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "bucket_name": "fitai-data-bucket",
-    "folder_path": "processed-literature",
-    "method": "char-split"
-  }'
-```
-**Parameter Explaination**:
-- `bucket_name`: GCS bucket name
-- `folder_path`: （leave it empty '' means root path）
-- `method`: chunking method (`char-split`, `recursive-split`, `semantic-split`)
-
-#### Check ChromaDB collections 
-```bash
-curl http://localhost:8002/collections
-```
-
-```json
-{
-  "status": "success",
-  "collections": [
-    {
-      "name": "char-split-collection",
-      "id": "e4d956fa-dec9-4387-a875-2b8ca587a475"
-    }
-  ]
-}
-```
-
-#### Chat
-```bash
-curl -X POST "http://localhost:8002/chat" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "query": "What are the main findings about resistance training progression?",
-    "method": "char-split",
-    "n_results": 10
-  }'
-```
-
-```json
-{
-  "status": "success",
-  "query": "What are the main findings about resistance training progression?",
-  "method": "char-split",
-  "response": "Based on the provided text chunks, here are the main findings about resistance training progression:\n\n*   Progressive resistance training (RT) protocols are necessary to stimulate further adaptation toward specific training goals.\n*   Proper loading during RT encompasses increasing load based on a percentage of maximal exercise.\n*   It is recommended that CON, ECC, and ISOM actions be included for novice, intermediate, and advanced training.\n*   Training with loads ~60-70% of 1 RM for 8-12 repetitions for novice to intermediate individuals and cycling loads of 80-100% of 1 RM for advanced individuals.\n*   It is recommended that free-weight and machine exercises are included for intermediate training.\n",
-  "context_chunks_count": 10
-}
-```
-
-#### Query
-```bash
-curl -X POST "http://localhost:8002/query" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "query": "resistance training for beginners",
-    "method": "char-split",
-    "n_results": 5
-  }'
-```
-
-```json
-{
-  "status": "success",
-  "query": "resistance training for beginners",
-  "method": "char-split",
-  "results": {
-    "documents": [
-      "of Rehabilitation Science, University of Saskatchewan,\nSaskatoon, Canada.\nReceived: 21 July 2021 Accepted: 26 December 2021\nPublished online: 15 January 2022\nReferences\n1. Ratamess NA, Alvar BA, Evetoch TK, Housh TJ, Kibler WB, Kraemer WJ.\nProgression models in resistance training for healthy adults. Med Sci\nSports Exerc. 2009;41(3):687-708. https:",
-      "ntermediate training, it is\nrecommended that free-weight and machine exercises are\nincluded (30,169,172,178,248–250,274).\nSPECIAL COMMUNICATIONS\nMedicine & Science in Sports & Exercise Ⓡ 691\nCopyright © 2009 by the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.\nPROGRESSION AND RESISTANCE TRAINING\n\nEvid",
-      " recommended that single- and multiple-joint free-weight and machine exercises be included in novice, intermediate, and advanced individuals.\nFor exercise sequencing, an order similar to strength training is recommended.\nIt is recommended that 1- to 2-min rest periods be used in novice and intermediate training; for advanced training, length of res",
-      "xercise intensity (large before small muscle group\nexercises, multiple-joint exercises before single-joint exercises, and\nhigher-intensity before lower-intensity exercises). For novice (untrained\nindividuals with no RT experience or who have not trained for several\nyears) training, it is recommended that loads correspond to a repetition\nrange of an",
-      " the American College of Sports Medicine. Unauthorized reproduction of this article is prohibited.\nPROGRESSION AND RESISTANCE TRAINING\n\nexercise. Depending on an individual's training experience\nand current level of fitness, proper loading during RT\nencompasses one or more of the following loading\nschemes: 1) increasing load based on a percentage o"
-    ],
-    "distances": [
-      0.28505242,
-      0.30380207,
-      0.30402642,
-      0.30633307,
-      0.31141496
-    ],
-    "metadatas": [
-      {
-        "source": "The Effect of Load and Volume Autoregulation on Muscular Strength and Hypertrophy_ A Systematic Review and Meta‑Analysis"
-      },
-      {
-        "source": "Progression Models in Resistance Training for Healthy Adults"
-      },
-      {
-        "source": "Progression Models in Resistance Training for Healthy Adults"
-      },
-      {
-        "source": "Progression Models in Resistance Training for Healthy Adults"
-      },
-      {
-        "source": "Progression Models in Resistance Training for Healthy Adults"
-      }
-    ],
-    "ids": [
-      "aa4cb7bce10cd005-2590",
-      "20b96aca731571c0-1624",
-      "20b96aca731571c0-1780",
-      "20b96aca731571c0-1534",
-      "20b96aca731571c0-1586"
-    ]
-  }
-}
-```
----
 
 #### Shut down and remove containers (when finished)
 ```bash

@@ -7,6 +7,7 @@ from PIL import Image
 import os
 import base64
 from json_repair import repair_json
+from datetime import datetime
 
 open_ai_key = os.getenv("OPENAI_API_KEY")
 
@@ -14,7 +15,11 @@ if not open_ai_key:
     raise RuntimeError("OPENAI_API_KEY not set. Make sure it's defined in secrets/agent.env")
 
 client = OpenAI(api_key=open_ai_key)
-current_year = os.getenv("CURRENT_YEAR", "2025")
+
+now = datetime.now()
+current_year = now.year
+current_month = now.month
+
 
 VISION_PROMPT = """
 You are VisionReaderAgent, an expert calendar OCR and structure extractor.
@@ -46,7 +51,8 @@ Return ONLY a JSON object with this exact structure:
   }
 }
 """
-VISION_PROMPT += f"""\n\nNote:If you could not find year information, assume the current year {current_year} """
+# VISION_PROMPT += f"""\n\nNote:If you could not find year information, assume the current year {current_year} """
+VISION_PROMPT += f"""\n\nNote:If you could not find year or month information, assume the current year{current_year} or current month{current_month} """
 
 async def process_calendar(file: UploadFile = File(...)):
     """Upload screenshot → GPT-4o Vision → return structured JSON."""

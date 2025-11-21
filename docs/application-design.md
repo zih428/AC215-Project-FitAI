@@ -2,15 +2,23 @@
 
 ## Overview
 - FitAI delivers evidence-backed fitness guidance through a containerized stack spanning ingestion (OCR), storage (GCS + Postgres), retrieval (Chroma + RAG service), modeling (Vertex AI fine-tuned Gemini), and user experience (Next.js frontend).
-- Core user flows: upload or browse literature → chunk/embed into Chroma → chat via RAG-backed AI Coach → optionally sync calendar availability and save personalized plans to Postgres.
+- User journey: register or log in, complete the profile form (name, height/weight, body type, gender, age, goals), chat with the AI Coach for guidance, optionally upload a calendar image, and save or revisit weekly plans stored in Postgres.
+- Developer/ops journey: ingest literature into GCS, run OCR to create processed text, embed and store in Chroma, and tune or swap models behind the RAG services.
 
 ## Solution Architecture
-- User flows
-  - Web client (Next.js) calls `rag-service` for chat/query and `core-etl-api` for authentication, profile, and saved plans. Calendar uploads are sent to `calendar-agent`.
-  - `rag-service` retrieves literature text from Chroma, composes prompts with optional user profile, and calls the tuned Gemini endpoint hosted on Vertex.
-  - `ocr-engine` streams PDFs from GCS (`raw-literature/`), performs OCR, and writes cleaned text back to GCS (`processed-literature/`).
-  - `core-etl-api` exposes CRUD/auth for user profiles and interacts with Postgres; the same profiles can be reused by `calendar-agent` and passed into RAG.
-  - `calendar-agent` OCRs a schedule image (GPT-4o Vision) or uses stored availability, fuses it with a user profile, and generates a training plan via OpenAI; optionally persists the plan to Postgres.
+![Solution architecture overview](solution-architecture.jpeg)
+
+- User experience flow
+  - Sign up or log in on the web client (Next.js) against `core-etl-api` auth endpoints; tokens cached client-side for session continuity.
+  - Complete or edit the profile form on the Profile tab; fields persist to Postgres via `core-etl-api` and are reused across chat and planning.
+  - Chat on AI Coach; `rag-service` pulls profile context (when present), retrieves literature from Chroma, and calls the tuned Gemini endpoint for grounded responses.
+  - Request personalized plans on Training Plan; optional calendar upload goes to `calendar-agent` (with GPT-4o Vision) to parse availability, blend with goals, and generate plans that can be saved to Postgres.
+  - Review saved or generated weeks on Weekly Plan; pull historical plans from `core-etl-api`, regenerate, and download ICS if needed.
+- Developer/ops flow
+  - Literature ingestion: new PDFs land in GCS (`raw-literature/`).
+  - OCR processing: `ocr-engine` streams bytes, performs OCR, and writes cleaned text to GCS (`processed-literature/`).
+  - Retrieval prep: `rag-service` chunks processed text (character/recursive/semantic), embeds with Vertex text-embedding-004, and stores vectors in Chroma collections.
+  - Model orchestration: chat calls route through the tuned Gemini generator; `calendar-agent` uses OpenAI for calendar vision + plan generation.
 - Data flow (literature/RAG)
   1) PDFs land in GCS → 2) OCR text saved in `processed-literature/` → 3) `rag-service` chunks text (character/recursive/semantic) → 4) embeddings generated with Vertex text-embedding-004 → 5) stored in Chroma collections (per chunking method) → 6) queries embed user input → 7) top-k context passed to tuned Gemini endpoint for grounded answers.
 - Data flow (user/calendars)

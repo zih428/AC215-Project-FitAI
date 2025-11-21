@@ -33,24 +33,9 @@ By combining structured user data with knowledge from scientific sources, FitAI 
 ---
 
 ## Solution Architecture
-```
-[User]
-  |
-[Next.js Frontend]
-  |-- chat/query --> [RAG Service] --> [ChromaDB] --> context --> [Vertex AI tuned Gemini]
-  |-- auth/profile --> [Core ETL API] --> [Postgres]
-  |-- calendar upload --> [Calendar Agent] --> plans --> [Postgres]
-  |                                   |
-  |                                   +--> optional calendar outputs to GCS
-  |
-  +--> (literature status) ---------> [OCR Engine] -> processed text -> [GCS bucket]
-
-[GCS bucket] holds raw/processed literature + SFT datasets (DVC-tracked) feeding OCR/RAG/SFT.
-```
-- [ ] TODO: replace with actual diagram
+![Solution architecture overview](docs/solution-architecture.jpeg)
 
 ## Technical Architecture
-Here is our Technical Architecture:
 
 ![Technical architecture overview](docs/technical-architecture.jpeg)
 

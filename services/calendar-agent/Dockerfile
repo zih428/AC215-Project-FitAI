@@ -2,7 +2,7 @@
 FROM python:3.12-slim-bookworm
 
 # --- System dependencies ---
-ARG DEBIAN_PACKAGES="build-essential curl"
+ARG DEBIAN_PACKAGES="build-essential curl bash"
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG=C.UTF-8
 ENV PYTHONUNBUFFERED=1

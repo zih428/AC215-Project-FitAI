@@ -1,6 +1,6 @@
 # Core ETL + User API
 
-FastAPI service (port 8001) that bootstraps FitAI's Postgres schema with seed data and exposes authentication/user profile endpoints consumed by the frontend, calendar agent, and RAG service.
+FastAPI service (port 8001) that bootstraps FitAI's Postgres schema with seed data and exposes authentication/user profile endpoints consumed by the frontend, calendar agent, and RAG service. Dependencies are defined in `pyproject.toml` and installed with `uv` (no `requirements.txt`).
 
 ## What this service does
 - **ETL bootstrap**: loads three CSVs from GCS (`gym_recommendation`, `gym_members_exercise_tracking`, `exercise_catalog`) into Postgres and seeds demo users so downstream services have data to work with.
@@ -33,16 +33,16 @@ The container entrypoint runs the ETL once before uvicorn starts. Logs:
 docker compose logs -f core-etl-api
 ```
 
-## Run locally without Docker
+## Run locally without Docker (uv)
 ```bash
 cd services/core-etl-api
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-export POSTGRES_HOST=localhost  # adjust if needed
+pip install --upgrade uv            # once, if you don't have uv installed
+uv sync                              # installs deps into .venv (Python 3.12+)
+export POSTGRES_HOST=localhost       # adjust if needed
 export GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account.json
-uvicorn app:app --reload --host 0.0.0.0 --port 8001
+uv run uvicorn app:app --reload --host 0.0.0.0 --port 8001
 # optional: run ETL once manually
-python etl.py
+uv run python etl.py
 ```
 
 ## ETL flow

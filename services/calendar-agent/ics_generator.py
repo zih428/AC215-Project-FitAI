@@ -2,7 +2,7 @@ from datetime import datetime
 
 def generate_ics_event(day: dict, user_id: int) -> str:
     """
-    Convert one training day JSON into an ICS event (方案 B).
+    Convert one training day JSON into an ICS event (Option B).
     """
     date = day["date"]                    # YYYY-MM-DD
     focus = day["workout_focus"]

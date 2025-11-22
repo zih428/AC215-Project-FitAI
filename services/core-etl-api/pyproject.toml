@@ -1,0 +1,18 @@
+[project]
+name = "core-etl-api"
+version = "0.1.0"
+description = "FitAI Core ETL + User API (FastAPI + Postgres + GCS ingestion)"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn>=0.24.0",
+    "pandas>=2.2.0",
+    "sqlalchemy>=2.0.25",
+    "psycopg2-binary>=2.9.9",
+    "google-cloud-storage>=2.14.0",
+    "google-auth>=2.27.0",
+    "python-jose[cryptography]>=3.3.0",
+    "passlib[bcrypt]>=1.7.4",
+    "email-validator>=2.1.0",
+]

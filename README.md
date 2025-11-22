@@ -6,6 +6,8 @@ The platform integrates user-specific data such as body metrics and training goa
 
 By combining structured user data with knowledge from scientific sources, FitAI aims to create an adaptive and transparent foundation for intelligent fitness planning.
 
+Preview the running app UI in [UI Screens](docs/UI_Screens.md).
+
 ---
 
 ## 👩‍💻 Team Members

@@ -107,3 +107,12 @@ docker compose up --build -d
 ```bash
 docker compose down -v
 ```
+
+## CI Verification
+- Frontend pipeline: lint and production build succeed (`npm run lint`, `npm run build`). Evidence: `docs/CI-Frontend.png`.
+
+![Frontend CI (lint + build)](docs/CI-Frontend.png)
+
+- Backend pipeline: all Python tests pass with coverage ≥50% across services. Evidence: `docs/CI-Python.png`.
+
+![Python CI (tests + coverage ≥50%)](docs/CI-Python.png)

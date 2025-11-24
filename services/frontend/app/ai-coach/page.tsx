@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Send, Bot, User as UserIcon, CheckCircle, XCircle, AlertCircle, Info } from 'lucide-react'
 import Link from 'next/link'
+import { getPipelineBaseUrl, getRagBaseUrl } from '@/apiConfig'
 
 interface Message {
   id: string
@@ -37,8 +38,8 @@ const PROFILE_STORAGE_KEY = 'fitai-profile-user-id'
 const PROFILE_CACHE_KEY = 'fitai-profile-data'
 const AUTH_TOKEN_KEY = 'fitai-auth-token'
 const PROFILE_UPDATED_EVENT = 'fitai-profile-updated'
-const PIPELINE_BASE_URL =
-  process.env.NEXT_PUBLIC_PIPELINE_URL ?? 'http://localhost:8001'
+const PIPELINE_BASE_URL = getPipelineBaseUrl()
+const RAG_BASE_URL = getRagBaseUrl()
 
 const createDefaultMessages = (): Message[] => [
   {
@@ -206,7 +207,7 @@ export default function AICoach() {
 
   const checkRAGConnection = async () => {
     try {
-      const response = await fetch('http://localhost:8002/health', {
+      const response = await fetch(`${RAG_BASE_URL}/health`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -246,7 +247,7 @@ export default function AICoach() {
   // Check if collections exist (gate UI until embeddings are present)
   const checkCollections = useCallback(async () => {
     try {
-      const res = await fetch('http://localhost:8002/collections', {
+      const res = await fetch(`${RAG_BASE_URL}/collections`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       })
@@ -290,7 +291,7 @@ export default function AICoach() {
 
     // Call RAG pipeline API
     try {
-      const response = await fetch('http://localhost:8002/chat', {
+      const response = await fetch(`${RAG_BASE_URL}/chat`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -493,9 +494,9 @@ export default function AICoach() {
               <span className="text-sm font-semibold text-gray-700">Debug Information</span>
             </div>
             <div className="text-xs text-gray-600 space-y-1 font-mono">
-              <div>API Endpoint: <span className="text-blue-600">http://localhost:8002/chat</span></div>
-              <div>Health Check: <span className="text-blue-600">http://localhost:8002/health</span></div>
-              <div>Collections: <span className="text-blue-600">http://localhost:8002/collections</span></div>
+              <div>API Endpoint: <span className="text-blue-600">{`${RAG_BASE_URL}/chat`}</span></div>
+              <div>Health Check: <span className="text-blue-600">{`${RAG_BASE_URL}/health`}</span></div>
+              <div>Collections: <span className="text-blue-600">{`${RAG_BASE_URL}/collections`}</span></div>
               <div>Status: <span className={connectionStatus.status === 'connected' ? 'text-green-600' : 'text-red-600'}>{connectionStatus.status}</span></div>
               <div>Collections Status: <span className={
                 collectionsStatus === 'ready' ? 'text-green-600'

@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from 'react'
 import { User } from 'lucide-react'
+import { getPipelineBaseUrl } from '@/apiConfig'
 
 const PROFILE_STORAGE_KEY = 'fitai-profile-user-id'
 const PROFILE_CACHE_KEY = 'fitai-profile-data'
 const AUTH_TOKEN_KEY = 'fitai-auth-token'
 const PROFILE_UPDATED_EVENT = 'fitai-profile-updated'
-const PIPELINE_BASE_URL =
-  process.env.NEXT_PUBLIC_PIPELINE_URL ?? 'http://localhost:8001'
+const PIPELINE_BASE_URL = getPipelineBaseUrl()
 
 const BODY_TYPES = [
   {

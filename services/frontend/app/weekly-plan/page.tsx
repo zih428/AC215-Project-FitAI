@@ -10,12 +10,11 @@ import {
   Upload,
   History,
 } from 'lucide-react'
+import { getCalendarAgentBaseUrl, getPipelineBaseUrl } from '@/apiConfig'
 
 const PROFILE_STORAGE_KEY = 'fitai-profile-user-id'
-const CALENDAR_AGENT_URL =
-  process.env.NEXT_PUBLIC_CALENDAR_AGENT_URL ?? 'http://localhost:8004'
-const CORE_API_URL =
-  process.env.NEXT_PUBLIC_PIPELINE_URL ?? 'http://localhost:8001'
+const CALENDAR_AGENT_URL = getCalendarAgentBaseUrl()
+const CORE_API_URL = getPipelineBaseUrl()
 const PLAN_HISTORY_LIMIT = 10
 
 interface TrainingPlanEvent {

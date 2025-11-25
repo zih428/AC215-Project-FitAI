@@ -1,120 +1,22 @@
-# AC215-Project-FitAI
+# FitAI
 
-**FitAI** is a containerized, end-to-end system that delivers personalized fitness recommendations powered by large language models (LLMs) and retrieval-augmented generation (RAG).
+FitAI delivers personalized fitness recommendations by combining user profiles with research-backed context retrieved through a RAG pipeline. The app is already live on GKE with autoscaling at http://34.71.139.146/login. Architecture diagrams live in [docs/solution-architecture.jpeg](docs/solution-architecture.jpeg) and [docs/technical-architecture.jpeg](docs/technical-architecture.jpeg), and service-level details are documented in the individual READMEs under [services/](services/) plus [infra/README.md](infra/README.md). UI previews are in [docs/UI_Screens.md](docs/UI_Screens.md).
 
-The platform integrates user-specific data such as body metrics and training goals with insights extracted from scientific literature on exercise physiology. These research papers are processed through an ETL and RAG pipeline that performs document chunking and vector embedding before storing them in a vector database (ChromaDB). When users interact with the system - whether asking training questions or requesting plan adjustments - the RAG module retrieves the most relevant literature chunks and combines them with the LLM’s reasoning to generate evidence-based, personalized recommendations.
+## Prerequisites and setup instructions
+- **Local:** Install Docker and Docker Compose; exposed ports: frontend 3000, core-etl-api 8001, rag-service 8002, ocr-engine 8003, calendar-agent 8004, Chroma 8000, Postgres 5432. Local frontend dev needs Node 18+ (see [services/frontend/README.md](services/frontend/README.md)). Backend service prerequisites live in their own READMEs under [services/](services/).
+- **GCP/GKE (Pulumi):** Requires Node 20+, Pulumi CLI, `gcloud` auth (`gcloud auth login` and `gcloud auth application-default login`), and access to Artifact Registry images. Infrastructure setup is detailed in [infra/README.md](infra/README.md).
+- **Secrets:** Ensure DB credentials, JWT keys, and GCP service accounts are available for both local and GKE deployments. TODO: add a consolidated env/secret checklist for every service.
+- **Data:** DVC points at `gs://fitai-data-bucket` via `fitai_data_bucket.dvc`; see [docs/data-versioning.md](docs/data-versioning.md). TODO: document the exact `dvc pull` workflow and access requirements.
+- Optional references: [docs/model-training.md](docs/model-training.md), service-specific READMEs (e.g., [services/rag-service/README.md](services/rag-service/README.md), [services/core-etl-api/README.md](services/core-etl-api/README.md)), and [docs/UI_Screens.md](docs/UI_Screens.md).
 
-By combining structured user data with knowledge from scientific sources, FitAI aims to create an adaptive and transparent foundation for intelligent fitness planning.
+## Deployment instructions
+- **Local:** From repo root, run `docker compose up --build -d`; check with `docker compose ps`; stop with `docker compose down -v`. Development- or image-only flows are outlined in each service README (e.g., [services/frontend/README.md](services/frontend/README.md), [services/rag-service/README.md](services/rag-service/README.md)).
+- **GCP/GKE (Pulumi):** Follow [infra/README.md](infra/README.md). Common flow: set `PULUMI_HOME`, select the stack (`pulumi stack select zih428-org/FitAI_infra/dev`), ensure images exist in Artifact Registry, then run `pulumi up` after `gcloud` auth. The autoscaled GKE deployment is currently reachable at http://34.71.139.146/login. HPA demo and kubectl commands are documented in [infra/README.md](infra/README.md). TODO: add instructions for building/pushing fresh images to Artifact Registry before `pulumi up`.
 
-Preview the running app UI in [UI Screens](docs/UI_Screens.md).
+## Usage details and examples
+- **Local:** After `docker compose` is running, open http://localhost:3000 (screens in [docs/UI_Screens.md](docs/UI_Screens.md)).
+- **GCP/GKE (Pulumi):** Use the load balancer IPs output by Pulumi (see [infra/README.md](infra/README.md)) to reach frontend and APIs. Adjust frontend environment URLs as needed when not running on localhost. TODO: add end-to-end examples for auth + profile + plan generation against deployed load balancers.
 
----
-
-## 👩‍💻 Team Members
-- Leo Cheng
-- Faye Fang  
-- Steven Ge  
-- Harry Hu
-
----
-
-## Milestone 4 Organization
-```
-├── README.md
-├── data/                     # do not commit data; keep .gitkeep or tiny samples only
-├── docs/                     # design/training/versioning docs
-├── notebooks/                # analysis and exploration (e.g., GCS_Explorer.ipynb)
-├── reference/                # reference docx/pdfs for MS4
-├── reports/                  # presentations and summaries (e.g., midterm presentation)
-├── services/                 # app services (frontend, APIs, workers, db)
-├── sft/                      # fine-tuning configs, datasets (.dvc), scripts
-├── docker-compose.yml        # local orchestration
-└── screenshots/              # UI and bucket visuals
-```
-
----
-
-## Solution Architecture
-![Solution architecture overview](docs/solution-architecture.jpeg)
-
-## Technical Architecture
-
-![Technical architecture overview](docs/technical-architecture.jpeg)
-
-Notes:
-- GCS stores raw/processed literature and SFT datasets; snapshots tracked via DVC.
-- Chroma collections are per chunking method (char/recursive/semantic) with cosine HNSW.
-- Postgres holds users and generated plans; calendar-agent and frontend reuse the same profiles.
-- Ports: frontend 3000, core-etl-api 8001, rag-service 8002, ocr-engine 8003, calendar-agent 8004, Chroma 8000, Postgres 5432.
-
-
----
-
-## Container Structure
-- `services/frontend/` → Next.js 14 UI (AI Coach, profile, training-plan flows)
-- `services/rag-service/` → FastAPI RAG API (chunk, embed, query, chat) + Chroma client
-- `services/ocr-engine/` → FastAPI OCR pipeline streaming PDFs from GCS to processed text
-- `services/calendar-agent/` → FastAPI planner with GPT-4o Vision + plan persistence
-- `services/core-etl-api/` → FastAPI user/auth service with Postgres + ETL hooks
-- `services/db/` → Postgres database (schema in `services/db/init.sql`)
-- `services/chromadb/` → Chroma vector DB (persistent volume under `docker-volumes/chromadb`)
-- `docker-compose.yml` → brings up the full stack locally
-
----
-
-## Backend APIs
-- RAG Service (port 8002): `/health`, `/process-gcs` (GCS → chunks → embeddings → Chroma), `/query` (vector search), `/chat` (RAG answer with optional profile), `/collections` (list).
-- Core ETL API (port 8001): `/auth/login`, `/auth/register`, `/users/me`, `/users/{id}`, `/training-plans` (retrieve saved plans); JWT-based auth with Postgres persistence.
-- Calendar Agent (port 8004): `/health`, `/process_calendar` (OCR calendar image), `/planner` (generate plan with optional calendar upload), `/planner/save`, `/planner/history`.
-- OCR Engine (port 8003): `/health`, `/perform-ocr` (incremental or full reprocess of GCS PDFs to text).
-
----
-
-## Data Versioning (DVC)
-
-We use DVC to version-control all literature data stored in our GCS bucket (gs://fitai-data-bucket).
-
-Setup
-```bash
-dvc import-url gs://fitai-data-bucket fitai_data_bucket
-git add fitai_data_bucket.dvc
-git commit -m "Track GCS literature dataset with DVC"
-```
-
-Update dataset version
-```bash
-dvc update fitai_data_bucket.dvc
-git add fitai_data_bucket.dvc
-git commit -m "Update literature dataset version"
-```
-
-Reproduce a dataset version
-```bash
-git checkout <commit>
-dvc update fitai_data_bucket.dvc
-```
-
-All actual data remains in GCS; only DVC pointers are stored in Git. 
-
----
-
-## 🚀 Quick Start
-
-#### Run all containers
-```bash
-docker compose up --build -d
-```
-
-#### Shut down and remove containers (when finished)
-```bash
-docker compose down -v
-```
-
-## CI Verification
-- Frontend pipeline: lint and production build succeed (`npm run lint`, `npm run build`). Evidence: `docs/CI-Frontend.png`.
-
-![Frontend CI (lint + build)](docs/CI-Frontend.png)
-
-- Backend pipeline: all Python tests pass with coverage ≥50% across services. Evidence: `docs/CI-Python.png`.
-
-![Python CI (tests + coverage ≥50%)](docs/CI-Python.png)
+## Known issues and limitations
+- **Local:** The frontend AI Coach currently hardcodes `http://localhost:8002` for rag-service in [services/frontend/app/ai-coach/page.tsx](services/frontend/app/ai-coach/page.tsx); non-local hosts require code changes or env-driven URLs. TODO: enumerate any flaky local flows or open bugs.
+- **GCP/GKE (Pulumi):** Requires access to GCS/Vertex AI/Artifact Registry and production secrets; these are not stored in this repository. TODO: call out any deployment-time pitfalls (e.g., missing images, quota limits) observed in recent runs.

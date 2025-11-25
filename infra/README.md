@@ -36,6 +36,7 @@ Prereqs: `gcloud auth login`, `gcloud auth application-default login`, `gcloud c
 ## Proof of Deployment (GCP/GKE)
 - GKE Console (Clusters/Workloads/Services): ![GKE cluster](../docs/GKE_cluster.png)
 - Artifact Registry console shows images under `fitai` repo: ![artifact registry](../docs/artifact_registry.png)
+- Pulumi stack outputs (load balancer IPs + kubeconfig secret) from the latest update: ![Pulumi stack](../docs/pulumi.png)
 
 ## HPA Demo (K8s Autoscaling)
 - Manifest: [`hpa-demo.yaml`](./hpa-demo.yaml) (Deployment + Service + HPA for `cpu-demo`)

@@ -1,81 +1,65 @@
-# Pulumi GCP TypeScript Template
+# FitAI Infra (Pulumi + GCP + GKE)
 
-A minimal Google Cloud Storage bucket example using Pulumi and TypeScript. This template helps you get started quickly with a basic Pulumi program on GCP.
+This folder contains the Pulumi TypeScript program that provisions our GCP infrastructure and deploys the FitAI Kubernetes workloads to GKE. It also includes a small HPA demo to showcase autoscaling behavior.
 
-## Overview
+## Tech Stack
+- Pulumi (TypeScript) for IaC (`index.ts`)
+- GCP: Artifact Registry (Docker), GKE, VPC/Subnet, Load Balancers
+- Kubernetes: Deployments, Services (LoadBalancer), Secrets, PVCs
+- Kubernetes Autoscaling: Horizontal Pod Autoscaler (HPA) and optional node autoscaling
 
-This template provisions a Google Cloud Storage bucket in the `US` region and exports its URL. It demonstrates how to use the Pulumi GCP provider with TypeScript.
+## What Pulumi Creates (see [`index.ts`](./index.ts))
+- VPC and subnetwork with secondary IP ranges for pods/services
+- GKE cluster + node pool (COS_containerd, `e2-standard-2`)
+- Namespace `fitai`
+- Secrets for DB creds/JWT/GCP SA key
+- PVCs for Postgres and ChromaDB
+- Deployments + Services:
+  - core-etl-api (LB)
+  - rag-service (LB)
+  - calendar-agent (LB)
+  - ocr-engine
+  - frontend (LB)
+  - postgres + chromadb
+- Outputs: kubeconfig, frontend/core-etl/rag/calendar LB IPs
 
-## Providers
-
-- `@pulumi/pulumi`
-- `@pulumi/gcp`
-
-## Resources Created
-
-- **Storage Bucket** (`gcp.storage.Bucket`)
-
-## Outputs
-
-- `bucketName` – The URL of the created Storage Bucket.
-
-## When to Use
-
-Use this template when you:
-- Want a quick, minimal example of provisioning GCP resources with Pulumi.
-- Are exploring Pulumi and TypeScript on Google Cloud.
-- Need a starting point for building more complex GCP infrastructure in TypeScript.
-
-## Prerequisites
-
-- Node.js installed on your machine.
-- Pulumi CLI installed.
-- A Google Cloud project.
-- GCP credentials configured (for example, via `gcloud auth login` or the `GOOGLE_APPLICATION_CREDENTIALS` environment variable).
-
-## Getting Started
-
-Create a new Pulumi project from this template:
+## Deploying the Stack
 ```bash
-pulumi new gcp-typescript
+export PATH=$PATH:$HOME/.pulumi/bin
+export PULUMI_HOME=/home/harryhu/AC215-Project-FitAI/.pulumi-home
+cd infra
+pulumi stack select zih428-org/FitAI_infra/dev
+pulumi up
 ```
-Follow the interactive prompts to set:
-- Project name and description.
-- `gcp:project` (the target Google Cloud project ID).
+Prereqs: `gcloud auth login`, `gcloud auth application-default login`, `gcloud config set project rich-access-471117-r0`, Node 20+, Pulumi CLI, and images pushed to Artifact Registry (`us-central1-docker.pkg.dev/rich-access-471117-r0/fitai/...`).
 
-## Project Layout
+## Proof of Deployment (GCP/GKE)
+- GKE Console (Clusters/Workloads/Services): ![GKE cluster](../docs/GKE_cluster.png)
+- Artifact Registry console shows images under `fitai` repo: ![artifact registry](../docs/artifact_registry.png)
 
-```
-.
-├── Pulumi.yaml         # Pulumi project definition and template metadata
-├── index.ts            # Entry point for the Pulumi program
-├── package.json        # Node.js dependencies and metadata
-└── tsconfig.json       # TypeScript compiler configuration
-```
+## HPA Demo (K8s Autoscaling)
+- Manifest: [`hpa-demo.yaml`](./hpa-demo.yaml) (Deployment + Service + HPA for `cpu-demo`)
+- Apply & load test:
+  ```bash
+  export KUBECONFIG=/home/harryhu/AC215-Project-FitAI/infra/kubeconfig
+  kubectl apply -f hpa-demo.yaml
+  kubectl get pods -n fitai -l app=cpu-demo -w    # watch pods
+  kubectl get hpa -n fitai -w                     # watch HPA
+  kubectl run loadgen --rm -it --restart=Never -n fitai \
+    --image=busybox -- /bin/sh -c "while true; do wget -q -O- http://cpu-demo.fitai.svc.cluster.local; done"
+  ```
+- Autoscaling evidence:
+  - Pods scaling up under load: ![kubectl get pods](../docs/kubectl_get_pods.png)
+  - HPA driving replica count based on CPU: ![kubectl get hpa](../docs/kubectl_get_hpa.png)
+  - Load generator running inside the cluster: ![kubectl run loadgen](../docs/kubectl_run_loadgen.png)
+- Cleanup:
+  ```bash
+  kubectl delete -f hpa-demo.yaml
+  ```
 
-## Configuration
+## Notes
+- kubeconfig is generated via `pulumi stack output kubeconfigOut`; keep it out of git.
+- `.pulumi-home/` stores Pulumi credentials/state for this machine; keep it out of git.
+- Frontend builds bake backend LB URLs via build args in `services/frontend/Dockerfile`.
 
-This template recognizes the following configuration values:
-
-- `gcp:project` – The Google Cloud project where resources will be deployed.
-
-Set this value in your stack with:
-```bash
-pulumi config set gcp:project YOUR_PROJECT_ID
-```
-
-## Next Steps
-
-- Customize the storage bucket (e.g., change location, storage class, access policies).
-- Add more GCP resources such as Compute Engine instances, Pub/Sub topics, or Firestore databases.
-- Explore the full Pulumi GCP provider documentation:
-  https://www.pulumi.com/docs/reference/pkg/gcp/
-- Learn more about Pulumi with TypeScript:
-  https://www.pulumi.com/docs/get-started/typescript/
-
-## Getting Help
-
-If you run into issues or have questions, check out:
-- Pulumi Documentation: https://www.pulumi.com/docs/
-- Community Slack: https://slack.pulumi.com/
-- GitHub Issues: https://github.com/pulumi/pulumi/issues
+Happy shipping!  

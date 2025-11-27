@@ -1,0 +1,91 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: rich-access-471117-r0
+  REGION: us-central1
+  REGISTRY: us-central1-docker.pkg.dev/rich-access-471117-r0/fitai
+  PULUMI_STACK: FitAI_infra/dev
+  IMAGE_TAG: ${{ github.sha }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+      GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS_JSON }}
+      PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Pulumi CLI
+        run: |
+          curl -fsSL https://get.pulumi.com | sh
+          echo "$HOME/.pulumi/bin" >> $GITHUB_PATH
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS_JSON }}
+
+      - name: Set up gcloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          install_components: gke-gcloud-auth-plugin
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+
+      - name: Build and push images
+        run: |
+          set -euo pipefail
+          docker build -t "${REGISTRY}/core-etl-api:${IMAGE_TAG}" services/core-etl-api
+          docker push "${REGISTRY}/core-etl-api:${IMAGE_TAG}"
+
+          docker build -t "${REGISTRY}/rag-service:${IMAGE_TAG}" services/rag-service
+          docker push "${REGISTRY}/rag-service:${IMAGE_TAG}"
+
+          docker build -t "${REGISTRY}/calendar-agent:${IMAGE_TAG}" services/calendar-agent
+          docker push "${REGISTRY}/calendar-agent:${IMAGE_TAG}"
+
+          docker build -t "${REGISTRY}/ocr-engine:${IMAGE_TAG}" services/ocr-engine
+          docker push "${REGISTRY}/ocr-engine:${IMAGE_TAG}"
+
+          docker build -t "${REGISTRY}/frontend:${IMAGE_TAG}" services/frontend
+          docker push "${REGISTRY}/frontend:${IMAGE_TAG}"
+
+      - name: Install infra dependencies
+        working-directory: infra
+        run: npm ci
+
+      - name: Configure stack with new image tags
+        working-directory: infra
+        run: |
+          set -euo pipefail
+          pulumi stack select "${PULUMI_STACK}" --non-interactive
+          pulumi config set image:coreEtlApi "${REGISTRY}/core-etl-api:${IMAGE_TAG}" --stack "${PULUMI_STACK}" --non-interactive
+          pulumi config set image:ragService "${REGISTRY}/rag-service:${IMAGE_TAG}" --stack "${PULUMI_STACK}" --non-interactive
+          pulumi config set image:calendarAgent "${REGISTRY}/calendar-agent:${IMAGE_TAG}" --stack "${PULUMI_STACK}" --non-interactive
+          pulumi config set image:ocrEngine "${REGISTRY}/ocr-engine:${IMAGE_TAG}" --stack "${PULUMI_STACK}" --non-interactive
+          pulumi config set image:frontend "${REGISTRY}/frontend:${IMAGE_TAG}" --stack "${PULUMI_STACK}" --non-interactive
+
+      - name: Deploy with Pulumi
+        working-directory: infra
+        env:
+          KUBECONFIG: ${{ github.workspace }}/infra/kubeconfig
+        run: pulumi up --yes --stack "${PULUMI_STACK}" --non-interactive

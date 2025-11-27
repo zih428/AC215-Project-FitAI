@@ -23,7 +23,16 @@ This folder contains the Pulumi TypeScript program that provisions our GCP infra
   - postgres + chromadb
 - Outputs: kubeconfig, frontend/core-etl/rag/calendar LB IPs
 
-## Deploying the Stack
+## Deploying the Stack (CI/CD)
+### Automated (recommended)
+- GitHub Actions workflow `CD` runs on pushes to `main` (or manual dispatch). It:
+  - Auths to GCP via `GCP_CREDENTIALS_JSON` secret (service account with Artifact Registry + GKE perms).
+  - Builds/pushes all service images to `us-central1-docker.pkg.dev/rich-access-471117-r0/fitai` with tag `${GITHUB_SHA}`.
+  - Sets Pulumi config `image:*` values for those tags on stack `FitAI_infra/dev` and runs `pulumi up`.
+- Required GitHub secrets: `PULUMI_ACCESS_TOKEN`, `GCP_CREDENTIALS_JSON`, optional `PULUMI_CONFIG_PASSPHRASE` (if you enable it) and any app secrets stored as Pulumi config (`dbPassword`, `jwtSecret`, `gcpServiceAccountKey`, etc.).
+- To trigger manually: GitHub → Actions → “CD” → “Run workflow” on branch `main`.
+
+### Manual
 ```bash
 export PATH=$PATH:$HOME/.pulumi/bin
 export PULUMI_HOME=/home/harryhu/AC215-Project-FitAI/.pulumi-home
@@ -31,7 +40,7 @@ cd infra
 pulumi stack select zih428-org/FitAI_infra/dev
 pulumi up
 ```
-Prereqs: `gcloud auth login`, `gcloud auth application-default login`, `gcloud config set project rich-access-471117-r0`, Node 20+, Pulumi CLI, and images pushed to Artifact Registry (`us-central1-docker.pkg.dev/rich-access-471117-r0/fitai/...`).
+Prereqs: `gcloud auth login`, `gcloud auth application-default login`, `gcloud config set project rich-access-471117-r0`, Node 20+, Pulumi CLI, and images pushed to Artifact Registry (`us-central1-docker.pkg.dev/rich-access-471117-r0/fitai/...`). If you want manual deploys to mirror CI tags, build/push images locally and set `pulumi config set image:<service> ... --stack FitAI_infra/dev` before `pulumi up`.
 
 ## Proof of Deployment (GCP/GKE)
 - GKE Console (Clusters/Workloads/Services): ![GKE cluster](../docs/GKE_cluster.png)

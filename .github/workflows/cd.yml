@@ -10,7 +10,7 @@ env:
   PROJECT_ID: rich-access-471117-r0
   REGION: us-central1
   REGISTRY: us-central1-docker.pkg.dev/rich-access-471117-r0/fitai
-  PULUMI_STACK: FitAI_infra/dev
+  PULUMI_STACK: zih428-org/FitAI_infra/dev
   IMAGE_TAG: ${{ github.sha }}
 
 jobs:

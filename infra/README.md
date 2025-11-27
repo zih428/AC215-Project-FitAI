@@ -28,7 +28,7 @@ This folder contains the Pulumi TypeScript program that provisions our GCP infra
 - GitHub Actions workflow `CD` runs on pushes to `main` (or manual dispatch). It:
   - Auths to GCP via `GCP_CREDENTIALS_JSON` secret (service account with Artifact Registry + GKE perms).
   - Builds/pushes all service images to `us-central1-docker.pkg.dev/rich-access-471117-r0/fitai` with tag `${GITHUB_SHA}`.
-  - Sets Pulumi config `image:*` values for those tags on stack `FitAI_infra/dev` and runs `pulumi up`.
+  - Sets Pulumi config `image:*` values for those tags on stack `zih428-org/FitAI_infra/dev` and runs `pulumi up`.
 - Required GitHub secrets: `PULUMI_ACCESS_TOKEN`, `GCP_CREDENTIALS_JSON`, optional `PULUMI_CONFIG_PASSPHRASE` (if you enable it) and any app secrets stored as Pulumi config (`dbPassword`, `jwtSecret`, `gcpServiceAccountKey`, etc.).
 - To trigger manually: GitHub → Actions → “CD” → “Run workflow” on branch `main`.
 

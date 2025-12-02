@@ -1,4 +1,7 @@
 [core]
-    remote = literature-remote
+    remote = sft-remote
 ['remote "literature-remote"']
     url = gs://fitai-data-bucket
+['remote "sft-remote"']
+    url = gs://fitai-data-bucket/sft
+    credentialpath = ../secrets/rich-access-471117-r0-f17d92fbf298.json

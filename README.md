@@ -21,5 +21,3 @@ FitAI delivers personalized fitness recommendations by combining user profiles w
 ## Known issues and limitations
 - **Local:** The frontend AI Coach currently hardcodes `http://localhost:8002` for rag-service in [services/frontend/app/ai-coach/page.tsx](services/frontend/app/ai-coach/page.tsx); non-local hosts require code changes or env-driven URLs. TODO: enumerate any flaky local flows or open bugs.
 - **GCP/GKE (Pulumi):** Requires access to GCS/Vertex AI/Artifact Registry and production secrets; these are not stored in this repository. TODO: call out any deployment-time pitfalls (e.g., missing images, quota limits) observed in recent runs.
-
-# test contribution

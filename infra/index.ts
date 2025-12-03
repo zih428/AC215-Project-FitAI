@@ -13,21 +13,11 @@ const nodeCount = config.getNumber("nodeCount") ?? 2;
 const nodeMachineType = config.get("nodeMachineType") ?? "e2-standard-2";
 
 // Images (set these via pulumi config set image:<name> ...)
-const coreEtlApiImage =
-    config.get("image:coreEtlApi") ??
-    "us-central1-docker.pkg.dev/rich-access-471117-r0/fitai/core-etl-api:v1";
-const ragServiceImage =
-    config.get("image:ragService") ??
-    "us-central1-docker.pkg.dev/rich-access-471117-r0/fitai/rag-service:v1";
-const calendarAgentImage =
-    config.get("image:calendarAgent") ??
-    "us-central1-docker.pkg.dev/rich-access-471117-r0/fitai/calendar-agent:v1";
-const ocrEngineImage =
-    config.get("image:ocrEngine") ??
-    "us-central1-docker.pkg.dev/rich-access-471117-r0/fitai/ocr-engine:v1";
-const frontendImage =
-    config.get("image:frontend") ??
-    "us-central1-docker.pkg.dev/rich-access-471117-r0/fitai/frontend:v1";
+const coreEtlApiImage = config.get("image:coreEtlApi");
+const ragServiceImage = config.get("image:ragService");
+const calendarAgentImage = config.get("image:calendarAgent");
+const ocrEngineImage = config.get("image:ocrEngine");
+const frontendImage = config.get("image:frontend");
 
 // App settings
 const dbUser = config.get("dbUser") ?? "fitai";

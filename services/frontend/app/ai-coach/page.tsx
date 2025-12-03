@@ -425,12 +425,12 @@ export default function AICoach() {
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">AI Coach</h1>
               <p className="text-gray-600">
-                Get personalized fitness advice powered by AI and scientific research
+                Get personalized fitness advice powered by AI & scientific research
               </p>
             </div>
             {profile ? (
               <p className="text-sm text-gray-600">
-                Chatting as: <span className="font-semibold">{profile.full_name}</span> (
+                Chatting as <span className="font-semibold">{profile.full_name}</span> (
                 {profile.age_years} yrs, {profile.body_type}, {profile.weight_kg} kg)
               </p>
             ) : (

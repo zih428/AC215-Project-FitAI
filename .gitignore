@@ -28,3 +28,7 @@ docker-volumes/
 
 # Node modules for infra project
 /infra/node_modules/
+
+# Local Pulumi stack files (service backend keeps state remotely)
+/infra/Pulumi.*.yaml
+!/infra/Pulumi.yaml

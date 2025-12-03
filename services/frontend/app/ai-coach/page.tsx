@@ -430,7 +430,7 @@ export default function AICoach() {
             </div>
             {profile ? (
               <p className="text-sm text-gray-600">
-                Chatting as <span className="font-semibold">{profile.full_name}</span> (
+                chatting as <span className="font-semibold">{profile.full_name}</span> (
                 {profile.age_years} yrs, {profile.body_type}, {profile.weight_kg} kg)
               </p>
             ) : (

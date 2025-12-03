@@ -51,6 +51,7 @@ jobs:
           # Always deploy on manual runs.
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "deploy=true" >> "$GITHUB_OUTPUT"
+            echo "build_images=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -60,11 +61,35 @@ jobs:
           fi
 
           changed_files=$(git diff --name-only "$BASE"...HEAD || true)
-          if echo "$changed_files" | grep -E '^(services/|infra/|docker-compose.yml|.github/workflows/cd.yml)' >/dev/null; then
-            echo "deploy=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "deploy=false" >> "$GITHUB_OUTPUT"
+          service_change=false
+          infra_change=false
+          cd_change=false
+
+          if echo "$changed_files" | grep -E '^(services/|docker-compose.yml)' >/dev/null; then
+            service_change=true
           fi
+
+          if echo "$changed_files" | grep -E '^infra/' >/dev/null; then
+            infra_change=true
+          fi
+
+          if echo "$changed_files" | grep -E '^.github/workflows/cd.yml' >/dev/null; then
+            cd_change=true
+          fi
+
+          deploy=false
+          build_images=false
+
+          if [ "$service_change" = true ] || [ "$infra_change" = true ] || [ "$cd_change" = true ]; then
+            deploy=true
+          fi
+
+          if [ "$service_change" = true ] || [ "$cd_change" = true ]; then
+            build_images=true
+          fi
+
+          echo "deploy=$deploy" >> "$GITHUB_OUTPUT"
+          echo "build_images=$build_images" >> "$GITHUB_OUTPUT"
 
       - name: Short-circuit (no relevant changes)
         if: steps.changes.outputs.deploy != 'true'
@@ -82,7 +107,7 @@ jobs:
         run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
 
       - name: Build and push images
-        if: steps.changes.outputs.deploy == 'true'
+        if: steps.changes.outputs.build_images == 'true'
         run: |
           set -euo pipefail
           docker build -t "${REGISTRY}/core-etl-api:${IMAGE_TAG}" services/core-etl-api
@@ -106,7 +131,7 @@ jobs:
         run: npm ci
 
       - name: Configure stack with new image tags
-        if: steps.changes.outputs.deploy == 'true'
+        if: steps.changes.outputs.build_images == 'true'
         working-directory: infra
         run: |
           set -euo pipefail

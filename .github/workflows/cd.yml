@@ -131,7 +131,7 @@ jobs:
         run: npm ci
 
       - name: Configure stack with new image tags
-        if: steps.changes.outputs.build_images == 'true'
+        if: steps.changes.outputs.deploy == 'true'
         working-directory: infra
         run: |
           set -euo pipefail
@@ -142,6 +142,7 @@ jobs:
           pulumi config set image:ocrEngine "${REGISTRY}/ocr-engine:${IMAGE_TAG}" --stack "${PULUMI_STACK}" --non-interactive
           pulumi config set image:frontend "${REGISTRY}/frontend:${IMAGE_TAG}" --stack "${PULUMI_STACK}" --non-interactive
 
+          pulumi config set frontendOrigin http://34.31.81.159:3000 --stack "${PULUMI_STACK}" --non-interactive
       - name: Deploy with Pulumi
         if: steps.changes.outputs.deploy == 'true'
         working-directory: infra

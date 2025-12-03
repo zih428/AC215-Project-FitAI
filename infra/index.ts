@@ -63,6 +63,21 @@ const subnetwork = new gcp.compute.Subnetwork("fitai-subnetwork", {
     ],
 });
 
+// Allow external clients to reach our service ports (front-end LB on 80, APIs on 8001/8002/8004,
+// and ocr on 8003). Custom VPCs do not have permissive ingress by default.
+const ingressFirewall = new gcp.compute.Firewall("fitai-lb-ingress", {
+    network: network.id,
+    allows: [
+        {
+            protocol: "tcp",
+            ports: ["80", "8001", "8002", "8003", "8004"],
+        },
+    ],
+    sourceRanges: ["0.0.0.0/0"],
+    direction: "INGRESS",
+    description: "Allow external traffic to FitAI LBs and services",
+});
+
 // GKE cluster
 const cluster = new gcp.container.Cluster("fitai-cluster", {
     location,

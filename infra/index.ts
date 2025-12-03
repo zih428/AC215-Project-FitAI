@@ -13,11 +13,11 @@ const nodeCount = config.getNumber("nodeCount") ?? 2;
 const nodeMachineType = config.get("nodeMachineType") ?? "e2-standard-2";
 
 // Images (set these via pulumi config set image:<name> ...)
-const coreEtlApiImage = config.get("image:coreEtlApi");
-const ragServiceImage = config.get("image:ragService");
-const calendarAgentImage = config.get("image:calendarAgent");
-const ocrEngineImage = config.get("image:ocrEngine");
-const frontendImage = config.get("image:frontend");
+const coreEtlApiImage = config.require("image:coreEtlApi");
+const ragServiceImage = config.require("image:ragService");
+const calendarAgentImage = config.require("image:calendarAgent");
+const ocrEngineImage = config.require("image:ocrEngine");
+const frontendImage = config.require("image:frontend");
 
 // App settings
 const dbUser = config.get("dbUser") ?? "fitai";

@@ -82,6 +82,9 @@ const nodePool = new gcp.container.NodePool("fitai-default-np", {
     initialNodeCount: nodeCount,
     nodeConfig: {
         machineType: nodeMachineType,
+        // Keep disks small and on standard PD to stay under regional SSD quotas.
+        diskType: "pd-standard",
+        diskSizeGb: 50,
         oauthScopes: ["https://www.googleapis.com/auth/cloud-platform"],
         labels: { env: "pulumi" },
     },

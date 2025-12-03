@@ -28,9 +28,18 @@ const jwtSecret = config.getSecret("jwtSecret") ?? pulumi.secret("change-me-in-p
 const ragQueryMethod = config.get("ragQueryMethod") ?? "char-split";
 const ragQueryResults = config.getNumber("ragQueryResults") ?? 5;
 const ragTimeoutSeconds = config.getNumber("ragTimeoutSeconds") ?? 30;
+const frontendOrigin = config.get("frontendOrigin");
 const corsAllowOrigins =
     config.get("corsAllowOrigins") ??
-    "http://localhost:3000,http://127.0.0.1:3000,http://fitai-frontend:3000,http://frontend:3000";
+    [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://fitai-frontend:3000",
+        "http://frontend:3000",
+        frontendOrigin,
+    ]
+        .filter(Boolean)
+        .join(",");
 
 // Optional GCP service account key for workloads that need local creds.
 const gcpServiceAccountKey = config.getSecret("gcpServiceAccountKey");

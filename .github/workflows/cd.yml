@@ -131,7 +131,7 @@ jobs:
         run: npm ci
 
       - name: Configure stack with new image tags
-        if: steps.changes.outputs.deploy == 'true'
+        if: steps.changes.outputs.build_images == 'true'
         working-directory: infra
         run: |
           set -euo pipefail

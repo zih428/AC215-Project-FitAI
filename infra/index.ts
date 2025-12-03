@@ -36,7 +36,9 @@ const corsAllowOrigins =
         "http://127.0.0.1:3000",
         "http://fitai-frontend:3000",
         "http://frontend:3000",
-        "http://136.114.135.103:3000",
+        "http://frontend-svc",
+        "http://frontend-svc:80",
+        "http://34.31.81.159",
         "http://34.31.81.159:3000",
         frontendOrigin,
     ]

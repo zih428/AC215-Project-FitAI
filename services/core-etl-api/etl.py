@@ -20,6 +20,109 @@ storage_client = storage.Client(project=PROJECT_ID, credentials=credentials)
 bucket = storage_client.bucket(BUCKET_NAME)
 pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
+# -------- Schema bootstrap (for GKE: Postgres is created without init.sql) --------
+SCHEMA_SQL = """
+CREATE TABLE IF NOT EXISTS users (
+    id              SERIAL PRIMARY KEY,
+    full_name       VARCHAR(255) NOT NULL,
+    email           VARCHAR(255) UNIQUE,
+    password_hash   VARCHAR(255),
+    height_cm       NUMERIC(5,2),
+    weight_kg       NUMERIC(6,2),
+    body_type       VARCHAR(50),
+    gender          VARCHAR(50),
+    age_years       INT,
+    training_goal   VARCHAR(255),
+    created_at      TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS gym_recommendation (
+    id              SERIAL PRIMARY KEY,
+    source_id       INT,
+    sex             VARCHAR(10),
+    age             INT,
+    height          NUMERIC(4,2),
+    weight          NUMERIC(5,2),
+    bmi             NUMERIC(5,2),
+    hypertension    VARCHAR(5),
+    diabetes        VARCHAR(5),
+    level           VARCHAR(50),
+    fitness_goal    VARCHAR(100),
+    fitness_type    VARCHAR(100),
+    exercises       TEXT,
+    equipment       TEXT,
+    diet            TEXT,
+    recommendation  TEXT,
+    created_at      TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS exercise_catalog (
+    id                  SERIAL PRIMARY KEY,
+    exercise            VARCHAR(255) NOT NULL,
+    short_demo_url      TEXT,
+    long_demo_url       TEXT,
+    difficulty_level    VARCHAR(50),
+    target_muscle_group VARCHAR(100),
+    prime_mover_muscle  VARCHAR(100),
+    secondary_muscle    VARCHAR(100),
+    tertiary_muscle     VARCHAR(100),
+    primary_equipment   VARCHAR(100),
+    primary_items_count INT,
+    secondary_equipment VARCHAR(100),
+    secondary_items_count INT,
+    posture             VARCHAR(100),
+    single_or_double_arm VARCHAR(50),
+    continuous_or_alternating_arms VARCHAR(50),
+    grip                VARCHAR(50),
+    load_position_ending VARCHAR(100),
+    continuous_or_alternating_legs VARCHAR(50),
+    foot_elevation      VARCHAR(100),
+    combination_exercises TEXT,
+    movement_pattern_1   VARCHAR(100),
+    movement_pattern_2   VARCHAR(100),
+    movement_pattern_3   VARCHAR(100),
+    plane_of_motion_1    VARCHAR(100),
+    plane_of_motion_2    VARCHAR(100),
+    plane_of_motion_3    VARCHAR(100),
+    body_region         VARCHAR(100),
+    force_type          VARCHAR(100),
+    mechanics           VARCHAR(100),
+    laterality          VARCHAR(50),
+    primary_exercise_classification VARCHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS exercise_tracking (
+    id                      SERIAL PRIMARY KEY,
+    age                     INT,
+    gender                  VARCHAR(20),
+    weight_kg               NUMERIC(5,2),
+    height_m                NUMERIC(4,2),
+    max_bpm                 INT,
+    avg_bpm                 INT,
+    resting_bpm             INT,
+    session_duration_hours  NUMERIC(4,2),
+    calories_burned         NUMERIC(6,2),
+    workout_type            VARCHAR(100),
+    fat_percentage          NUMERIC(5,2),
+    water_intake_liters     NUMERIC(4,2),
+    workout_days_per_week   INT,
+    experience_level        INT,
+    bmi                     NUMERIC(5,2),
+    created_at              TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS ml_generated_plans (
+    user_id         INTEGER NOT NULL REFERENCES users(id),
+    id              SERIAL PRIMARY KEY,
+    plan_json       JSONB NOT NULL,
+    citations       JSONB,
+    created_at      TIMESTAMP DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_exercises_name ON exercise_catalog(exercise);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email ON users(email) WHERE email IS NOT NULL;
+"""
+
 
 def wait_for_db(max_attempts: int = 10, delay_seconds: int = 3):
     """Block until the database is reachable or attempts are exhausted."""
@@ -164,6 +267,9 @@ def seed_users():
 
 def run_etl():
     wait_for_db()
+    # Ensure schema exists before loading data
+    with engine.begin() as conn:
+        conn.execute(text(SCHEMA_SQL))
     load_csv_to_table("raw-data/gym_recommendation.csv", "gym_recommendation")
     load_csv_to_table("raw-data/gym_members_exercise_tracking.csv", "exercise_tracking")
     load_csv_to_table("raw-data/exercise_catalog.csv", "exercise_catalog")

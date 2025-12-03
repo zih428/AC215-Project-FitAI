@@ -146,6 +146,8 @@ jobs:
           # Ensure GCP service account key is injected for services that require local credentials
           pulumi config set --secret gcpServiceAccountKey "${GOOGLE_CREDENTIALS}" --stack "${PULUMI_STACK}" --non-interactive
           pulumi config set gcpCredsFileName rich-access-471117-r0-f17d92fbf298.json --stack "${PULUMI_STACK}" --non-interactive
+          # Calendar agent needs OpenAI for plan generation
+          pulumi config set --secret openaiApiKey "${OPENAI_API_KEY}" --stack "${PULUMI_STACK}" --non-interactive
       - name: Deploy with Pulumi
         if: steps.changes.outputs.deploy == 'true'
         working-directory: infra

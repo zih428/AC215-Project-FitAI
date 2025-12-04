@@ -177,7 +177,14 @@ def fetch_user_profile(user_id: int) -> Dict[str, Any]:
     }
 
 from openai import OpenAI
-openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+# Normalize OpenAI key to avoid trailing newlines/whitespace breaking HTTP headers.
+_raw_openai_key = os.getenv("OPENAI_API_KEY", "")
+OPENAI_API_KEY = _raw_openai_key.strip()
+if not OPENAI_API_KEY:
+    raise RuntimeError("OPENAI_API_KEY is required for calendar-agent")
+
+openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
 def refine_with_openai(
     rag_output_text: str,

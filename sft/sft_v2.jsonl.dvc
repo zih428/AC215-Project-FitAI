@@ -1,5 +1,5 @@
 outs:
-- md5: 0a32811a4834d14250c1e372fd4c6387
-  size: 101592
+- md5: 17c39095255efd6c8632f70e31ba6ebc
+  size: 7256
   hash: md5
   path: sft_v2.jsonl

@@ -9,7 +9,7 @@ import base64
 from json_repair import repair_json
 from datetime import datetime
 
-open_ai_key = os.getenv("OPENAI_API_KEY")
+open_ai_key = (os.getenv("OPENAI_API_KEY") or "").strip()
 
 if not open_ai_key:
     raise RuntimeError("OPENAI_API_KEY not set. Make sure it's defined in secrets/agent.env")

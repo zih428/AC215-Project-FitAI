@@ -12,6 +12,7 @@ services:
       RAG_QUERY_METHOD: char-split
       RAG_QUERY_RESULTS: 5
       RAG_TIMEOUT_SECONDS: 30
+      CORS_ALLOW_ORIGINS: http://localhost:3000,http://127.0.0.1:3000,http://fitai-frontend:3000,http://frontend:3000,http://136.114.135.103:3000,http://34.31.81.159:3000
     volumes:
       - ./secrets/rich-access-471117-r0-f17d92fbf298.json:/secrets/rich-access-471117-r0-f17d92fbf298.json:ro
       - ./services/calendar-agent:/app
@@ -77,6 +78,7 @@ services:
       GCP_PROJECT: rich-access-471117-r0
       CHROMADB_HOST: chromadb
       CHROMADB_PORT: 8000
+      CORS_ALLOW_ORIGINS: http://localhost:3000,http://127.0.0.1:3000,http://fitai-frontend:3000,http://frontend:3000,http://136.114.135.103:3000,http://34.31.81.159:3000
     depends_on:
       - chromadb
     ports:
@@ -98,6 +100,10 @@ services:
     build:
       context: ./services/frontend
     container_name: fitai-frontend
+    environment:
+      NEXT_PUBLIC_PIPELINE_URL: http://core-etl-api:8001
+      NEXT_PUBLIC_CALENDAR_AGENT_URL: http://calendar-agent:8004
+      NEXT_PUBLIC_RAG_URL: http://rag-service:8002
     depends_on:
       - core-etl-api
       - rag-service

@@ -1,0 +1,157 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: rich-access-471117-r0
+  REGION: us-central1
+  REGISTRY: us-central1-docker.pkg.dev/rich-access-471117-r0/fitai
+  PULUMI_STACK: zih428-org/FitAI_infra/dev
+  IMAGE_TAG: ${{ github.sha }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    env:
+      PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+      GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS_JSON }}
+      PULUMI_CONFIG_PASSPHRASE: ${{ secrets.PULUMI_CONFIG_PASSPHRASE }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Pulumi CLI
+        run: |
+          curl -fsSL https://get.pulumi.com | sh
+          echo "$HOME/.pulumi/bin" >> $GITHUB_PATH
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS_JSON }}
+
+      - name: Detect relevant changes
+        id: changes
+        run: |
+          set -euo pipefail
+          # Always deploy on manual runs.
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "deploy=true" >> "$GITHUB_OUTPUT"
+            echo "build_images=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          BASE="${{ github.event.before }}"
+          if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
+            BASE="HEAD~1"
+          fi
+
+          changed_files=$(git diff --name-only "$BASE"...HEAD || true)
+          service_change=false
+          infra_change=false
+          cd_change=false
+
+          if echo "$changed_files" | grep -E '^(services/|docker-compose.yml)' >/dev/null; then
+            service_change=true
+          fi
+
+          if echo "$changed_files" | grep -E '^infra/' >/dev/null; then
+            infra_change=true
+          fi
+
+          if echo "$changed_files" | grep -E '^.github/workflows/cd.yml' >/dev/null; then
+            cd_change=true
+          fi
+
+          deploy=false
+          build_images=false
+
+          if [ "$service_change" = true ] || [ "$infra_change" = true ] || [ "$cd_change" = true ]; then
+            deploy=true
+          fi
+
+          if [ "$service_change" = true ] || [ "$cd_change" = true ]; then
+            build_images=true
+          fi
+
+          echo "deploy=$deploy" >> "$GITHUB_OUTPUT"
+          echo "build_images=$build_images" >> "$GITHUB_OUTPUT"
+
+      - name: Short-circuit (no relevant changes)
+        if: steps.changes.outputs.deploy != 'true'
+        run: echo "No service/infra/CD changes detected; skipping build and deploy."
+
+      - name: Set up gcloud SDK
+        if: steps.changes.outputs.deploy == 'true'
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          install_components: gke-gcloud-auth-plugin
+
+      - name: Configure Docker for Artifact Registry
+        if: steps.changes.outputs.deploy == 'true'
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+
+      - name: Build and push images
+        if: steps.changes.outputs.build_images == 'true'
+        run: |
+          set -euo pipefail
+          docker build -t "${REGISTRY}/core-etl-api:${IMAGE_TAG}" services/core-etl-api
+          docker push "${REGISTRY}/core-etl-api:${IMAGE_TAG}"
+
+          docker build -t "${REGISTRY}/rag-service:${IMAGE_TAG}" services/rag-service
+          docker push "${REGISTRY}/rag-service:${IMAGE_TAG}"
+
+          docker build -t "${REGISTRY}/calendar-agent:${IMAGE_TAG}" services/calendar-agent
+          docker push "${REGISTRY}/calendar-agent:${IMAGE_TAG}"
+
+          docker build -t "${REGISTRY}/ocr-engine:${IMAGE_TAG}" services/ocr-engine
+          docker push "${REGISTRY}/ocr-engine:${IMAGE_TAG}"
+
+          docker build -t "${REGISTRY}/frontend:${IMAGE_TAG}" services/frontend
+          docker push "${REGISTRY}/frontend:${IMAGE_TAG}"
+
+      - name: Install infra dependencies
+        if: steps.changes.outputs.deploy == 'true'
+        working-directory: infra
+        run: npm ci
+
+      - name: Configure stack with new image tags
+        if: steps.changes.outputs.build_images == 'true'
+        working-directory: infra
+        run: |
+          set -euo pipefail
+          pulumi stack select "${PULUMI_STACK}" --non-interactive
+          pulumi config set image:coreEtlApi "${REGISTRY}/core-etl-api:${IMAGE_TAG}" --stack "${PULUMI_STACK}" --non-interactive
+          pulumi config set image:ragService "${REGISTRY}/rag-service:${IMAGE_TAG}" --stack "${PULUMI_STACK}" --non-interactive
+          pulumi config set image:calendarAgent "${REGISTRY}/calendar-agent:${IMAGE_TAG}" --stack "${PULUMI_STACK}" --non-interactive
+          pulumi config set image:ocrEngine "${REGISTRY}/ocr-engine:${IMAGE_TAG}" --stack "${PULUMI_STACK}" --non-interactive
+          pulumi config set image:frontend "${REGISTRY}/frontend:${IMAGE_TAG}" --stack "${PULUMI_STACK}" --non-interactive
+
+          pulumi config set frontendOrigin http://34.31.81.159:3000 --stack "${PULUMI_STACK}" --non-interactive
+          # Ensure GCP service account key is injected for services that require local credentials
+          pulumi config set --secret gcpServiceAccountKey "${GOOGLE_CREDENTIALS}" --stack "${PULUMI_STACK}" --non-interactive
+          pulumi config set gcpCredsFileName rich-access-471117-r0-f17d92fbf298.json --stack "${PULUMI_STACK}" --non-interactive
+          # Calendar agent needs OpenAI for plan generation
+          pulumi config set --secret openaiApiKey "${OPENAI_API_KEY}" --stack "${PULUMI_STACK}" --non-interactive
+      - name: Deploy with Pulumi
+        if: steps.changes.outputs.deploy == 'true'
+        working-directory: infra
+        env:
+          KUBECONFIG: ${{ github.workspace }}/infra/kubeconfig
+        run: pulumi up --yes --stack "${PULUMI_STACK}" --non-interactive

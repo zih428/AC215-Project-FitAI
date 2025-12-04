@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback, ChangeEvent } from 'react'
 import { CalendarClock, FileText, Sparkles, AlertCircle, CheckCircle2 } from 'lucide-react'
+import { getCalendarAgentBaseUrl } from '@/apiConfig'
 
 interface PlannerUser {
   id: number
@@ -33,8 +34,7 @@ interface PlanHistoryItem {
 const PROFILE_STORAGE_KEY = 'fitai-profile-user-id'
 const PROFILE_CACHE_KEY = 'fitai-profile-data'
 const PROFILE_UPDATED_EVENT = 'fitai-profile-updated'
-const CALENDAR_AGENT_URL =
-  process.env.NEXT_PUBLIC_CALENDAR_AGENT_URL ?? 'http://localhost:8004'
+const CALENDAR_AGENT_URL = getCalendarAgentBaseUrl()
 const PLAN_CACHE_KEY = 'fitai-training-plan-cache'
 
 export default function TrainingPlan() {

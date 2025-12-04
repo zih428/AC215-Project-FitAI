@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { LogIn, UserPlus, ShieldCheck, LogOut, User } from 'lucide-react'
 import { useEffect } from 'react'
+import { getPipelineBaseUrl } from '@/apiConfig'
 
-const PIPELINE_BASE_URL =
-  process.env.NEXT_PUBLIC_PIPELINE_URL ?? 'http://localhost:8001'
+const PIPELINE_BASE_URL = getPipelineBaseUrl()
 const AUTH_TOKEN_KEY = 'fitai-auth-token'
 const PROFILE_STORAGE_KEY = 'fitai-profile-user-id'
 const PROFILE_CACHE_KEY = 'fitai-profile-data'

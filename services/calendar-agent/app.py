@@ -1,4 +1,5 @@
 import json
+import os
 from typing import Optional
 
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
@@ -13,10 +14,39 @@ from ics_generator import generate_ics_calendar
 app = FastAPI()
 
 # Allow browser-based calls from the frontend
+DEFAULT_CORS_ORIGINS = ["http://localhost:3000", "http://127.0.0.1:3000"]
+
+
+def get_cors_settings():
+    raw_origins = os.getenv("CORS_ALLOW_ORIGINS")
+    allow_credentials = os.getenv("CORS_ALLOW_CREDENTIALS", "true").lower() == "true"
+    origins = list(DEFAULT_CORS_ORIGINS)
+
+    if raw_origins:
+        extra = [origin.strip() for origin in raw_origins.split(",") if origin.strip()]
+        if extra:
+            origins.extend(extra)
+
+    deduped = []
+    seen = set()
+    for origin in origins:
+        if origin not in seen:
+            seen.add(origin)
+            deduped.append(origin)
+
+    if "*" in deduped:
+        deduped = ["*"]
+        allow_credentials = False
+
+    return deduped, allow_credentials
+
+
+cors_origins, cors_allow_credentials = get_cors_settings()
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
-    allow_credentials=True,
+    allow_origins=cors_origins,
+    allow_credentials=cors_allow_credentials,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -55,6 +85,7 @@ async def planner_api(
             raise HTTPException(status_code=400, detail="Calendar JSON invalid")
 
     user_profile = fetch_user_profile(user_id)
+
     fitness_plan = generate_fitness_plan(user_profile, calendar_payload)
     plan_record = None
     if save_to_db:

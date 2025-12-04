@@ -16,10 +16,11 @@ Next.js 14 / TypeScript UI for the FitAI platform. It handles user auth/profile 
 - Backend services reachable (default ports from `docker-compose.yml`): `core-etl-api` (8001), `rag-service` (8002), `calendar-agent` (8004). CORS is already open for localhost.
 
 ## Environment variables
-Create `.env.local` or export before running:
+Create `.env.local` or export before running (the Docker build already ships with `.env.production` pointing to the docker-compose service hostnames):
 ```
 NEXT_PUBLIC_PIPELINE_URL=http://localhost:8001      # core-etl-api for auth/profile
 NEXT_PUBLIC_CALENDAR_AGENT_URL=http://localhost:8004 # calendar-agent for plans
+NEXT_PUBLIC_RAG_URL=http://localhost:8002            # rag-service for AI Coach
 ```
 
 The AI Coach endpoints for `rag-service` are currently hardcoded to `http://localhost:8002` in `app/ai-coach/page.tsx`; adjust there if deploying to a different host/port.

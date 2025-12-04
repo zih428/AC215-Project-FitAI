@@ -1,0 +1,7 @@
+name: FitAI_infra
+description: Pulumi prj description
+runtime: nodejs
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: gcp-typescript

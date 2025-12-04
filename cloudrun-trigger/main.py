@@ -1,18 +1,33 @@
+from flask import Flask, request, jsonify
 import requests
+import os
 
-RAG_URL = "http://34.63.130.184:8002"
+app = Flask(__name__)
 
-payload = {
-    "bucket_name": "fitai-data-bucket",
-    "folder_path": "processed-literature",
-    "method": "char-split"
-}
+# 你的 RAG 服务地址（K8S 暴露的端口）
+RAG_API_URL = "http://34.63.130.184:8002/process-gcs"
 
-resp = requests.post(
-    f"{RAG_URL}/process-gcs",
-    json=payload,
-    timeout=600 
-)
+@app.route("/", methods=["POST"])
+def gcs_trigger():
+    data = request.get_json()
+    print("✅ GCS Event Received:", data)
 
-print("Status code:", resp.status_code)
-print("Response:", resp.text)
+    payload = {
+        "bucket_name": "fitai-data-bucket",
+        "folder_path": "processed-literature",
+        "method": "char-split"
+    }
+
+    r = requests.post(RAG_API_URL, json=payload)
+    return jsonify({
+        "status": "triggered",
+        "rag_response": r.text
+    })
+
+@app.route("/", methods=["GET"])
+def health():
+    return "OK", 200
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)

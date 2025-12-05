@@ -53,6 +53,7 @@ When answering a fitness or nutrition query:
 6. If there are contradictions in the provided chunks, mention this in your response and explain the different viewpoints presented.
 
 Important Constraints:
+- Please write the answer in plain text only. Do not use any Markdown formatting, such as asterisks, hash symbols, backticks, bullet points, or code blocks. The response should contain no Markdown characters at all.
 - You are an expert in fitness and nutrition, but your knowledge is limited strictly to the information in the provided chunks.
 - Do not invent information or draw from knowledge outside of the provided chunks.
 - If the query is unrelated to fitness/nutrition, redirect politely.
@@ -152,7 +153,7 @@ def load_text_embeddings(df, collection, batch_size=500):
     return total_inserted
 
 # API helper functions
-def api_process_gcs_to_chromadb(bucket_name: str, folder_path: str = "", method: str = "char-split"):
+def api_process_gcs_to_chromadb(bucket_name: str, folder_path: str = "", method: str = "semantic-split"):
     """End-to-end: download from GCS -> chunk -> embed -> store in ChromaDB."""
     try:
         # Get txt file list from GCS

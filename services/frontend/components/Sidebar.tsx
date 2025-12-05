@@ -17,7 +17,6 @@ const navigation = [
   { name: 'Profile', href: '/profile', icon: User },
   { name: 'AI Coach', href: '/ai-coach', icon: MessageCircle },
   { name: 'Training Plan', href: '/training-plan', icon: CalendarClock },
-  { name: 'Workouts', href: '/workouts', icon: Dumbbell },
 ]
 
 const PROFILE_CACHE_KEY = 'fitai-profile-data'

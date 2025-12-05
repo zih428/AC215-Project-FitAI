@@ -153,7 +153,7 @@ def load_text_embeddings(df, collection, batch_size=500):
     return total_inserted
 
 # API helper functions
-def api_process_gcs_to_chromadb(bucket_name: str, folder_path: str = "", method: str = "char-split"):
+def api_process_gcs_to_chromadb(bucket_name: str, folder_path: str = "", method: str = "semantic-split"):
     """End-to-end: download from GCS -> chunk -> embed -> store in ChromaDB."""
     try:
         # Get txt file list from GCS

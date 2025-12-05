@@ -15,7 +15,7 @@ def gcs_trigger():
     payload = {
         "bucket_name": "fitai-data-bucket",
         "folder_path": "processed-literature",
-        "method": "char-split"
+        "method": "semantic-split"
     }
 
     r = requests.post(RAG_API_URL, json=payload)

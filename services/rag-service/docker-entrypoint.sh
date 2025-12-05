@@ -40,7 +40,7 @@ curl -fsS -X POST "http://127.0.0.1:8002/process-gcs" \
   -d '{
     "bucket_name": "fitai-data-bucket",
     "folder_path": "processed-literature",
-    "method": "char-split"
+    "method": "semantic-split"
   }'
 echo "Ingestion request completed."
 

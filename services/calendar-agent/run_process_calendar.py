@@ -1,118 +1,253 @@
-# run_process_calendar.py
-import json
-from fastapi import UploadFile, File, HTTPException
-from openai import OpenAI
-import io
-from PIL import Image
 import os
-import base64
-from json_repair import repair_json
-from datetime import datetime
+import json
+import io
+from typing import List, Dict, Any
+import time
 
-open_ai_key = (os.getenv("OPENAI_API_KEY") or "").strip()
+from fastapi import FastAPI, File, UploadFile, HTTPException
+from PIL import Image
+from google import genai
+from google.genai import types
 
-if not open_ai_key:
-    raise RuntimeError("OPENAI_API_KEY not set. Make sure it's defined in secrets/agent.env")
+# 1. Setup Environment & Client
+api_key = os.getenv('GEMINI_API_KEY')
+if not api_key:
+    raise ValueError("API_KEY not found in environment variables.")
 
-client = OpenAI(api_key=open_ai_key)
+client = genai.Client(api_key=api_key)
 
-now = datetime.now()
-current_year = now.year
-current_month = now.month
+app = FastAPI()
 
-
-VISION_PROMPT = """
-You are VisionReaderAgent, an expert calendar OCR and structure extractor.
-
-Your job:
-1. Read the provided calendar screenshot.
-2. Extract all recognizable events.
-3. Normalize ambiguous or partial information.
-4. Infer date if screenshot contains a weekly or monthly layout.
-
-Return ONLY a JSON object with this exact structure:
-
-{
-  "events": [
+# ==========================================
+# 🕵️Step 1: Structure Analysis
+# ==========================================
+def step1_get_grid_structure(image: Image.Image) -> Dict:
+    prompt_structure = """
+    Analyze the layout of this calendar image.
+    
+    Task: Identify the column headers visible in the top row.
+    1. Ignore the time sidebar on the left.
+    2. Read the text of the date headers from Left to Right.
+    3. Return them as a strictly ordered list.
+    
+    Output JSON:
     {
-      "title": "string",
-      "date": "YYYY-MM-DD",
-      "start": "HH:MM",
-      "end": "HH:MM",
-      "location": "string or null",
-      "notes": "string or null",
-      "raw_text": "original text you extracted"
+      "view_type": "string (e.g. 5-Day Work Week, 7-Day Week)",
+      "column_headers": ["string", "string", ...] 
     }
-  ],
-  "metadata": {
-    "source_type": "calendar_screenshot",
-    "confidence": "0-1 float estimation",
-    "missing_fields_filled": ["date", "start", "end"]
-  }
-}
-"""
-# VISION_PROMPT += f"""\n\nNote:If you could not find year information, assume the current year {current_year} """
-VISION_PROMPT += f"""\n\nNote:If you could not find year or month information, assume the current year{current_year} or current month{current_month} """
-
-async def process_calendar(file: UploadFile = File(...)):
-    """Upload screenshot → GPT-4o Vision → return structured JSON."""
-
-    if file.content_type not in ["image/png", "image/jpeg"]:
-        raise HTTPException(status_code=400, detail="Only PNG or JPG allowed.")
-
-    content = await file.read()
-
-    if len(content) > 10 * 1024 * 1024:
-        raise HTTPException(status_code=400, detail="File too large (>10MB).")
-
-    # Validate image
-    try:
-        image = Image.open(io.BytesIO(content))
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid image file.")
-
-    # Convert to PNG bytes
-    buf = io.BytesIO()
-    image.save(buf, format="PNG")
-    buf.seek(0)
-    png_bytes = buf.getvalue()
-
-    # Encode to base64
-    base64_image = base64.b64encode(png_bytes).decode("utf-8")
-    # GPT-4o Vision call (correct format)
-    response = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[
-            {"role": "system", "content": VISION_PROMPT},
-            {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "text",
-                        "text": "Extract structured JSON from this calendar image."
-                    },
-                    {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": f"data:image/png;base64,{base64_image}"
-                        }
-                    }
-                ]
-            }
-        ],
-        max_tokens=2000
+    """
+    
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=[prompt_structure, image],
+        config=types.GenerateContentConfig(
+            response_mime_type="application/json",
+            temperature=0.0
+        )
     )
+    return json.loads(response.text)
 
-    raw_output = response.choices[0].message.content
+# ==========================================
+# Step 2: Event Extraction
+# ==========================================
+def step2_extract_events(image: Image.Image, structure_data: Dict) -> List[Dict]:
+    headers = structure_data.get("column_headers", [])
+    
+    prompt = f"""
+    You are a Calendar Event Extractor.
+    
+    **KNOWN GRID STRUCTURE:**
+    Visible Headers: {json.dumps(headers)}
+    
+    **INSTRUCTION:**
+    1. **Locate Events:** Find every colored event block.
+    2. **Map Column:** Map event to exactly one header from the list above (Vertical Alignment).
+    
+    3. **TIME EXTRACTION & NORMALIZATION (CRITICAL):**
+       - Look at the Left Sidebar. It might be **24-hour** (13:00) or **12-hour AM/PM** (1 PM).
+       - **RULE:** You MUST convert all times to **24-Hour Format (HH:MM)**.
+       - *Example:* If you see "1 PM", output "13:00".
+       - *Example:* If you see "9", and it's in the morning slot, output "09:00".
+       - *Example:* If you see "2" after "12", it means "14:00".
+       - **Visual Estimation:** If an event starts halfway between "1 PM" and "2 PM", output "13:30".
+       
+    **OUTPUT JSON:**
+    [
+      {{
+        "event_title": "string",
+        "aligned_header": "string",
+        "start_time": "HH:MM (Always 24h format, e.g. 14:00)",
+        "end_time": "HH:MM (Always 24h format)"
+      }}
+    ]
+    """
+    
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=[prompt, image],
+        config=types.GenerateContentConfig(
+            response_mime_type="application/json",
+            temperature=0.0
+        )
+    )
+    return json.loads(response.text)
+
+# ==========================================
+# Step 3: Visual Date Resolution
+# ==========================================
+def step3_resolve_dates(image: Image.Image, raw_headers: List[str]) -> Dict:
+    prompt = f"""
+    You are a Calendar Logic Engine.
+    
+    **INPUTS:**
+    1. **IMAGE:** Look at the top-left/header area for the **Month Name**.
+    2. **HEADERS:** {json.dumps(raw_headers)}
+    3. **DEFAULT YEAR:** 2025 (If not visible).
+    
+    **REASONING TASK:**
+    1. **Identify Anchor:** What month is written on the screen? (e.g., "December").
+    2. **Analyze Sequence:** Look at the numbers in the headers.
+       - If the numbers increase normally (e.g., 1, 2, 3), they belong to the Anchor Month.
+       - **Transition Logic:** If the sequence resets (e.g., 30, 31, 1, 2), implies a month boundary.
+       - Use the Anchor Month to decide if the "30" is the Previous Month or if the "1" is the Next Month.
+    3. **Compute:** Calculate the ISO Date (YYYY-MM-DD) for each header based on 2025 calendar logic.
+    
+    **OUTPUT JSON:**
+    Return a simple map:
+    {{
+      "original_header_text": "YYYY-MM-DD",
+      ...
+    }}
+    """
+    
+    response = client.models.generate_content(
+        model="gemini-2.0-flash",
+        contents=[prompt, image],
+        config=types.GenerateContentConfig(
+            response_mime_type="application/json",
+            temperature=0.0
+        )
+    )
+    return json.loads(response.text)
+
+
+# async def process_calendar(file: UploadFile = File(...)):
+#     """Upload screenshot → Gemini 3-Step Pipeline → JSON."""
+
+#     # 1. Validation
+#     if file.content_type not in ["image/png", "image/jpeg", "image/jpg", "image/webp"]:
+#         raise HTTPException(status_code=400, detail="Only PNG, JPG, or WEBP allowed.")
+
+#     try:
+#         # 2. Read bytes and convert to PIL Image
+#         content = await file.read()
+#         image = Image.open(io.BytesIO(content))
+        
+#         # 3. Execute Step 1: Structure
+#         structure = step1_get_grid_structure(image)
+#         raw_headers = structure.get("column_headers", [])
+        
+#         if not raw_headers:
+#             return {"error": "No headers found", "raw_data": []}
+
+#         # 4. Execute Step 2: Extraction
+#         events = step2_extract_events(image, structure)
+        
+#         # 5. Execute Step 3: Date Resolution
+#         date_map = step3_resolve_dates(image, raw_headers)
+        
+#         # 6. Merge & Sort
+#         final_events = []
+#         for item in events:
+#             header_key = item.get('aligned_header')
+            
+#             # Safe get for date, default to today if unknown
+#             iso_date = date_map.get(header_key, "Unknown-Date")
+            
+#             # Construct final object
+#             final_obj = {
+#                 "title": item.get('event_title'),
+#                 "start": f"{iso_date}T{item.get('start_time')}:00",
+#                 "end": f"{iso_date}T{item.get('end_time')}:00",
+#                 # Optional: Keep location null for now as we didn't extract it explicitly
+#                 "location": None 
+#             }
+#             final_events.append(final_obj)
+            
+#         # Sort by start time
+#         final_events.sort(key=lambda x: x['start'])
+        
+#         return final_events
+
+#     except Exception as e:
+#         # In production, log the full error `e`
+#         raise HTTPException(status_code=500, detail=f"Processing failed: {str(e)}")
+async def process_calendar(file: UploadFile = File(...)):
+    """Upload screenshot → Gemini 3-Step Pipeline → JSON with timing."""
+
+    start_total = time.perf_counter()  # 🔥 total timer start
+
+    # 1. Validation
+    if file.content_type not in ["image/png", "image/jpeg", "image/jpg", "image/webp"]:
+        raise HTTPException(status_code=400, detail="Only PNG, JPG, or WEBP allowed.")
 
     try:
-        fixed_output = repair_json(raw_output)
-        calendar_json = json.loads(fixed_output)
+        # 2. Read bytes → PIL
+        t0 = time.perf_counter()
+        content = await file.read()
+        image = Image.open(io.BytesIO(content))
+        t_read = time.perf_counter() - t0
+
+        # === Step 1 ===
+        t1 = time.perf_counter()
+        structure = step1_get_grid_structure(image)
+        t_step1 = time.perf_counter() - t1
+
+        raw_headers = structure.get("column_headers", [])
+        if not raw_headers:
+            return {"error": "No headers found", "raw_data": []}
+
+        # === Step 2 ===
+        t2 = time.perf_counter()
+        events = step2_extract_events(image, structure)
+        t_step2 = time.perf_counter() - t2
+
+        # === Step 3 ===
+        t3 = time.perf_counter()
+        date_map = step3_resolve_dates(image, raw_headers)
+        t_step3 = time.perf_counter() - t3
+
+        # === Merge step ===
+        t4 = time.perf_counter()
+        final_events = []
+        for item in events:
+            header_key = item.get('aligned_header')
+            iso_date = date_map.get(header_key, "Unknown-Date")
+
+            final_events.append({
+                "title": item.get('event_title'),
+                "start": f"{iso_date}T{item.get('start_time')}:00",
+                "end": f"{iso_date}T{item.get('end_time')}:00",
+                "location": None 
+            })
+
+        final_events.sort(key=lambda x: x['start'])
+        t_merge = time.perf_counter() - t4
+
+        # === Total elapsed time ===
+        total_elapsed = time.perf_counter() - start_total
+
+        return {
+            "events": final_events,
+            "timing": {
+                "read_image": round(t_read, 3),
+                "step1_structure": round(t_step1, 3),
+                "step2_extract_events": round(t_step2, 3),
+                "step3_resolve_dates": round(t_step3, 3),
+                "merge_sort": round(t_merge, 3),
+                "total_seconds": round(total_elapsed, 3)
+            }
+        }
 
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Invalid JSON output from GPT (json-repair failed). Raw output: {raw_output}"
-        )
-
-    return {"parsed_calendar": calendar_json}
+        raise HTTPException(status_code=500, detail=f"Processing failed: {str(e)}")

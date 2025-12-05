@@ -7,6 +7,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
 from fastapi import Body
 
+import time
+
 from planner import fetch_user_profile, generate_fitness_plan, save_plan_record, fetch_plan_history
 from run_process_calendar import process_calendar
 from ics_generator import generate_ics_calendar
@@ -67,35 +69,50 @@ async def planner_api(
 ):
     """Use OCR + planner LLM to craft a personalized training plan."""
 
+    t_start = time.perf_counter()
+    timings = {}
+
     calendar_payload = None
     parsed_calendar = None 
     
     if file is not None:
+        t0 = time.perf_counter()
         calendar_response = await process_calendar(file=file)
+        timings["calendar_processing"] = round(time.perf_counter() - t0, 4)
         parsed_calendar = calendar_response.get("parsed_calendar")
         if not parsed_calendar:
             raise HTTPException(status_code=502, detail="Calendar processing failed")
 
     if isinstance(parsed_calendar, dict):
-        calendar_payload = parsed_calendar
+        calendar_payload = parsed_calendar.get('events')
     else:
         try:
             calendar_payload = json.loads(parsed_calendar) if parsed_calendar else None
         except json.JSONDecodeError:
             raise HTTPException(status_code=400, detail="Calendar JSON invalid")
 
+    t1 = time.perf_counter()
     user_profile = fetch_user_profile(user_id)
+    timings["fetch_user_profile"] = round(time.perf_counter() - t1, 4)
 
+    t2 = time.perf_counter()
     fitness_plan = generate_fitness_plan(user_profile, calendar_payload)
+    timings["generate_fitness_plan"] = round(time.perf_counter() - t2, 4)
+
     plan_record = None
     if save_to_db:
+        t3 = time.perf_counter()
         plan_record = save_plan_record(user_id, fitness_plan)
+        timings["save_plan_record"] = round(time.perf_counter() - t3, 4)
+
+    timings["total"] = round(time.perf_counter() - t_start, 4)
 
     return {
         "user": user_profile,
         "calendar": calendar_payload,
         "fitness_plan": fitness_plan,
         "plan_record": plan_record,
+        "timings": timings,
     }
 
 

@@ -130,58 +130,6 @@ def step3_resolve_dates(image: Image.Image, raw_headers: List[str]) -> Dict:
     )
     return json.loads(response.text)
 
-
-# async def process_calendar(file: UploadFile = File(...)):
-#     """Upload screenshot → Gemini 3-Step Pipeline → JSON."""
-
-#     # 1. Validation
-#     if file.content_type not in ["image/png", "image/jpeg", "image/jpg", "image/webp"]:
-#         raise HTTPException(status_code=400, detail="Only PNG, JPG, or WEBP allowed.")
-
-#     try:
-#         # 2. Read bytes and convert to PIL Image
-#         content = await file.read()
-#         image = Image.open(io.BytesIO(content))
-        
-#         # 3. Execute Step 1: Structure
-#         structure = step1_get_grid_structure(image)
-#         raw_headers = structure.get("column_headers", [])
-        
-#         if not raw_headers:
-#             return {"error": "No headers found", "raw_data": []}
-
-#         # 4. Execute Step 2: Extraction
-#         events = step2_extract_events(image, structure)
-        
-#         # 5. Execute Step 3: Date Resolution
-#         date_map = step3_resolve_dates(image, raw_headers)
-        
-#         # 6. Merge & Sort
-#         final_events = []
-#         for item in events:
-#             header_key = item.get('aligned_header')
-            
-#             # Safe get for date, default to today if unknown
-#             iso_date = date_map.get(header_key, "Unknown-Date")
-            
-#             # Construct final object
-#             final_obj = {
-#                 "title": item.get('event_title'),
-#                 "start": f"{iso_date}T{item.get('start_time')}:00",
-#                 "end": f"{iso_date}T{item.get('end_time')}:00",
-#                 # Optional: Keep location null for now as we didn't extract it explicitly
-#                 "location": None 
-#             }
-#             final_events.append(final_obj)
-            
-#         # Sort by start time
-#         final_events.sort(key=lambda x: x['start'])
-        
-#         return final_events
-
-#     except Exception as e:
-#         # In production, log the full error `e`
-#         raise HTTPException(status_code=500, detail=f"Processing failed: {str(e)}")
 async def process_calendar(file: UploadFile = File(...)):
     """Upload screenshot → Gemini 3-Step Pipeline → JSON with timing."""
 
@@ -237,7 +185,7 @@ async def process_calendar(file: UploadFile = File(...)):
         # === Total elapsed time ===
         total_elapsed = time.perf_counter() - start_total
 
-        return {
+        calendar_json= {
             "events": final_events,
             "timing": {
                 "read_image": round(t_read, 3),
@@ -248,6 +196,6 @@ async def process_calendar(file: UploadFile = File(...)):
                 "total_seconds": round(total_elapsed, 3)
             }
         }
-
+        return {"parsed_calendar": calendar_json}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Processing failed: {str(e)}")

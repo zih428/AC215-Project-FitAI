@@ -1,4 +1,4 @@
-"""Planner module for generating personalized training plans."""
+"""Planner module for generating personalized training plans using Gemini."""
 
 from __future__ import annotations
 
@@ -7,12 +7,14 @@ import os
 from decimal import Decimal
 from typing import Any, Dict
 
-import httpx
 import psycopg
+from google import genai
 from fastapi import HTTPException
 from psycopg.rows import dict_row
 from psycopg.types.json import Jsonb
 from json_repair import repair_json
+from google.genai import types
+
 
 
 # ---------------------------------------------------------------------------
@@ -29,31 +31,23 @@ DB_CONNINFO = (
     f"host={POSTGRES_HOST} port={POSTGRES_PORT}"
 )
 
+# Gemini Setup
+_raw_gemini_key = os.getenv("GEMINI_API_KEY", "")
+GEMINI_API_KEY = _raw_gemini_key.strip()
 
-RAG_SERVICE_URL = os.getenv("RAG_SERVICE_URL", "http://rag-service:8002")
-RAG_QUERY_METHOD = os.getenv("RAG_QUERY_METHOD", "char-split")
-RAG_QUERY_RESULTS = int(os.getenv("RAG_QUERY_RESULTS", "5"))
-RAG_TIMEOUT = float(os.getenv("RAG_TIMEOUT_SECONDS", "30"))
+if not GEMINI_API_KEY:
+    raise RuntimeError("GEMINI_API_KEY is required for planner agent")
 
+client = genai.Client(api_key=GEMINI_API_KEY)
 
 USER_COLUMNS = """
     id, full_name, height_cm, weight_kg,
     body_type, gender, age_years, training_goal
 """
 
-RAG_SUGGESTION_PROMPT = """
-You are a fitness knowledge assistant. Given the user's profile and/or schedule,
-provide a concise set of training recommendations, exercise ideas, and guidance.
-Do NOT return structured JSON. Do NOT return schemas. Output only natural text.
-
-Focus on:
-- main movement patterns useful for this user,
-- suggested splits (push/pull/legs etc.),
-- timing considerations if calendar is provided,
-- exercise examples and rationale.
-
-Keep the response short and concise, NOT formatted.
-"""
+# ---------------------------------------------------------------------------
+# Prompts
+# ---------------------------------------------------------------------------
 
 PLAN_INSTRUCTIONS_w_CALENDAR = """
 You are FitAIPlanner, a certified strength coach and nutrition consultant.
@@ -62,10 +56,9 @@ user’s schedule, available energy, and training goals.
 
 You will be provided with:
 1. The user's profile
-2. The user's calendar (if available)
-3. The raw training suggestions produced by a RAG model
+2. The user's calendar
 
-Your task is to transform these inputs into a complete, structured training plan.
+Your task is to use your expert knowledge of exercise science to create a complete, structured training plan.
 Return ONLY valid JSON matching the schema below:
 {
   "plan_summary": "string",
@@ -94,8 +87,10 @@ Return ONLY valid JSON matching the schema below:
 }
 
 Scheduling rules:
+- **IGNORE SYSTEM HOLIDAYS:** Do not treat public holiday markers (e.g., "Veterans Day", "Labor Day", "Thanksgiving") as busy times or conflicts. Assume the user is free on these days unless there is a specific personal conflicting event.
 - Extract all free windows from the user's calendar and list them in "available_time_blocks".
 - Select exactly one training time block per training day and place it in "scheduled_time_block".
+- **CRITICAL: The start time of the training session MUST be at least 30 minutes after the end of any preceding calendar event. Do not schedule workouts back-to-back with prior commitments.**
 - Typical sessions are 45–75 minutes; infer the planned duration based on the exercise selection.
 - If multiple free windows exist:
   - choose the most suitable one (e.g., adequate duration, lower conflict likelihood),
@@ -104,24 +99,16 @@ Scheduling rules:
 - Movements must be specific (e.g., “Barbell Back Squat”, “Bent-Over Row”).
 - When equipment availability is unclear, assume access to a commercial gym.
 - Do not include Markdown, comments, or natural-language reasoning outside the JSON.
-
-Preference adaptation:
-- If the user later provides preferred workout times (morning/evening),
-  energy patterns, or availability notes, incorporate these when picking
-  "scheduled_time_block" and update "schedule_reason" accordingly.
 """
 
 PLAN_INSTRUCTIONS_no_CALENDAR = """
-training weeks by respecting a user's information and goals.
-
 You are FitAIPlanner, a certified strength coach and nutrition consultant.
-Your role is to craft structuredtraining weeks by respecting a user's information and goals.
+Your role is to craft structured training weeks by respecting a user's information and goals.
 
 You will be provided with:
 1. The user's profile
-2. The raw training suggestions produced by a RAG model
 
-Your task is to transform these inputs into a complete, structured training plan.
+Your task is to use your expert knowledge of exercise science to create a complete, structured training plan.
 
 Return ONLY a valid JSON object matching this schema:
 {
@@ -176,140 +163,62 @@ def fetch_user_profile(user_id: int) -> Dict[str, Any]:
         "training_goal": row["training_goal"],
     }
 
-from openai import OpenAI
 
-# Normalize OpenAI key to avoid trailing newlines/whitespace breaking HTTP headers.
-_raw_openai_key = os.getenv("OPENAI_API_KEY", "")
-OPENAI_API_KEY = _raw_openai_key.strip()
-if not OPENAI_API_KEY:
-    raise RuntimeError("OPENAI_API_KEY is required for calendar-agent")
-
-openai_client = OpenAI(api_key=OPENAI_API_KEY)
-
-def refine_with_openai(
-    rag_output_text: str,
+def generate_fitness_plan(
     user_profile: dict,
     calendar_payload: dict | None
 ) -> dict:
+    """
+    Uses Google Gemini via client.models.generate_content to synthesize
+    a structured JSON training plan.
+    """
+
+    # Pick correct system instructions
     if calendar_payload:
-        schema_prompt = PLAN_INSTRUCTIONS_w_CALENDAR
+        system_instruction = PLAN_INSTRUCTIONS_w_CALENDAR
     else:
-        schema_prompt = PLAN_INSTRUCTIONS_no_CALENDAR
-    
-    schema_prompt += "\n\nEnsure the output is valid JSON matching the schema."
-    
+        system_instruction = PLAN_INSTRUCTIONS_no_CALENDAR
 
-    messages = [
-        {"role": "system", "content": schema_prompt},
-        {"role": "user", "content": f"User profile:\n{json.dumps(user_profile, indent=2)}"},
-        {"role": "user", "content": f"Calendar:\n{json.dumps(calendar_payload, indent=2) if calendar_payload else 'No calendar'}"},
-        {"role": "user", "content": f"RAG model Suggestion:\n{rag_output_text}"}
-    ]
+    # Build full prompt
+    prompt_content = f"""
+    {system_instruction}
 
-    resp = openai_client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=messages,
-        max_tokens=2000
-    )
+    Here is the data context for the user you are assisting:
 
-    cleaned = resp.choices[0].message.content.strip()
-    return json.loads(cleaned)
+    --- USER PROFILE ---
+    {json.dumps(user_profile, indent=2)}
 
-def generate_fitness_plan(
-    user_profile: Dict[str, Any], calendar_payload: Dict[str, Any] | None
-) -> Dict[str, Any]:
-    """Call internal RAG query endpoint with the planner prompt."""
+    --- CALENDAR DATA ---
+    {json.dumps(calendar_payload, indent=2) if calendar_payload else 'No calendar provided.'}
 
-    prompt = _build_prompt_for_rag(user_profile, calendar_payload)
-    payload = {
-        "query": prompt,
-        "method": RAG_QUERY_METHOD,
-        "n_results": RAG_QUERY_RESULTS,
-    }
+    Return ONLY the JSON required by the schema. No explanations.
+    """
 
     try:
-        response = httpx.post(
-            f"{RAG_SERVICE_URL.rstrip('/')}/chat",
-            json=payload,
-            headers={"Content-Type": "application/json"},
-            timeout=RAG_TIMEOUT,
+        # ❗ Use the same style as your step1/step2/step3 pipeline
+        response = client.models.generate_content(
+            model="gemini-2.0-flash-lite",
+            contents=prompt_content,
+            config=types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    temperature=0.3
         )
-        response.raise_for_status()
-    except httpx.TimeoutException as exc:
-        raise HTTPException(status_code=504, detail="RAG service timeout") from exc
-    except httpx.HTTPStatusError as exc:
-        detail = (
-            f"RAG service error {exc.response.status_code}: {exc.response.text}"
-        )
-        raise HTTPException(status_code=502, detail=detail) from exc
-    except httpx.RequestError as exc:
-        raise HTTPException(status_code=502, detail=str(exc)) from exc
-
-    outer = response.json()
-    rag_text = outer["response"]
-    if outer.get("status") != "success":
-        raise HTTPException(
-            status_code=502,
-            detail=f"RAG service returned failure: {outer.get('status')}"
         )
 
+        # Validate content
+        if not response.text:
+            raise ValueError("Gemini response was empty or blocked.")
 
-    structured_plan = refine_with_openai(
-    rag_output_text=rag_text,
-    user_profile=user_profile,
-    calendar_payload=calendar_payload)
+        return json.loads(response.text)
 
-    if type(structured_plan) is dict:
-        return structured_plan
-    else:
-        try:
-            repaired_text = repair_json(structured_plan)
-            data = json.loads(repaired_text)
-        except json.JSONDecodeError as exc:
-            raise HTTPException(
-                status_code=502,
-                detail=f"Failed to parse fitness plan JSON from RAG service, raw text: {plan_raw}"
-            ) from exc
+    except json.JSONDecodeError:
+        # Auto-repair common LLM mistakes
+        repaired = repair_json(response.text)
+        return json.loads(repaired)
 
-        return data
-
-def _build_prompt_for_rag(user_profile, calendar_payload):
-    prompt = RAG_SUGGESTION_PROMPT
-    prompt += "\n\nUser profile:\n" + json.dumps(user_profile, indent=2) 
-
-    if calendar_payload:
-        prompt += "\n\nCalendar:\n" + json.dumps(calendar_payload, indent=2)
-    else:
-        prompt += "\n\nNo calendar data provided."
-
-    return prompt
-
-def _build_prompt(user_profile: Dict[str, Any], calendar_payload: Dict[str, Any] | None) -> str:
-    user_json = json.dumps(user_profile, indent=2)
-    if calendar_payload:
-        calendar_json = json.dumps(calendar_payload, indent=2) 
-        return (
-            PLAN_INSTRUCTIONS_w_CALENDAR
-            + "\n\nUser profile:\n"
-            + f"{user_json}\n\n"
-            + "Calendar events extracted from screenshot:\n"
-            + f"{calendar_json}\n\n"
-            + "Guidelines:\n"
-            + "1. Respect existing events when choosing training slots.\n"
-            + "2. Prefer strength splits relevant to the stated goal.\n"
-            + "3. Always output exact exercise names and loading prescriptions."
-        )
-    else:
-        return (
-            PLAN_INSTRUCTIONS_no_CALENDAR
-            + "\n\nUser profile:\n"
-            + f"{user_json}\n\n"
-            + "No calendar data provided.\n\n"
-            + "Guidelines:\n"
-            + "1. Choose training days based on common patterns for the goal.\n"
-            + "2. Prefer strength splits relevant to the stated goal.\n"
-            + "3. Always output exact exercise names and loading prescriptions."
-        )
+    except Exception as e:
+        print(f"Gemini generation error: {e}")
+        raise HTTPException(status_code=502, detail="Error generating plan with Gemini")
 
 
 def _to_float(value: Any) -> Any:
@@ -324,7 +233,6 @@ def save_plan_record(
     """
     Persist the generated plan JSON to Postgres so we can reference it later.
     """
-
     insert_sql = """
         INSERT INTO ml_generated_plans (user_id, plan_json, citations)
         VALUES (%s, %s, %s)

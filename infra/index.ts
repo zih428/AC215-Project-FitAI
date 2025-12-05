@@ -29,7 +29,7 @@ const ragQueryMethod = config.get("ragQueryMethod") ?? "char-split";
 const ragQueryResults = config.getNumber("ragQueryResults") ?? 5;
 const ragTimeoutSeconds = config.getNumber("ragTimeoutSeconds") ?? 30;
 const frontendOrigin = config.get("frontendOrigin");
-const openaiApiKey = config.requireSecret("openaiApiKey");
+const geminiApiKey = config.requireSecret("geminiApiKey");
 const corsAllowOrigins =
     config.get("corsAllowOrigins") ??
     [
@@ -451,7 +451,7 @@ const calendarAgent = new k8s.apps.v1.Deployment(
                                 ...(gcpCredsPath
                                     ? [{ name: "GOOGLE_APPLICATION_CREDENTIALS", value: gcpCredsPath }]
                                     : []),
-                                ...(openaiApiKey ? [{ name: "OPENAI_API_KEY", value: openaiApiKey }] : []),
+                                ...(geminiApiKey ? [{ name: "GEMINI_API_KEY", value: geminiApiKey }] : []),
                             ],
                             volumeMounts: gcpCredMount,
                         },

@@ -11,17 +11,36 @@ def load_app():
     service_root = Path(__file__).resolve().parents[1]
     sys.path.insert(0, str(service_root))
 
-    # Provide dummy OpenAI client to satisfy run_process_calendar import-time usage
-    class DummyChat:
+    # Ensure Gemini client imports don't fail during tests
+    os.environ.setdefault("GEMINI_API_KEY", "test-key")
+
+    class DummyGenerateContent:
+        def __call__(self, *args, **kwargs):
+            return types.SimpleNamespace(text='{"ok": true}')
+
+    class DummyModels:
         def __init__(self):
-            self.completions = types.SimpleNamespace(create=lambda **kwargs: types.SimpleNamespace(choices=[types.SimpleNamespace(message=types.SimpleNamespace(content='{"ok": true}'))]))
+            self.generate_content = DummyGenerateContent()
 
-    class DummyOpenAI:
+    class DummyClient:
         def __init__(self, api_key=None):
-            self.chat = DummyChat()
+            self.models = DummyModels()
 
-    sys.modules["openai"] = types.SimpleNamespace(OpenAI=DummyOpenAI)
-    os.environ.setdefault("OPENAI_API_KEY", "test-key")
+    class DummyGenerateContentConfig:
+        def __init__(self, **kwargs):
+            self.kwargs = kwargs
+
+    import types as modtypes
+    google_module = modtypes.ModuleType("google")
+    google_genai = modtypes.ModuleType("google.genai")
+    google_genai.Client = DummyClient
+    google_genai.types = modtypes.ModuleType("google.genai.types")
+    google_genai.types.GenerateContentConfig = DummyGenerateContentConfig
+    google_module.genai = google_genai
+
+    sys.modules["google"] = google_module
+    sys.modules["google.genai"] = google_genai
+    sys.modules["google.genai.types"] = google_genai.types
 
     app_path = service_root / "app.py"
     spec = importlib.util.spec_from_file_location("calendar_agent_app", app_path)

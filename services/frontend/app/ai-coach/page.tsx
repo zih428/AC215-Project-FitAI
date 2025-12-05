@@ -298,7 +298,7 @@ export default function AICoach() {
         },
         body: JSON.stringify({
           query: userInput,
-          method: 'char-split',
+          method: 'semantic-split',
           n_results: 10,
           user_profile: profile
             ? {

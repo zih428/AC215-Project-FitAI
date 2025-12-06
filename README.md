@@ -1,23 +1,39 @@
 # FitAI
 
-FitAI delivers personalized fitness recommendations by combining user profiles with research-backed context retrieved through a RAG pipeline. The app is already live on GKE with autoscaling at http://34.31.81.159/login. Architecture diagrams live in [docs/solution-architecture.jpeg](docs/solution-architecture.jpeg) and [docs/technical-architecture.jpeg](docs/technical-architecture.jpeg), and service-level details are documented in the individual READMEs under [services/](services/) plus [infra/README.md](infra/README.md). UI previews are in [docs/UI_Screens.md](docs/UI_Screens.md).
+Personalized fitness coaching that blends user profiles with research-backed context via a RAG pipeline. Live on GKE at http://34.31.81.159/login.
+
+Quick links: 
+- Architecture Diagrams ([docs/solution-architecture.jpeg](docs/solution-architecture.jpeg), [docs/technical-architecture.jpeg](docs/technical-architecture.jpeg))
+- Per-service READMEs under [services/](services/)
+- Infra Stack at [infra/README.md](infra/README.md) with horizontal autoscaling demos
+- UI Previews in [docs/UI_Screens.md](docs/UI_Screens.md)
+- Data Versioning described in [docs/data-versioning.md](docs/data-versioning.md) with DVC remote `gs://fitai-data-bucket`.
+- Automated Machine Learning Workflows at [docs/model-training.md](docs/model-training.md)
 
 ## Prerequisites and setup instructions
-- **Local:** Install Docker and Docker Compose; exposed ports: frontend 3000, core-etl-api 8001, rag-service 8002, ocr-engine 8003, calendar-agent 8004, Chroma 8000, Postgres 5432. Local frontend dev needs Node 18+ (see [services/frontend/README.md](services/frontend/README.md)). Backend service prerequisites live in their own READMEs under [services/](services/).
-- **GCP/GKE (Pulumi):** Requires Node 20+, Pulumi CLI, `gcloud` auth (`gcloud auth login` and `gcloud auth application-default login`), and access to Artifact Registry images. Infrastructure setup is detailed in [infra/README.md](infra/README.md).
-- **Secrets:** Ensure DB credentials, JWT keys, and GCP service accounts are available for both local and GKE deployments. TODO: add a consolidated env/secret checklist for every service.
-- **Data:** DVC points at `gs://fitai-data-bucket` via `fitai_data_bucket.dvc`; see [docs/data-versioning.md](docs/data-versioning.md). TODO: document the exact `dvc pull` workflow and access requirements.
-- Optional references: [docs/model-training.md](docs/model-training.md), service-specific READMEs (e.g., [services/rag-service/README.md](services/rag-service/README.md), [services/core-etl-api/README.md](services/core-etl-api/README.md)), and [docs/UI_Screens.md](docs/UI_Screens.md).
+- **Local:** Docker + Docker Compose; ports: frontend 3000, core-etl-api 8001, rag-service 8002, ocr-engine 8003, calendar-agent 8004, Chroma 8000, Postgres 5432. Frontend dev needs Node 18+ (see [services/frontend/README.md](services/frontend/README.md)).
+- **GCP/GKE (Pulumi):** Node 20+, Pulumi CLI, `gcloud auth login` + `gcloud auth application-default login`, access to Artifact Registry images; details in [infra/README.md](infra/README.md).
+- **Secrets:** DB credentials, JWT keys, and GCP service accounts for local and GKE.
+- **Data:** `dvc pull` from `fitai_data_bucket.dvc` (document exact workflow + access needs).
 
 ## Deployment instructions
-- **Local:** From repo root, run `docker compose up --build -d`; check with `docker compose ps`; stop with `docker compose down -v`. Development- or image-only flows are outlined in each service README (e.g., [services/frontend/README.md](services/frontend/README.md), [services/rag-service/README.md](services/rag-service/README.md)).
-- **CD (GitHub Actions):** Push to `main` (or manually trigger the “CD” workflow) to build all service images, push to Artifact Registry, update Pulumi config with new tags, and run `pulumi up` against stack `zih428-org/FitAI_infra/dev`. Required GitHub secrets: `PULUMI_ACCESS_TOKEN`, `GCP_CREDENTIALS_JSON` (service account JSON with Artifact Registry + GKE perms), optional `PULUMI_CONFIG_PASSPHRASE` and any Pulumi config secrets (`dbPassword`, `jwtSecret`, `gcpServiceAccountKey`, etc.).
-- **GCP/GKE (Pulumi):** Follow [infra/README.md](infra/README.md) for manual deploys. Common flow: set `PULUMI_HOME`, select the stack (`pulumi stack select zih428-org/FitAI_infra/dev`), ensure images exist in Artifact Registry, then run `pulumi up` after `gcloud` auth. The autoscaled GKE deployment is currently reachable at http://34.31.81.159/login. HPA demo and kubectl commands are documented in [infra/README.md](infra/README.md).
+- **Local:** `docker compose up --build -d`; check with `docker compose ps`; stop via `docker compose down -v`. Service-specific dev flows live in their READMEs (e.g., [services/rag-service/README.md](services/rag-service/README.md)).
+- **CD (GitHub Actions):** Push to `main` (or trigger “CD”), whcih automatically builds all images, pushes to Artifact Registry, updates Pulumi config, and runs `pulumi up` for stack `zih428-org/FitAI_infra/dev`. Required GitHub secrets: `PULUMI_ACCESS_TOKEN`, `GCP_CREDENTIALS_JSON`; plus Pulumi config secrets (`dbPassword`, `jwtSecret`, `gcpServiceAccountKey`, etc.).
+- **Manual GKE (Pulumi):** Set `PULUMI_HOME`, `pulumi stack select zih428-org/FitAI_infra/dev`, ensure images exist in Artifact Registry, then `pulumi up` after `gcloud` auth. Current load balancer: http://34.31.81.159/login. HPA demo and kubectl commands are in [infra/README.md](infra/README.md).
 
 ## Usage details and examples
-- **Local:** After `docker compose` is running, open http://localhost:3000 (screens in [docs/UI_Screens.md](docs/UI_Screens.md)).
-- **GCP/GKE (Pulumi):** Use the load balancer IPs output by Pulumi (see [infra/README.md](infra/README.md)) to reach frontend and APIs. Adjust frontend environment URLs as needed when not running on localhost. TODO: add end-to-end examples for auth + profile + plan generation against deployed load balancers.
+
+See [docs/UI_Screens.md](docs/UI_Screens.md) for a quick walkthrough of the [Login → Profile Setup → AI Coach Chat → Personalized Fitness Plan Generation] flow.
+
+- **Access the app:** Open the frontend URL for your environment (localhost:3000 when using Docker Compose; GKE load balancer IP above).
+- **Log in or register:** Email, password, and name at `/login`; session tokens are cached for API calls.
+- **Set up your profile:** Provide name, height, weight, gender, body type, age, and training goal; values persist to Postgres and feed chat + planning.
+- **Chat with the AI Coach:** Ask questions or refine plans; chat is grounded on your profile and most recent plan so you don’t repeat details.
+- **Generate a plan (two modes):**
+  - Calendar-aware: On Training Plan, optionally upload a calendar image (PNG/JPG); `calendar-agent` parses availability and blends it with your goals to create a week.
+  - Goal-only: Skip the upload to get a quick weekly plan driven by profile + goals; adjust via chat if needed.
+- **Save and review weeks:** Save generated weeks to Postgres, switch between saved plans, regenerate from history, and download/preview ICS files on Weekly Plan.
 
 ## Known issues and limitations
-- **Local:** The frontend AI Coach currently hardcodes `http://localhost:8002` for rag-service in [services/frontend/app/ai-coach/page.tsx](services/frontend/app/ai-coach/page.tsx); non-local hosts require code changes or env-driven URLs. TODO: enumerate any flaky local flows or open bugs.
-- **GCP/GKE (Pulumi):** Requires access to GCS/Vertex AI/Artifact Registry and production secrets; these are not stored in this repository. TODO: call out any deployment-time pitfalls (e.g., missing images, quota limits) observed in recent runs.
+- **Local:** AI Coach currently targets `http://localhost:8002` for rag-service in [services/frontend/app/ai-coach/page.tsx](services/frontend/app/ai-coach/page.tsx); non-local hosts need code or env updates.
+- **GCP/GKE:** CORS allowed origins are currently hard coded to specific hostnames/IPs; if the load balancer IP changes after a full `pulumi destroy` and `pulumi up`, those origins will no longer match until updated.

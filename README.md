@@ -1,5 +1,9 @@
 # FitAI
 
+<p align="center">
+  <img src="services/frontend/public/logo-fitai.png" alt="FitAI logo" width="200" />
+</p>
+
 Personalized fitness coaching that blends user profiles with research-backed context via a RAG pipeline. Live on GKE at http://34.31.81.159/login.
 
 Quick links: 

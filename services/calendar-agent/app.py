@@ -52,7 +52,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+import asyncio
 
 @app.get("/health")
 def health():
@@ -96,6 +96,7 @@ async def planner_api(
     timings["fetch_user_profile"] = round(time.perf_counter() - t1, 4)
 
     t2 = time.perf_counter()
+    await asyncio.sleep(0.5)
     fitness_plan = generate_fitness_plan(user_profile, calendar_payload)
     timings["generate_fitness_plan"] = round(time.perf_counter() - t2, 4)
 

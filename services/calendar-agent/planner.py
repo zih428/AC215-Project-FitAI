@@ -197,10 +197,10 @@ def generate_fitness_plan(
     try:
         # ❗ Use the same style as your step1/step2/step3 pipeline
         response = client.models.generate_content(
-            model="gemini-2.0-flash-lite",
+            model="gemini-2.0-flash",
             contents=prompt_content,
             config=types.GenerateContentConfig(
-                    response_mime_type="application/json",
+                    response_mime_type="text/plain",
                     temperature=0.3
         )
         )

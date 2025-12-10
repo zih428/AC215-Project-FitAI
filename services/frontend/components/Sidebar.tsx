@@ -9,7 +9,8 @@ import {
   Dumbbell, 
   User,
   CalendarClock,
-  LogIn
+  LogIn,
+  X
 } from 'lucide-react'
 
 const navigation = [
@@ -23,7 +24,12 @@ const PROFILE_CACHE_KEY = 'fitai-profile-data'
 const PROFILE_UPDATED_EVENT = 'fitai-profile-updated'
 const FALLBACK_NAME = 'Fitness User'
 
-export default function Sidebar() {
+interface SidebarProps {
+  isOpen?: boolean
+  onClose?: () => void
+}
+
+export default function Sidebar({ isOpen = true, onClose }: SidebarProps) {
   const pathname = usePathname()
   const [displayName, setDisplayName] = useState(FALLBACK_NAME)
 
@@ -50,8 +56,47 @@ export default function Sidebar() {
     return () => window.removeEventListener(PROFILE_UPDATED_EVENT, loadProfileName)
   }, [])
 
+  // Close sidebar when navigating on mobile
+  useEffect(() => {
+    if (onClose && typeof window !== 'undefined' && window.innerWidth < 768) {
+      onClose()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname])
+
   return (
-    <div className="w-64 bg-white border-r border-gray-200 flex flex-col h-full">
+    <>
+      {/* Mobile overlay backdrop */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+          onClick={onClose}
+        />
+      )}
+
+      {/* Sidebar */}
+      <div
+        className={`
+          fixed md:static
+          top-0 left-0
+          w-64 h-full
+          bg-white border-r border-gray-200
+          flex flex-col
+          z-50
+          transform transition-transform duration-300 ease-in-out
+          ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+        `}
+      >
+        {/* Mobile close button */}
+        <div className="md:hidden flex justify-end p-4 border-b border-gray-200">
+          <button
+            onClick={onClose}
+            className="p-2 rounded-lg hover:bg-gray-100"
+            aria-label="Close menu"
+          >
+            <X className="w-5 h-5 text-gray-600" />
+          </button>
+        </div>
       {/* Logo Section */}
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center space-x-3 mb-2">
@@ -119,6 +164,7 @@ export default function Sidebar() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   )
 }

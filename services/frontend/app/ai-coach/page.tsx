@@ -41,6 +41,17 @@ const PROFILE_UPDATED_EVENT = 'fitai-profile-updated'
 const PIPELINE_BASE_URL = getPipelineBaseUrl()
 const RAG_BASE_URL = getRagBaseUrl()
 
+// Format time consistently to avoid hydration errors
+// Use a consistent format that works on both server and client
+const formatTime = (date: Date): string => {
+  const hours = date.getHours()
+  const minutes = date.getMinutes()
+  const ampm = hours >= 12 ? 'PM' : 'AM'
+  const displayHours = hours % 12 || 12
+  const displayMinutes = minutes.toString().padStart(2, '0')
+  return `${displayHours.toString().padStart(2, '0')}:${displayMinutes} ${ampm}`
+}
+
 const createDefaultMessages = (): Message[] => [
   {
     id: Date.now().toString(),
@@ -550,11 +561,9 @@ export default function AICoach() {
                         ? 'text-primary-100'
                         : 'text-gray-500'
                     }`}
+                    suppressHydrationWarning
                   >
-                    {message.timestamp.toLocaleTimeString([], {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
+                    {formatTime(message.timestamp)}
                   </p>
                   {message.role === 'assistant' && message.metadata && (
                     <div className="flex items-center space-x-2">

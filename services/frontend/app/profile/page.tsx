@@ -434,13 +434,13 @@ export default function Profile() {
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Training goal</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Training goal & Notes</label>
                 <textarea
                   value={formData.training_goal}
                   onChange={(e) => handleChange('training_goal', e.target.value)}
                   disabled={fieldDisabled}
                   rows={3}
-                  placeholder="Describe your main training goal..."
+                  placeholder="Describe your main training goal and any additional notes..."
                   className={`w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 ${
                     errors.training_goal ? 'border-red-400 focus:ring-red-200' : 'border-gray-300 focus:ring-primary-200'
                   } ${fieldDisabled ? 'bg-gray-50 text-gray-500' : ''}`}

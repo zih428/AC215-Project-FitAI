@@ -85,7 +85,7 @@ jobs:
             deploy=true
           fi
 
-          if [ "$service_change" = true ] || [ "$cd_change" = true ]; then
+          if [ "$service_change" = true ] || [ "$cd_change" = true ] || [ "$infra_change" = true ]; then
             build_images=true
           fi
 

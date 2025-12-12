@@ -4,13 +4,13 @@ import * as k8s from "@pulumi/kubernetes";
 
 // Basic config
 const config = new pulumi.Config();
-const project = gcp.config.project || config.require("gcp:project");
-const region =
-    gcp.config.region ||
-    (gcp.config.zone ? gcp.config.zone.replace(/-[a-z]$/, "") : "us-central1");
-const location = gcp.config.zone || region;
-const nodeCount = config.getNumber("nodeCount") ?? 2;
-const nodeMachineType = config.get("nodeMachineType") ?? "e2-standard-2";
+const project = "rich-access-471117-r0";
+const region = "us-central1";
+const location = region;
+const nodeCount = 2;
+const nodeMachineType = "e2-standard-2";
+const isRegionalCluster = location === region;
+const nodeLocations = isRegionalCluster ? [`${region}-a`] : undefined;
 
 // Images (set these via pulumi config set image:<name> ...)
 const imageConfig = new pulumi.Config("image");
@@ -100,6 +100,7 @@ const nodePool = new gcp.container.NodePool("fitai-default-np", {
     cluster: cluster.name,
     location,
     initialNodeCount: nodeCount,
+    nodeLocations,
     nodeConfig: {
         machineType: nodeMachineType,
         // Keep disks small and on standard PD to stay under regional SSD quotas.
